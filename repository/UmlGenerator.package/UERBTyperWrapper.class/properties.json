@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "",
+	"super" : "UEClassLevelTyperWrapper",
+	"category" : "UmlGenerator",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"typers"
+	],
+	"name" : "UERBTyperWrapper",
+	"type" : "normal"
+}
