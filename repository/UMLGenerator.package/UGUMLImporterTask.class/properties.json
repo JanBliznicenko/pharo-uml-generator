@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "MoosePharoImporterTask",
+	"category" : "UMLGenerator-Generator",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "UGUMLImporterTask",
+	"type" : "normal"
+}
