@@ -1,11 +1,11 @@
 {
 	"commentStamp" : "",
-	"super" : "Object",
-	"category" : "UmlGenerator",
+	"super" : "BaselineOf",
+	"category" : "BaselineOfUmlGenerator",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [ ],
-	"name" : "UETyper",
+	"name" : "BaselineOfUmlGenerator",
 	"type" : "normal"
 }

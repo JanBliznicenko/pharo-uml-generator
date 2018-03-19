@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "UGClassLevelTyperWrapper",
+	"category" : "UmlGenerator",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "UGRoelTyperWrapper",
+	"type" : "normal"
+}

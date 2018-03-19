@@ -6,8 +6,9 @@
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [
-		"packages"
+		"containingClass",
+		"variableName"
 	],
-	"name" : "UETyperWrapper",
+	"name" : "UGVariable",
 	"type" : "normal"
 }
