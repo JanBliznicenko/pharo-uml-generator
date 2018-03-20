@@ -6,7 +6,8 @@
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [
-		"factory"
+		"factory",
+		"model"
 	],
 	"name" : "UGUMLGenerator",
 	"type" : "normal"

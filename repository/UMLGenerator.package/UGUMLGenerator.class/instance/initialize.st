@@ -1,4 +1,5 @@
 initialization
 initialize
 	super initialize.
-	factory := [ self halt ]
+	model := OPUMLModel new.
+	model name: 'Generated UML'
