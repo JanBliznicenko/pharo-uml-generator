@@ -1,7 +1,11 @@
 public - importer
 umlPackageOf: aClass
-	| package |
+	"for now, there are no packages - all elements added to the same model"
+	
+	^ model
+	"| package |
+	
 	package := aClass package.
 	^ model packagedElements
 		detect: [ :any | any name = package name ]
-		ifNone: [ self addPackage: package ]
+		ifNone: [ self addPackage: package ]"

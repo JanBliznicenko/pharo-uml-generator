@@ -7,7 +7,8 @@
 	"classvars" : [ ],
 	"instvars" : [
 		"factory",
-		"model"
+		"model",
+		"umlClasses"
 	],
 	"name" : "UGUMLGenerator",
 	"type" : "normal"

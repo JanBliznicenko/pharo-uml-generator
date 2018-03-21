@@ -1,7 +1,10 @@
 *UMLOpenPonkExtension
 openInOpenPonk
-	| project |
+	| project elementCount packageCount |
 	project := OPUmlProject new name: self name.
-	self packagedElements do: [ :each | project addModel: each ].
-	project open.
-		
+	elementCount := self packagedElements size.
+	packageCount := self packagedElements count: [ :each | each isKindOf: OPUMLPackage ].
+	elementCount > packageCount
+		ifTrue: [ project addModel: self ]
+		ifFalse: [ self packagedElements do: [ :each | project addModel: each ] ].
+	project open

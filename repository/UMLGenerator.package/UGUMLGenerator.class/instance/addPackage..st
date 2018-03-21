@@ -4,5 +4,5 @@ addPackage: aPackage
 	umlPackage := OPUMLPackage new
 		name: aPackage name;
 		yourself.
-	model packagedElements: model packagedElements , {umlPackage}.
+	model packagedElements add: umlPackage.
 	^ umlPackage
