@@ -5,5 +5,5 @@ umlPackageOf: aClass
 		ifFalse: [ ^ model ].	"if packaging is turned off, add everything to single model without any intermediate package"
 	package := aClass package.
 	^ model packagedElements
-		detect: [ :any | any name = package name ]
+		detect: [ :any | (any isKindOf: OPUMLPackage) and: [ any name = package name ] ]
 		ifNone: [ self addPackage: package ]

@@ -1,4 +1,4 @@
-public - importer
+private
 addMethod: aMethod to: umlClass classSide: aBoolean
 	| umlMethod |
 	umlMethod := OPUMLOperation new.

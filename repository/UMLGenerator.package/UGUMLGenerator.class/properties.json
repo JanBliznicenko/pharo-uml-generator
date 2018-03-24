@@ -6,7 +6,6 @@
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [
-		"factory",
 		"model",
 		"umlClasses",
 		"packaging"
