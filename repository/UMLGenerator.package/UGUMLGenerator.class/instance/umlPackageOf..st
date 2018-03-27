@@ -2,8 +2,8 @@ public - importer
 umlPackageOf: aClass
 	| package |
 	packaging
-		ifFalse: [ ^ model ].	"if packaging is turned off, add everything to single model without any intermediate package"
+		ifFalse: [ ^ encompassingPackage ].	"if packaging is turned off, add everything to single model without any intermediate package"
 	package := aClass package.
-	^ model packagedElements
+	^ encompassingPackage packagedElements
 		detect: [ :any | (any isKindOf: OPUMLPackage) and: [ any name = package name ] ]
 		ifNone: [ self addPackage: package ]

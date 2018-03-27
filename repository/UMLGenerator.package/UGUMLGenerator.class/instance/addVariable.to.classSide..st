@@ -6,5 +6,6 @@ addVariable: aSelector to: umlClass classSide: aBoolean
 		name: aSelector;
 		lowerValue: (OPUMLLiteralInteger new value: 1);
 		upperValue: (OPUMLLiteralUnlimitedNatural new value: 1);
-		isStatic: aBoolean.
+		isStatic: aBoolean;
+		visibility: OPUMLVisibilityKind protected.
 	umlClass ownedAttributes add: umlAttribute
