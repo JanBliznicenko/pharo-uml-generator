@@ -1,16 +1,11 @@
 {
 	"commentStamp" : "",
-	"super" : "Object",
+	"super" : "UGUMLGenerator",
 	"category" : "UMLGenerator-Generator",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
-	"instvars" : [
-		"model",
-		"umlClasses",
-		"encompassingPackage",
-		"includeAccessors"
-	],
-	"name" : "UGUMLGenerator",
+	"instvars" : [ ],
+	"name" : "UGOpenPonkUMLGenerator",
 	"type" : "normal"
 }
