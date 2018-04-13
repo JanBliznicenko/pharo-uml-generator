@@ -1,3 +1,3 @@
 as yet unclassified
-typesOfVariable: aVariableName
+possibleTypesOfVariable: aVariableName
 	^ self subclassResponsibility
