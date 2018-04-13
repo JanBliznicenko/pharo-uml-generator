@@ -1,0 +1,3 @@
+accessing
+createSimpleTypeDictionary
+	^ self subclassResponsibility

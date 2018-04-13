@@ -1,0 +1,3 @@
+accessing
+createCollectionTypeDictionary
+	^ self filterTypeDictionary: self createRawCollectionTypeDictionary

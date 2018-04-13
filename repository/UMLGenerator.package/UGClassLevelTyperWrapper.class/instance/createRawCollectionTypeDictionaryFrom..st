@@ -1,0 +1,3 @@
+accessing
+createRawCollectionTypeDictionaryFrom: aTypeDictionary
+	^ self subclassResponsibility

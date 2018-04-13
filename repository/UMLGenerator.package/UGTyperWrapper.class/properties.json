@@ -6,6 +6,9 @@
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [
+		"typeDictionary",
+		"simpleTypeDictionary",
+		"collectionTypeDictionary",
 		"packages"
 	],
 	"name" : "UGTyperWrapper",

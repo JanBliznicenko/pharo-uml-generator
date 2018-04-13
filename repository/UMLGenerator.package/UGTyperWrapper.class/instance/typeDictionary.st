@@ -1,3 +1,4 @@
-as yet unclassified
+accessing
 typeDictionary
-	^ self subclassResponsibility
+	typeDictionary ifNil: [ typeDictionary := self createTypeDictionary ].
+	^ typeDictionary

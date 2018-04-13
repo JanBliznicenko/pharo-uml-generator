@@ -1,3 +1,4 @@
-as yet unclassified
+accessing
 simpleTypeDictionary
-	^ self subclassResponsibility
+	simpleTypeDictionary ifNil: [ simpleTypeDictionary := self createSimpleTypeDictionary ].
+	^ simpleTypeDictionary
