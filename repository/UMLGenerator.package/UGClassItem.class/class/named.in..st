@@ -1,6 +1,6 @@
 instance creation
 named: aString in: aClass
 	^ self new
-		variableName: aString;
+		itemName: aString;
 		containingClass: aClass;
 		yourself

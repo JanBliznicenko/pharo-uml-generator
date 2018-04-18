@@ -1,3 +1,3 @@
 accessing
 variableName: aString
-	variableName := aString
+	self itemName: aString

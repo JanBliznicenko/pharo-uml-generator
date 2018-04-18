@@ -9,7 +9,8 @@
 		"typeDictionary",
 		"simpleTypeDictionary",
 		"collectionTypeDictionary",
-		"packages"
+		"packages",
+		"methodTypeDictionary"
 	],
 	"name" : "UGTyperWrapper",
 	"type" : "normal"

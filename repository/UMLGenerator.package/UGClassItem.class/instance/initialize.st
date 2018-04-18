@@ -1,4 +1,5 @@
 initialization
 initialize
+	super initialize.
 	containingClass := Object.
-	variableName := ''
+	itemName := ''

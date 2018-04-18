@@ -1,11 +1,11 @@
 {
 	"commentStamp" : "",
-	"super" : "UGClassItem",
+	"super" : "J2InferenceManager",
 	"category" : "UMLGenerator-Typer",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [ ],
-	"name" : "UGVariable",
+	"name" : "UGSilentJ2InferenceManager",
 	"type" : "normal"
 }

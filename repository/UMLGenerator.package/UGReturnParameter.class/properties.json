@@ -1,11 +1,11 @@
 {
 	"commentStamp" : "",
-	"super" : "UGClassItem",
+	"super" : "UGMethodParameter",
 	"category" : "UMLGenerator-Typer",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [ ],
-	"name" : "UGVariable",
+	"name" : "UGReturnParameter",
 	"type" : "normal"
 }

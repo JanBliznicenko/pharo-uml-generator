@@ -1,0 +1,3 @@
+accessing
+createMethodTypeDictionary
+	^ self filterTypeDictionary: self createRawMethodTypeDictionary

@@ -1,3 +1,3 @@
 accessing
 variableName
-	^ variableName
+	^ self itemName

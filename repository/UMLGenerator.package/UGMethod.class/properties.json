@@ -6,6 +6,6 @@
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [ ],
-	"name" : "UGVariable",
+	"name" : "UGMethod",
 	"type" : "normal"
 }
