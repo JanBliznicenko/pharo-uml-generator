@@ -9,8 +9,10 @@ baseline: spec
 				baseline: 'UMLMetamodel'
 					with: [ spec repository: 'github://openponk/uml-metamodel/repository' ];
 				baseline: 'RoelTyper'
-					with: [ spec repository: 'github://RMODINRIA/RoelTyper/src' ].
-			spec package: 'UMLGenerator' with: [ spec requires: #('UMLMetamodel' 'RoelTyper') ].
+					with: [ spec repository: 'github://RMODINRIA/RoelTyper/src' ];
+				baseline: 'J2Inferer'
+					with: [ spec repository: 'github://tesonep/j2Inferer/mc' ].
+			spec package: 'UMLGenerator' with: [ spec requires: #('UMLMetamodel' 'RoelTyper' 'J2Inferer') ].
 			spec
 				package: 'UMLOpenPonkExtension'
 				with: [ spec requires: #('UMLGenerator' 'ClassEditor') ].
