@@ -1,3 +1,3 @@
-accessing
+private
 createCollectionTypeDictionary
 	^ self filterTypeDictionary: self createRawCollectionTypeDictionary

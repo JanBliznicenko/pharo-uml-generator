@@ -1,4 +1,4 @@
-accessing
+private
 createRawCollectionTypeDictionary
 	| collectionsDictionary |
 	collectionsDictionary := self typeDictionary

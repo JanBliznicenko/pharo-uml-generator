@@ -1,0 +1,3 @@
+private
+createVarTypeDictionary
+	^ self subclassResponsibility

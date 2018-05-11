@@ -1,7 +1,3 @@
-as yet unclassified
+private
 typeDictionaryOfMethod: aMethod
-	| currentVariable |
-	^ (aMethod instanceVariables
-		collect: [ :eachVariable | 
-			currentVariable := UGVariable named: eachVariable in: aMethod.
-			currentVariable -> (self possibleTypesOfVariable: currentVariable) ]) asDictionary
+	^ (aMethod parameters collect: [ :eachParameter | eachParameter -> (self possibleTypesOfParameter: eachParameter) ]) asDictionary

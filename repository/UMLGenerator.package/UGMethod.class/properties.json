@@ -1,11 +1,13 @@
 {
 	"commentStamp" : "",
 	"super" : "UGClassItem",
-	"category" : "UMLGenerator-Typer",
+	"category" : "UMLGenerator-Structure",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
-	"instvars" : [ ],
+	"instvars" : [
+		"isClassSide"
+	],
 	"name" : "UGMethod",
 	"type" : "normal"
 }

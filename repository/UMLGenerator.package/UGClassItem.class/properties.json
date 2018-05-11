@@ -1,13 +1,12 @@
 {
 	"commentStamp" : "",
-	"super" : "Object",
-	"category" : "UMLGenerator-Typer",
+	"super" : "UGStructureItem",
+	"category" : "UMLGenerator-Structure",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [
-		"containingClass",
-		"itemName"
+		"containingClass"
 	],
 	"name" : "UGClassItem",
 	"type" : "normal"

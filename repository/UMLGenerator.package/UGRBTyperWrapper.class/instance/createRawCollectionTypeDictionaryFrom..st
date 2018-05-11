@@ -1,4 +1,4 @@
-accessing
+private
 createRawCollectionTypeDictionaryFrom: aTypeDictionary
 	^ (aTypeDictionary keys
 		collect: [ :variable | 

@@ -1,4 +1,4 @@
-as yet unclassified
+private
 possibleTypesOfVariable: aUEVariable
 	^ (TypeCollector
 		typeInstvar: aUEVariable variableName

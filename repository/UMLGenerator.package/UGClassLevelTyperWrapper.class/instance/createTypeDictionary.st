@@ -1,3 +1,0 @@
-accessing
-createTypeDictionary
-	^ self filterTypeDictionary: self createRawTypeDictionary

@@ -1,5 +1,5 @@
-as yet unclassified
-typeDictionaryOfClass: aClass
+private
+varTypeDictionaryOfClass: aClass
 	| currentVariable |
 	^ (aClass instanceVariables
 		collect: [ :eachVariable | 

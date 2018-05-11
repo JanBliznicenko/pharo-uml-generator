@@ -1,3 +1,3 @@
-as yet unclassified
+accessing
 simpleTypeOfVariable: aUEVariable
 	^ (self possibleTypesOfVariable: aUEVariable) commonClassesSuperclass

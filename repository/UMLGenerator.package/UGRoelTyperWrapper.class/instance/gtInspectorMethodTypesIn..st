@@ -1,4 +1,4 @@
-as yet unclassified
+gt-inspector-extension
 gtInspectorMethodTypesIn: composite
 	<gtInspectorPresentationOrder: 31>
 	^ composite table

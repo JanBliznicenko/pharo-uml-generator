@@ -1,4 +1,4 @@
 accessing
 typeDictionary
-	typeDictionary ifNil: [ typeDictionary := self createTypeDictionary ].
+	typeDictionary ifNil: [ typeDictionary := self createVarTypeDictionary ].
 	^ typeDictionary

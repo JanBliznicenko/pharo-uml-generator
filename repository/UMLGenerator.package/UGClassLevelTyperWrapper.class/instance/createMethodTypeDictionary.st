@@ -1,3 +1,3 @@
-accessing
+private
 createMethodTypeDictionary
 	^ self filterTypeDictionary: self createRawMethodTypeDictionary

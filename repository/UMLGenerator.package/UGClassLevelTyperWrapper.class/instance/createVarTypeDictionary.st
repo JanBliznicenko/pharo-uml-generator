@@ -1,0 +1,3 @@
+private
+createVarTypeDictionary
+	^ self filterTypeDictionary: self createRawVarTypeDictionary
