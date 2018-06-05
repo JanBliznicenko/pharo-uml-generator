@@ -1,6 +1,7 @@
 public - importer
 addClass: aClass
 	| umlPackage umlClass |
+	(aClass isTrait ifTrue: [ ^self ]). self flag: #todo "traits are ignored".
 	(aClass isMeta and: [ (umlClasses includesKey: aClass soleInstance) not ])
 		ifTrue: [ ^ self addClass: aClass soleInstance ].
 	umlPackage := self umlPackageOf: aClass.

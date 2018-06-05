@@ -2,7 +2,7 @@ adding
 addMethod: aMethod to: umlClass classSide: aBoolean
 	| umlMethod |
 	(self shouldOmitAccessor: aMethod)
-		ifTrue: [ ^ self halt ].
+		ifTrue: [ ^ self ].
 	umlMethod := OPUMLOperation new.
 	umlMethod
 		name: aMethod selector;

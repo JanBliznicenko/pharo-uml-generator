@@ -6,3 +6,4 @@ initialize
 	model := OPUMLModel new.
 	model name: 'Generated UML'.
 	encompassingPackage := model.
+	typesManager := UGTypesManager default

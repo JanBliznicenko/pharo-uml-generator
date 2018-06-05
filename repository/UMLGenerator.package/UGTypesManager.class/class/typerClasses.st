@@ -1,4 +1,4 @@
-as yet unclassified
+constants
 typerClasses
 	^ {(#rb -> UGRBTyperWrapper).
 	(#roel -> UGRoelTyperWrapper)}

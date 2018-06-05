@@ -2,7 +2,9 @@
 	"commentStamp" : "",
 	"super" : "Object",
 	"category" : "UMLGenerator-Typer",
-	"classinstvars" : [ ],
+	"classinstvars" : [
+		"default"
+	],
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [

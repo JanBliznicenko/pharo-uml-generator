@@ -1,3 +1,3 @@
 comparing
 = anotherItem
-	itemName = anotherItem itemName
+	^ itemName = anotherItem itemName

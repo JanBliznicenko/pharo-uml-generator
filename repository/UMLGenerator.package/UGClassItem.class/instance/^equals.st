@@ -1,3 +1,3 @@
 comparing
 = anotherItem
-	containingClass = anotherItem containingClass and: [ super = anotherItem ]
+	^ containingClass = anotherItem containingClass and: [ super = anotherItem ]

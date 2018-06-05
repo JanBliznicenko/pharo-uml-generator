@@ -1,3 +1,3 @@
 public - importer
 importFromPackageNamed: aString
-	^ self new importFromPackageNamed: aString
+	^ self new importFromPackagesNamed: {aString}

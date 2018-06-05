@@ -1,7 +1,6 @@
 public - importer
 addGeneralizationSetTo: aSuperclass
-	| umlSuperclass set |
-	umlSuperclass := umlClasses at: aSuperclass.
+	| set |
 	set := OPUMLGeneralizationSet new
 		name: 'Subclasses of ' , aSuperclass name;
 		isDisjoint: true.

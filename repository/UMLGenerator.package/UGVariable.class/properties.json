@@ -5,7 +5,9 @@
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
-	"instvars" : [ ],
+	"instvars" : [
+		"isShared"
+	],
 	"name" : "UGVariable",
 	"type" : "normal"
 }

@@ -1,3 +1,3 @@
 comparing
 = anotherItem
-	method = anotherItem method and: [ super = anotherItem ]
+	^ method = anotherItem method and: [ super = anotherItem ]

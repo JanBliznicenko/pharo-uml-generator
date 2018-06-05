@@ -4,5 +4,5 @@ addParameter: aParameterName to: umlMethod
 		add:
 			(OPUMLParameter new
 				name: aParameterName;
-				type: (umlClasses at: Object);
+				"type: (umlClasses at: Object);"
 				direction: OPUMLParameterDirectionKind in)

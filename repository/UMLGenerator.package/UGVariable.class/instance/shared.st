@@ -1,0 +1,3 @@
+accessing
+shared
+	isShared := true

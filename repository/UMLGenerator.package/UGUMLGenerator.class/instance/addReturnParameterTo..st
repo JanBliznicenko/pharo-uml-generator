@@ -4,5 +4,5 @@ addReturnParameterTo: umlMethod
 		add:
 			(OPUMLParameter new
 				name: 'return';
-				type: (umlClasses at: Object);
+				"type: (umlClasses at: Object);"
 				direction: OPUMLParameterDirectionKind return)
