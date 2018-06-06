@@ -11,7 +11,8 @@
 		"typerWrappers",
 		"collectionTypers",
 		"methodTypers",
-		"varTypers"
+		"varTypers",
+		"blockForVariable"
 	],
 	"name" : "UGTypesManager",
 	"type" : "normal"
