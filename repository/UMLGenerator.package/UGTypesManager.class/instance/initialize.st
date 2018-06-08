@@ -1,4 +1,8 @@
 initialization
 initialize
 	super initialize.
-	blockForVariable := [ :variable | UIManager default request: 'Type of variable ' , variable asString initialAnswer: 'Object' ]
+	persistence := UGTypesNoPersistence new.
+	blockForVariable := [ :typeRequest | 
+	UIManager default
+		request: 'Type of variable ' , typeRequest item asString
+		initialAnswer: 'Object' ]

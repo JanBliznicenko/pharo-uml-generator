@@ -1,0 +1,15 @@
+{
+	"commentStamp" : "",
+	"super" : "Object",
+	"category" : "UMLGenerator-Typer",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"item",
+		"possibleTypes",
+		"possibleCollectionTypes"
+	],
+	"name" : "UGTypePossibilities",
+	"type" : "normal"
+}

@@ -1,3 +1,0 @@
-private
-createRawCollectionTypeDictionaryFrom: aTypeDictionary
-	^ self subclassResponsibility

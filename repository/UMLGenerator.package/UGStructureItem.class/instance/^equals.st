@@ -1,3 +1,3 @@
 comparing
 = anotherItem
-	^ itemName = anotherItem itemName
+	^ self class = anotherItem class and: [ self itemName = anotherItem itemName ]

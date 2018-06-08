@@ -1,0 +1,3 @@
+accessing
+possibleCollectionTypes: aCollectionOfTypes
+	possibleCollectionTypes := aCollectionOfTypes

@@ -1,3 +1,3 @@
 retrieving
 typeOf: anItem
-	^ anItem acceptVisitor: self
+	^ knownTypes at: anItem ifAbsent: [ anItem acceptVisitor: self ]

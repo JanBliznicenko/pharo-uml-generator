@@ -1,0 +1,3 @@
+persistence
+loadTypes
+	^ self subclassResponsibility

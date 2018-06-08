@@ -1,3 +1,0 @@
-private
-createMethodTypeDictionary
-	^ self subclassResponsibility

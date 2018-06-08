@@ -1,3 +1,0 @@
-private
-createVarTypeDictionary
-	^ self subclassResponsibility

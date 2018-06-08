@@ -1,0 +1,3 @@
+persistence
+loadTypes
+	^ Dictionary new

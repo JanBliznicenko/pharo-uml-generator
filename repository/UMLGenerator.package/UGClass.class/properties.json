@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "",
+	"super" : "UGStructureItem",
+	"category" : "UMLGenerator-Structure",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"realClass"
+	],
+	"name" : "UGClass",
+	"type" : "normal"
+}

@@ -1,4 +1,4 @@
 constants
 typerClasses
-	^ {(#rb -> UGRBTyperWrapper).
-	(#roel -> UGRoelTyperWrapper)}
+	^ {(#rb -> UGRBTyperAdaptor).
+	(#roel -> UGRoelTyperAdaptor)}

@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "UGTypesPersistence",
+	"category" : "UMLGenerator-Typer",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "UGTypesNoPersistence",
+	"type" : "normal"
+}

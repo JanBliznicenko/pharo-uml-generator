@@ -12,7 +12,9 @@
 		"collectionTypers",
 		"methodTypers",
 		"varTypers",
-		"blockForVariable"
+		"blockForVariable",
+		"knownTypes",
+		"persistence"
 	],
 	"name" : "UGTypesManager",
 	"type" : "normal"

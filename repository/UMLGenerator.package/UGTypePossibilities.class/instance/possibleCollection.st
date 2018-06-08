@@ -1,0 +1,3 @@
+testing
+possibleCollection
+	^ possibleCollectionTypes isNotEmpty

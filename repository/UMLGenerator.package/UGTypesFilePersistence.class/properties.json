@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "",
+	"super" : "UGTypesPersistence",
+	"category" : "UMLGenerator-Typer",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"file"
+	],
+	"name" : "UGTypesFilePersistence",
+	"type" : "normal"
+}

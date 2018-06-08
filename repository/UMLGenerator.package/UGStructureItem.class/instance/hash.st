@@ -1,3 +1,3 @@
 comparing
 hash
-	^ itemName hash
+	^ self class hash bitXor: self itemName hash

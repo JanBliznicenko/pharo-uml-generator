@@ -1,0 +1,3 @@
+printing
+printName
+	^ '#(' , self itemName , ')'

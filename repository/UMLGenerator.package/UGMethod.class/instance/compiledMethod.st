@@ -1,3 +1,3 @@
 accessing
 compiledMethod
-	^ containingClass >> itemName
+	^ containingClass >> self itemName

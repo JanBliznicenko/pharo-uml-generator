@@ -1,3 +1,4 @@
 comparing
 < anotherItem
-	^ itemName < anotherItem itemName
+	^ self class asString < anotherItem class asString
+		or: [ self itemName < anotherItem itemName ]

@@ -1,3 +1,0 @@
-private
-createSimpleTypeDictionary
-	^ self subclassResponsibility
