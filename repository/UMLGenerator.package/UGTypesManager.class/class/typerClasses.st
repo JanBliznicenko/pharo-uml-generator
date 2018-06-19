@@ -1,4 +1,4 @@
 constants
 typerClasses
 	^ {(#rb -> UGRBTyperAdaptor).
-	(#roel -> UGRoelTyperAdaptor)}
+	(#roel -> UGRoelTyperAdaptor)} asDictionary

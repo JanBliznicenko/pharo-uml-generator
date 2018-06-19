@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "Exception",
+	"category" : "UMLGenerator-Generator",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "UGTypingSkipped",
+	"type" : "normal"
+}

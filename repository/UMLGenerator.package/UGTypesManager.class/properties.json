@@ -1,20 +1,20 @@
 {
 	"commentStamp" : "",
 	"super" : "Object",
-	"category" : "UMLGenerator-Typer",
+	"category" : "UMLGenerator-TypeManager",
 	"classinstvars" : [
 		"default"
 	],
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [
-		"typerWrappers",
 		"collectionTypers",
 		"methodTypers",
 		"varTypers",
 		"blockForVariable",
 		"knownTypes",
-		"persistence"
+		"persistence",
+		"typerAdapters"
 	],
 	"name" : "UGTypesManager",
 	"type" : "normal"

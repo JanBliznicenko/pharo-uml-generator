@@ -5,7 +5,5 @@ askTypeOfVariable: aVariable
 			(blockForVariable
 				value:
 					(UGTypePossibilities
-						for: aVariable
-						types: (varTypers flatCollect: [ :each | each possibleTypesOfVariable: aVariable ])
-						collectionTypes: (varTypers flatCollect: [ :each | each typeOfCollectionVariable: aVariable ])))
+						withAll: (self varTypers collect: [ :each | each possibleTypesOfVariable: aVariable ])))
 		of: aVariable

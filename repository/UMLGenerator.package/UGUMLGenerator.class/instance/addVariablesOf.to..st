@@ -3,11 +3,11 @@ addVariablesOf: realClass to: umlClass
 	realClass instanceVariables
 		do:
 			[ :eachVariable | self addVariable: (UGVariable named: eachVariable in: realClass) to: umlClass ].
-	realClass classVarNames
+	"realClass classVarNames
 		do: [ :eachVariable | 
 			self
 				addVariable: (UGVariable named: eachVariable in: realClass class) shared
-				to: umlClass ].
+				to: umlClass ]".
 	realClass class instanceVariables
 		do:
 			[ :eachVariable | self addVariable: (UGVariable named: eachVariable in: realClass class) to: umlClass ].

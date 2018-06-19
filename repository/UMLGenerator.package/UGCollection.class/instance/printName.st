@@ -1,3 +1,3 @@
 printing
 printName
-	^ '#(' , self itemName , ')'
+	^ '*' , self itemName

@@ -1,0 +1,19 @@
+{
+	"commentStamp" : "",
+	"super" : "ComposableModel",
+	"category" : "UMLGenerator-TypeManager",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"optionsList",
+		"accessesModel",
+		"typePossibilities",
+		"selectedType",
+		"hierarchyList",
+		"typeField",
+		"ignoreEvents"
+	],
+	"name" : "UGTypesManagerDialog",
+	"type" : "normal"
+}

@@ -1,3 +1,3 @@
 testing
-possibleCollection
+isPossibleCollection
 	^ possibleCollectionTypes isNotEmpty

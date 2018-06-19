@@ -10,7 +10,8 @@
 		"umlClasses",
 		"encompassingPackage",
 		"includeAccessors",
-		"typesManager"
+		"typesManager",
+		"doType"
 	],
 	"name" : "UGUMLGenerator",
 	"type" : "normal"

@@ -1,3 +1,3 @@
 accessing
 possibleCollectionTypes: aCollectionOfTypes
-	possibleCollectionTypes := aCollectionOfTypes
+	possibleCollectionTypes := aCollectionOfTypes asSet

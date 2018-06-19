@@ -1,3 +1,4 @@
 retrieving
-addType: aClassItem of: anItem
-	knownTypes at: aClassItem put: anItem
+addType: aTypeOfItem of: anItem
+	aTypeOfItem ifNil: [ ^ aTypeOfItem ].
+	^ knownTypes at: anItem put: aTypeOfItem

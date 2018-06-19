@@ -2,4 +2,4 @@ accessing
 collectionTypers
 	^ collectionTypers
 		ifNil: [ collectionTypers := self class collectionTypers
-				collect: [ :each | typerWrappers at: each ] ]
+				collect: [ :each | typerAdapters at: each ] ]
