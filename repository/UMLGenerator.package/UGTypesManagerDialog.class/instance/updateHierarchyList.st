@@ -2,7 +2,7 @@ actions
 updateHierarchyList
 	selectedType := optionsList selectedItem.
 	self ignoreEvents.
-	typeField text: (selectedType ifNil: [ '' ] ifNotNil: [ selectedType itemName ]).
+	self setTypeField: selectedType.
 	hierarchyList
 		items: (selectedType ifNil: [ #() ] ifNotNil: [ :item | item withAllSuperclasses ]).
 	hierarchyList setSelectedIndex: hierarchyList listSize.

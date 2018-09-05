@@ -1,5 +1,9 @@
 actions
 selectedInText
+	| class |
 	ignoreEvents
 		ifTrue: [ ^ self ].
-	selectedType := UGClass for: typeField text asClass
+	class := typeField text asClass.
+	selectedType := typeCollectionCheck state
+		ifTrue: [ UGCollection for: class ]
+		ifFalse: [ UGClass for: class ]

@@ -4,5 +4,5 @@ saveTypes: aDictionary
 	file exists
 		ifTrue: [ file delete ].
 	s := file writeStream.
-	STON put: aDictionary onStream: s.
+	STON put: aDictionary onStreamPretty: s.
 	s close

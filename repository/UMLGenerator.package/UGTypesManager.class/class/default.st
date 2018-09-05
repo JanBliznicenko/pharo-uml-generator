@@ -1,3 +1,7 @@
 instance creation
 default
-	^ default ifNil: [ default := self withFile: 'default.typeinfo.ston' ]
+	^ default
+		ifNil: [ default := self
+				withFile: 'default.typeinfo.ston';
+				autoSave;
+				yourself ]

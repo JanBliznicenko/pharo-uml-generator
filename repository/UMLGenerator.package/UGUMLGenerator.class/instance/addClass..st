@@ -1,4 +1,4 @@
-public - importer
+adding
 addClass: aClass
 	| umlPackage umlClass |
 	umlClasses at: aClass ifPresent: [ :existingUmlClass | ^ umlClasses at: aClass ].
@@ -12,4 +12,9 @@ addClass: aClass
 	umlClass visibility: OPUMLVisibilityKind public.
 	umlPackage packagedElements add: umlClass.
 	umlClasses at: aClass put: umlClass.
+	(focusedPackages includes: aClass package)
+		ifFalse: [ ^ umlClass ].
+	self addGeneralizationOf: aClass.
+	self addVariablesOf: aClass.
+	self addMethodsOf: aClass.
 	^ umlClass

@@ -4,4 +4,5 @@ initializeWidgets
 		initializeAccesses;
 		initializeOptions;
 		initializeHierarchy;
-		initializeText
+		initializeText;
+		initializeCollectionCheck

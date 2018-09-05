@@ -1,4 +1,6 @@
 public - importer
 importFromPackagesNamed: aCollectionOfStrings
-	^ self
-		importFromClasses: (aCollectionOfStrings flatCollect: [ :each | each asPackage classes ])
+	| packages |
+	packages := aCollectionOfStrings collect: #asPackage as: Set.
+	focusedPackages := packages asSet.
+	^ self importFromClasses: (packages flatCollect: #classes)

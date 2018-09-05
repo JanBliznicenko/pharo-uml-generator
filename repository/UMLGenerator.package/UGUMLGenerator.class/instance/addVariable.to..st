@@ -17,5 +17,6 @@ addVariable: aVariable to: umlClass
 		upperValue: upperBound;
 		isStatic: aVariable isShared;
 		visibility: OPUMLVisibilityKind protected.
-	umlAttribute type: (ugClass ifNil: [ umlClasses at: Object ] ifNotNil: [ umlClasses at: ugClass realClass ]).
+	umlAttribute
+		type: (ugClass ifNil: [ umlClasses at: Object ] ifNotNil: [ umlClasses at: ugClass realClass ]).
 	umlClass ownedAttributes add: umlAttribute

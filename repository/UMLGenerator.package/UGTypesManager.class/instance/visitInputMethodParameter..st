@@ -1,3 +1,4 @@
 visiting
 visitInputMethodParameter: aParameter
-	^ self error: 'At the moment there is no way to find type of parameter'
+	self flag: 'At the moment there is no way to find type of parameters'.
+	^ UGClass for: Object

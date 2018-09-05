@@ -8,3 +8,4 @@ initialize
 	encompassingPackage := model.
 	typesManager := UGTypesManager default.
 	doType := true.
+	focusedPackages := Set new.

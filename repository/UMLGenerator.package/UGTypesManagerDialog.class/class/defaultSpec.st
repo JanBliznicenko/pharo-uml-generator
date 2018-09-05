@@ -8,5 +8,9 @@ defaultSpec
 				newColumn: [ :col | 
 					col
 						newRow: [ :row2 | row2 add: #hierarchyList ];
-						newRow: [ :row2 | row2 add: #typeField ] height: 24 ]
-					width: 250 ]
+						newRow: [ :row2 | 
+							row2
+								add: #typeCollectionCheck width: 26;
+								add: #typeField ]
+							height: 24 ]
+					width: 300 ]

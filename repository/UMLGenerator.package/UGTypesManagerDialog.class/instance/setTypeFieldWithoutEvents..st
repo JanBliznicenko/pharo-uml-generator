@@ -1,5 +1,5 @@
 initialization
-setTypeFieldWithoutEvents: aString
+setTypeFieldWithoutEvents: aClassItem
 	self ignoreEvents.
-	typeField text: aString.
+	self setTypeField: aClassItem.
 	self allowEvents

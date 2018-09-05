@@ -14,7 +14,8 @@
 		"blockForVariable",
 		"knownTypes",
 		"persistence",
-		"typerAdapters"
+		"typerAdapters",
+		"autoSave"
 	],
 	"name" : "UGTypesManager",
 	"type" : "normal"

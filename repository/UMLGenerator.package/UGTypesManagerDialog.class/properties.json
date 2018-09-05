@@ -12,7 +12,8 @@
 		"selectedType",
 		"hierarchyList",
 		"typeField",
-		"ignoreEvents"
+		"ignoreEvents",
+		"typeCollectionCheck"
 	],
 	"name" : "UGTypesManagerDialog",
 	"type" : "normal"

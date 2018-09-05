@@ -3,5 +3,5 @@ selectedInHierarchy
 	ignoreEvents
 		ifTrue: [ ^ self ].
 	hierarchyList selectedItem ifNil: [ ^ self ].
-	self setTypeFieldWithoutEvents: hierarchyList selectedItem itemName.
+	self setTypeFieldWithoutEvents: hierarchyList selectedItem.
 	selectedType := hierarchyList selectedItem
