@@ -1,11 +1,11 @@
 {
 	"commentStamp" : "",
-	"super" : "UGPackagingUMLGenerator",
+	"super" : "OPUMLXMIWriter",
 	"category" : "UMLGenerator-Generator",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [ ],
-	"name" : "UGModelioUMLGenerator",
+	"name" : "UGEnterpriseArchitectUMLXMIWriter",
 	"type" : "normal"
 }

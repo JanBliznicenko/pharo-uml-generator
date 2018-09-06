@@ -13,12 +13,12 @@ addParameter: anUgParameter to: umlMethod
 	umlMethod ownedParameters
 		add:
 			((anUgParameter isOut
-				ifTrue: [ OPUMLParameter new
-						name: 'return';
-						direction: OPUMLParameterDirectionKind return ]
+				ifTrue: [ OPUMLParameter new direction: OPUMLParameterDirectionKind return ]
 				ifFalse: [ OPUMLParameter new
-						name: anUgParameter itemName;
-						direction: OPUMLParameterDirectionKind in ])
-				type: (ugClass ifNil: [ umlClasses at: Object ] ifNotNil: [ umlClasses at: ugClass realClass ]);
-				lowerValue: (OPUMLLiteralInteger new value: 0);
-				upperValue: upperBound)
+						direction: OPUMLParameterDirectionKind in;
+						lowerValue: (OPUMLLiteralInteger new value: 0);
+						upperValue: upperBound ])
+				name: anUgParameter itemName;
+				uuid: 'EAID_RT000000' , (UUID new asString allButFirst: 8);
+				visibility: OPUMLVisibilityKind public;
+				type: (ugClass ifNil: [ umlClasses at: Object ] ifNotNil: [ umlClasses at: ugClass realClass ]))
