@@ -1,3 +1,3 @@
 private
 addTag: aTag to: anUmlPackage
-	^ self addPackageNamed: anUmlPackage name , '-' , aTag name to: anUmlPackage
+	^ self addPackageNamed: aTag name to: anUmlPackage

@@ -6,11 +6,10 @@ umlPackageOf: aClass
 	packages := encompassingPackage packagedElements
 		select: [ :each | each isKindOf: OPUMLPackage ].
 	umlPackage := packages
-		detect: [ :any | any name = package name ]
+		detect: [ :any | self isPackageNamed: package name equalTo: any ]
 		ifNone: [ self addPackage: package ].
 	tag isRoot
 		ifTrue: [ ^ umlPackage ].
 	^ umlPackage packagedElements
-		detect:
-			[ :any | (any isKindOf: OPUMLPackage) and: [ any name = (package name , '-' , tag name) ] ]
+		detect: [ :any | self isPackageNamed: tag name equalTo: any ]
 		ifNone: [ self addTag: tag to: umlPackage ]

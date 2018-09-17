@@ -8,8 +8,7 @@ addClass: aClass
 	(aClass isMeta and: [ (umlClasses includesKey: aClass soleInstance) not ])
 		ifTrue: [ ^ self addClass: aClass soleInstance ].
 	umlPackage := self umlPackageOf: aClass.
-	umlClass := OPUMLClass new name: aClass name.
-	umlClass visibility: OPUMLVisibilityKind public.
+	umlClass := self umlClassFrom: aClass.
 	umlPackage packagedElements add: umlClass.
 	umlClasses at: aClass put: umlClass.
 	(focusedPackages includes: aClass package)

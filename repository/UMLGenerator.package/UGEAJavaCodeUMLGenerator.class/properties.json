@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "",
+	"super" : "UGEnterpriseArchitectUMLGenerator",
+	"category" : "UMLGenerator-Generator",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"methodNameReplacements"
+	],
+	"name" : "UGEAJavaCodeUMLGenerator",
+	"type" : "normal"
+}
