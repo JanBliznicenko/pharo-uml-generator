@@ -4,8 +4,6 @@ baseline: spec
 	spec
 		for: #common
 		do: [ spec
-				baseline: 'ClassEditor'
-					with: [ spec repository: 'github://openponk/class-editor/repository' ];
 				baseline: 'OPUMLXMI'
 					with: [ spec repository: 'github://openponk/uml-xmi/repository' ];
 				baseline: 'RoelTyper'
@@ -17,5 +15,4 @@ baseline: spec
 				package: 'UMLOpenPonkExtension'
 				with: [ spec requires: #('UMLGenerator') ].
 			spec group: 'core' with: #('UMLGenerator').
-			spec group: 'default' with: #('core' 'UMLOpenPonkExtension').
-			spec group: 'openponk' with: #('ClassEditor' 'default')].
+			spec group: 'default' with: #('core' 'UMLOpenPonkExtension')].
