@@ -1,4 +1,4 @@
-retrieving
+accessing
 possibilities: aPossibilities
 	typePossibilities := aPossibilities.
 	self

@@ -15,8 +15,9 @@ initializeText
 		entryCompletion:
 			(EntryCompletion new
 				dataSourceBlock: [ :currText | applicants ];
-				filterBlock:
-						[ :currApplicant :currText | currText size > 2 and: [ currApplicant asLowercase includesSubstring: currText asString asLowercase ] ]).
+				filterBlock: [ :currApplicant :currText | 
+					currText size > 2
+						and: [ currApplicant asLowercase includesSubstring: currText asString asLowercase ] ]).
 	typeField
 		whenTextChanged: [ :text | 
 			(applicantsSet includes: text asSymbol)

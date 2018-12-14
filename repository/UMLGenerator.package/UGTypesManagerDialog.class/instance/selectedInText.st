@@ -1,6 +1,7 @@
 actions
 selectedInText
 	| class |
+	self markSelectedTypeOk.
 	ignoreEvents
 		ifTrue: [ ^ self ].
 	class := typeField text asClass.
