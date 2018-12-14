@@ -5,7 +5,7 @@ addClass: aClass
 	aClass isTrait
 		ifTrue: [ ^ self ].
 	self flag: #todo.	"traits are ignored"
-	(aClass isMeta and: [ (umlClasses includesKey: aClass soleInstance) not ])
+	aClass isMeta
 		ifTrue: [ ^ self addClass: aClass soleInstance ].
 	umlPackage := self umlPackageOf: aClass.
 	umlClass := self umlClassFrom: aClass.
