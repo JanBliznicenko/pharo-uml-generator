@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "UGTypesManagerExtension",
+	"category" : "UMLGenerator-TypeManager",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "UGGUITypesManager",
+	"type" : "normal"
+}

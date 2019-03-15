@@ -1,7 +1,9 @@
 adding
 addClass: aClass
 	| umlPackage umlClass |
-	umlClasses at: aClass ifPresent: [ :existingUmlClass | ^ umlClasses at: aClass ].
+	umlClasses
+		at: aClass
+		ifPresent: [ :existingUmlClass | ^ umlClasses at: aClass ].
 	aClass isTrait
 		ifTrue: [ ^ self ].
 	self flag: #todo.	"traits are ignored"
