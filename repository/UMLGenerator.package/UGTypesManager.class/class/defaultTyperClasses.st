@@ -1,0 +1,4 @@
+constants
+defaultTyperClasses
+	^ {UGRBTyperAdaptor.
+	UGRoelTyperAdaptor}

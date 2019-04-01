@@ -1,4 +1,4 @@
-as yet unclassified
+examples
 exampleLinksOfPackageNamed: aPackageName
 	| assignmentLink returnLink returnSelfLink argumentsLink |
 	assignmentLink := MetaLink new

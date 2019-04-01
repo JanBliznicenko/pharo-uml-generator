@@ -1,5 +1,5 @@
 initialization
 initialize
 	super initialize.
-	possibleTypes := Array new.
-	possibleCollectionTypes := Array new
+	possibleTypes := OrderedCollection new.
+	possibleCollectionTypes := OrderedCollection new

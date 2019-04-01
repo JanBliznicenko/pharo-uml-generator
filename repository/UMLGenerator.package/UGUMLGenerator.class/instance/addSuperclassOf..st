@@ -1,7 +1,7 @@
-public - importer
+adding
 addSuperclassOf: aClass
 	| superClass |
 	superClass := aClass superclass.
-	(superClass == Object or: [ superClass == Object class ])
+	(self rootClasses includes: superClass)
 		ifTrue: [ ^ self ].
 	^ umlClasses at: superClass ifAbsent: [ self addClass: superClass ]

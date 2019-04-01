@@ -7,15 +7,17 @@ addClass: aClass
 	aClass isTrait
 		ifTrue: [ ^ self ].
 	self flag: #todo.	"traits are ignored"
-	aClass isMeta
-		ifTrue: [ ^ self addClass: aClass soleInstance ].
 	umlPackage := self umlPackageOf: aClass.
 	umlClass := self umlClassFrom: aClass.
 	umlPackage packagedElements add: umlClass.
 	umlClasses at: aClass put: umlClass.
 	(focusedPackages includes: aClass package)
 		ifFalse: [ ^ umlClass ].
-	self addGeneralizationOf: aClass.
+	self addSuperclassOf: aClass.
+	(aClass class methods isNotEmpty
+		or: [ aClass class instanceVariables isNotEmpty ])
+		ifTrue: [ self addClass: aClass class ].
 	self addVariablesOf: aClass.
 	self addMethodsOf: aClass.
+	self addedClass: aClass.
 	^ umlClass

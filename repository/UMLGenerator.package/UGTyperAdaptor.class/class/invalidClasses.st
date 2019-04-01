@@ -1,7 +1,5 @@
 accessing
 invalidClasses
-	^ Set
-		with: GHObjectGhost
-		with: Mock
-		with: GHClassGhost
-		with: GHObjectGhostStub
+	^ self invalidClassNames
+		select: [ :each | Smalltalk globals includesKey: each ]
+		thenCollect: [ :each | Smalltalk globals at: each ]

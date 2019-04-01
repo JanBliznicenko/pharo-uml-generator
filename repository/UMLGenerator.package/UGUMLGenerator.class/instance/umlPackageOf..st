@@ -1,3 +1,3 @@
-public - importer
+private
 umlPackageOf: aClass
 	^ encompassingPackage

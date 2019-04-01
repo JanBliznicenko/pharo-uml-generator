@@ -1,3 +1,3 @@
-as yet unclassified
+examples
 exampleLinks
 	self exampleLinksOfPackageNamed: 'ExamplePackage'

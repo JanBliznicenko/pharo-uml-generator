@@ -1,3 +1,9 @@
 public - importer
 addMethod: aMethod to: umlClass
-	self addMethod: aMethod to: umlClass classSide: false
+	| umlMethod |
+	(self shouldOmitAccessor: aMethod)
+		ifTrue: [ ^ self ].
+	umlMethod := self umlMethodFrom: aMethod.
+	self addVisibilityOf: aMethod to: umlMethod.
+	self addParametersOf: aMethod to: umlMethod.
+	umlClass ownedOperations add: umlMethod

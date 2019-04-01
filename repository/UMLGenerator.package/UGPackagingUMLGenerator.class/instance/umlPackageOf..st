@@ -1,4 +1,4 @@
-public - importer
+private
 umlPackageOf: aClass
 	| package tag packages umlPackage |
 	package := aClass package.

@@ -1,4 +1,4 @@
-as yet unclassified
+retrieving
 commonSuperclassOf: ugClasses
 	| realClasses currentSuperclasses bestCommonIndex commonHierarchy |
 	ugClasses ifEmpty: [ ^ Object ].

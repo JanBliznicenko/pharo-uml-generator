@@ -6,7 +6,8 @@
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [
-		"method"
+		"method",
+		"containingClass"
 	],
 	"name" : "UGMethodItem",
 	"type" : "normal"

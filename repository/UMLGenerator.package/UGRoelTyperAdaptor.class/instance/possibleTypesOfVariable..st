@@ -1,14 +1,14 @@
 api
-possibleTypesOfVariable: aUEVariable
-	aUEVariable isShared
+possibleTypesOfVariable: aUGVariable
+	aUGVariable isShared
 		ifTrue: [ ^ UGTypePossibilities
-				for: aUEVariable
+				for: aUGVariable
 				types: Set new
 				collectionTypes: Set new ].
 	^ UGTypePossibilities
-		for: aUEVariable
+		for: aUGVariable
 		types:
 			(TypeCollector
-				typeInstvar: aUEVariable variableName asSymbol
-				ofClassWithLookup: aUEVariable containingClass) types asSet
+				typeInstvar: aUGVariable variableName asSymbol
+				ofClassWithLookup: aUGVariable containingClass) types asSet
 		collectionTypes: Set new

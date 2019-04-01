@@ -9,10 +9,15 @@ write: anElement
 	rootElement xmiName: 'uml:' , anElement umlMetaClass name.
 	document
 		containedItems:
-			{OPXMIValueAttribute xmiName: 'xmlns:uml' value: 'http://www.omg.org/spec/UML/20110701'.
-			OPXMIValueAttribute xmiName: 'xmlns:xmi' value: 'http://www.omg.org/spec/XMI/20110701'}
-				, { OPXMIObjectElement new xmiName: 'xmi:Documentation'; containedItems:
-			{OPXMIValueAttribute xmiName: 'exporter' value: 'Enterprise Architect'.
-			OPXMIValueAttribute xmiName: 'exporterVersion' value: '6.5'} } , {rootElement} , self resolvedStereotypes.
+			{(OPXMIValueAttribute xmiName: 'xmlns:uml' value: 'http://www.omg.org/spec/UML/20131001').
+			(OPXMIValueAttribute xmiName: 'xmlns:xmi' value: 'http://www.omg.org/spec/XMI/20131001').
+			(OPXMIValueAttribute xmiName: 'xmi:version' value: '2.5')}
+				,
+					{(OPXMIObjectElement new
+						xmiName: 'xmi:Documentation';
+						containedItems:
+							{(OPXMIValueAttribute xmiName: 'exporter' value: 'Enterprise Architect').
+							(OPXMIValueAttribute xmiName: 'exporterVersion' value: '6.5')})} , {rootElement}
+				, self resolvedStereotypes.
 	self resolveReferences.
 	^ document

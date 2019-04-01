@@ -1,3 +1,0 @@
-constants
-varTypers
-	^ {#rb . #roel}

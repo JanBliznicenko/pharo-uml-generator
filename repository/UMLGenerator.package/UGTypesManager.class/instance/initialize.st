@@ -3,6 +3,8 @@ initialize
 	super initialize.
 	knownTypes := Dictionary new.
 	persistence := UGTypesNoPersistence new.
-	typerAdapters := self class typerClasses collect: [ :each | each default ].
+	self typerClasses: self class defaultTyperClasses.
 	autoSave := false.
-	self defaultBlockForVariable
+	plannedSave := false.
+	self defaultBlockForVariable.
+	self defaultBlockForParameter

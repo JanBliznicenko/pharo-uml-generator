@@ -1,0 +1,3 @@
+accessing
+addPossibleCollectionType: aClass
+	possibleCollectionTypes add: aClass

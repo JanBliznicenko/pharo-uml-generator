@@ -15,7 +15,9 @@
 		"knownTypes",
 		"persistence",
 		"typerAdapters",
-		"autoSave"
+		"autoSave",
+		"blockForParameter",
+		"plannedSave"
 	],
 	"name" : "UGTypesManager",
 	"type" : "normal"

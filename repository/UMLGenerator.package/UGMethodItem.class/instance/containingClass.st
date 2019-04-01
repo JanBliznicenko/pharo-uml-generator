@@ -1,3 +1,3 @@
 accessing
 containingClass
-	^ self method containingClass
+	^ containingClass
