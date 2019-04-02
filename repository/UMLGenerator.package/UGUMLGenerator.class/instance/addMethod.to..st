@@ -1,4 +1,4 @@
-public - importer
+adding
 addMethod: aMethod to: umlClass
 	| umlMethod |
 	(self shouldOmitAccessor: aMethod)

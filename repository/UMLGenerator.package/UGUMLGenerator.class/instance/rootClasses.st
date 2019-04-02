@@ -1,8 +1,11 @@
-constants
+private
 rootClasses
-	^ {Object.
-	ProtoObject.
-	Object class.
-	ProtoObject class.
-	Class.
-	Behavior}
+	^ rootClasses
+		ifNil: [ rootClasses := {Object.
+			ProtoObject.
+			ClassDescription.
+			Class.
+			Metaclass} asSet.
+			rootClasses
+				addAll: (rootClasses collect: #class);
+				yourself ]

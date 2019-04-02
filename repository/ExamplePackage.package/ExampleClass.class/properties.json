@@ -2,9 +2,13 @@
 	"commentStamp" : "",
 	"super" : "Object",
 	"category" : "ExamplePackage",
-	"classinstvars" : [ ],
+	"classinstvars" : [
+		"classSideVar4"
+	],
 	"pools" : [ ],
-	"classvars" : [ ],
+	"classvars" : [
+		"ClassVar3"
+	],
 	"instvars" : [
 		"var1",
 		"var2"

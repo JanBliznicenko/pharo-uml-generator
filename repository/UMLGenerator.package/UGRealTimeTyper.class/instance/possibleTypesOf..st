@@ -1,3 +1,3 @@
 api
 possibleTypesOf: aUGItem
-	^ typePossibilitiesDictionary at: aUGItem ifAbsent: [ UGTypePossibilities for: aUGItem ]
+	^ typePossibilitiesDictionary at: aUGItem ifAbsentPut: [ UGTypePossibilities for: aUGItem ]

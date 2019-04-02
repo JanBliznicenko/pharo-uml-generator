@@ -1,5 +1,5 @@
 adding
 umlMethodFrom: aMethod
-	^ OPUMLOperation new
+	^ (super umlMethodFrom: aMethod)
 		name: (self methodNameFrom: aMethod selector);
 		yourself

@@ -2,7 +2,7 @@ private
 shouldOmitAccessor: aMethod
 	| protocol varNames selector |
 	includeAccessors
-		ifFalse: [ ^ false ].
+		ifTrue: [ ^ false ].
 	protocol := aMethod protocol.
 	((protocol beginsWith: 'access') or: [ protocol endsWith: 'accessing' ])
 		ifFalse: [ ^ false ].

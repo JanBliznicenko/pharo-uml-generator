@@ -1,11 +1,7 @@
 adding
 addParameter: anUgParameter to: umlMethod
 	| ugClass upperBound |
-	ugClass := nil.
-	doType
-		ifTrue: [ ugClass := (typesManager typeOf: anUgParameter)
-				ifNil: [ doType := false.
-					nil ] ].
+	ugClass := self typeOf: anUgParameter.
 	upperBound := (ugClass isNotNil and: [ ugClass isCollectionClass ])
 		ifTrue: [ OPUMLLiteralUnlimitedNatural new ]
 		ifFalse: [ OPUMLLiteralInteger new value: 1 ].
@@ -21,5 +17,4 @@ addParameter: anUgParameter to: umlMethod
 						lowerValue: (OPUMLLiteralInteger new value: 0);
 						upperValue: upperBound ])
 				name: anUgParameter itemName;
-				type:
-					(ugClass ifNil: [ umlClasses at: Object ] ifNotNil: [ umlClasses at: ugClass realClass ]))
+				type: (ugClass ifNil: [ umlClasses at: Object ] ifNotNil: [ umlClasses at: ugClass realClass ]))

@@ -8,7 +8,8 @@
 	"instvars" : [
 		"item",
 		"possibleTypes",
-		"possibleCollectionTypes"
+		"possibleCollectionTypes",
+		"classReplacements"
 	],
 	"name" : "UGTypePossibilities",
 	"type" : "normal"

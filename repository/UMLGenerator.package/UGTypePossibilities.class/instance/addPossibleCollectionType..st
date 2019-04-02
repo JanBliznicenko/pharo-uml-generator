@@ -1,3 +1,3 @@
 accessing
 addPossibleCollectionType: aClass
-	possibleCollectionTypes add: aClass
+	self addPossibleCollectionType: nil with: aClass

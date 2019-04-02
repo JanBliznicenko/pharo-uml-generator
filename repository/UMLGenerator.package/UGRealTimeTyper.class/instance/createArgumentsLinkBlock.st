@@ -11,7 +11,7 @@ createArgumentsLinkBlock
 				ifNotEmpty: [ arguments
 						withIndexDo: [ :each :index | 
 							self
-								add: each class
+								addTypeOf: each
 								asPossibleTypeOf:
 									(UGInputMethodParameter
 										named: (argumentNames at: index)

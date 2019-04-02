@@ -1,7 +1,7 @@
 instance creation
-for: anItem types: aCollectionOfTypes collectionTypes: aCollectionOfCollectionTypes
+for: anItem types: aCollectionOfTypes collectionTypes: aDictionaryOfCollectionTypes
 	^ self new
 		item: anItem;
 		possibleTypes: aCollectionOfTypes;
-		possibleCollectionTypes: aCollectionOfCollectionTypes;
+		possibleCollectionTypes: aDictionaryOfCollectionTypes;
 		yourself

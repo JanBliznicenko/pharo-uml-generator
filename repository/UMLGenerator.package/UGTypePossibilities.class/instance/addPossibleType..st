@@ -1,3 +1,4 @@
 accessing
 addPossibleType: aClass
-	possibleTypes add: aClass
+	aClass == UndefinedObject ifTrue: [ ^ self ].
+	possibleTypes add: (self replacementOfClass: aClass)

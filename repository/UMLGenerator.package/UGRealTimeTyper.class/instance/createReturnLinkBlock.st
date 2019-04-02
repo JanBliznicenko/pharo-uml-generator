@@ -4,7 +4,7 @@ createReturnLinkBlock
 	MetaLink new
 		metaObject: [ :value | 
 			self
-				add: value class
+				addTypeOf: value
 				asPossibleTypeOf: (UGReturnParameter in: (UGMethod named: methodName in: class)) ];
 		selector: #value:;
 		arguments: #(value);

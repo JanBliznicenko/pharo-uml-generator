@@ -1,4 +1,4 @@
-public - importer
+adding
 addGeneralizationSetTo: aSuperclass
 	| set subclasses |
 	subclasses := aSuperclass subclasses

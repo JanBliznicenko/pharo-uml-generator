@@ -13,7 +13,9 @@
 		"assignmentLinkBlock",
 		"argumentsLinkBlock",
 		"returnSelfLinkBlock",
-		"links"
+		"links",
+		"atomicCollectionTypes",
+		"linkedPackages"
 	],
 	"name" : "UGRealTimeTyper",
 	"type" : "normal"

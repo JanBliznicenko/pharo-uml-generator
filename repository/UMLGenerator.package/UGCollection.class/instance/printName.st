@@ -1,3 +1,4 @@
 printing
 printName
-	^ '*' , self itemName
+	collectionRealClass ifNil: [ ^ '*' , self itemName ].
+	^ collectionRealClass name , '<' , self itemName , '>'

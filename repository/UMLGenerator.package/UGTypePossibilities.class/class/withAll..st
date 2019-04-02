@@ -1,9 +1,12 @@
 instance creation
 withAll: aCollectionOfTypePossibilities
-	| item |
+	| item collectionTypes |
 	item := aCollectionOfTypePossibilities anyOne item.
 	self assert: (aCollectionOfTypePossibilities allSatisfy: [ :each | each item = item ]).
+	collectionTypes := Dictionary new.
+	aCollectionOfTypePossibilities
+		do: [ :each | collectionTypes addAll: each possibleCollectionTypes ].
 	^ self
 		for: item
 		types: (aCollectionOfTypePossibilities flatCollect: [ :each | each possibleTypes ])
-		collectionTypes: (aCollectionOfTypePossibilities flatCollect: [ :each | each possibleCollectionTypes ])
+		collectionTypes: collectionTypes

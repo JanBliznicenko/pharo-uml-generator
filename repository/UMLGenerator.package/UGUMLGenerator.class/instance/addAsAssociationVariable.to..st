@@ -4,7 +4,7 @@ addAsAssociationVariable: aVariable to: umlClass
 	umlClassProperty := OPUMLProperty new.
 	umlAssociationProperty := OPUMLProperty new.
 	umlAssociation := OPUMLAssociation new.
-	ugClass := typesManager typeOf: aVariable.
+	ugClass := self typeOf: aVariable.
 	upperBound := (ugClass isNotNil and: [ ugClass isCollectionClass ])
 		ifTrue: [ OPUMLLiteralUnlimitedNatural new value: '*' ]
 		ifFalse: [ OPUMLLiteralInteger new value: 1 ].
@@ -13,7 +13,7 @@ addAsAssociationVariable: aVariable to: umlClass
 		name: aVariable itemName;
 		lowerValue: (OPUMLLiteralInteger new value: 0);
 		upperValue: upperBound;
-		isStatic: aVariable isShared;
+		isStatic: aVariable isClassSide;
 		visibility: OPUMLVisibilityKind protected;
 		owningClass: umlClass;
 		association: umlAssociation;

@@ -4,5 +4,5 @@ possibleTypesOfVariable: aUGVariable
 	typer := self typerOf: aUGVariable containingClass.
 	^ UGTypePossibilities
 		for: aUGVariable
-		types: (self typesFromTyper: typer ofVariableName: aUGVariable variableName)
-		collectionTypes: (self typesFromTyper: typer ofVariableName: '-' , aUGVariable variableName , '-')
+		types: (self simpleTypesFromTyper: typer ofVariable: aUGVariable)
+		collectionTypes: (self collectionTypesFromTyper: typer ofVariable: aUGVariable)

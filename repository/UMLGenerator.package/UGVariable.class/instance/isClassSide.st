@@ -1,3 +1,3 @@
 testing
-isClassVariable
+isClassSide
 	^ isShared or: [ self containingClass isMeta ]

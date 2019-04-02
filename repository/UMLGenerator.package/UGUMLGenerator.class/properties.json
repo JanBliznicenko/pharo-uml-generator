@@ -12,7 +12,8 @@
 		"encompassingPackage",
 		"includeAccessors",
 		"typesManager",
-		"doType"
+		"doType",
+		"rootClasses"
 	],
 	"name" : "UGUMLGenerator",
 	"type" : "normal"

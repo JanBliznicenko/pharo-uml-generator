@@ -1,5 +1,5 @@
 initialization
 initialize
 	super initialize.
-	possibleTypes := OrderedCollection new.
-	possibleCollectionTypes := OrderedCollection new
+	possibleTypes := Set new.
+	possibleCollectionTypes := Dictionary new

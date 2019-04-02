@@ -1,4 +1,4 @@
-public - importer
+adding
 addGeneralizationsTo: aSuperclass toSet: aGeneralizationSet
 	aSuperclass subclasses
 		select: [ :eachSubclass | umlClasses includesKey: eachSubclass ]

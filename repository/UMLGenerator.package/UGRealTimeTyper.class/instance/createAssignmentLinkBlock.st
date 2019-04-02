@@ -4,7 +4,7 @@ createAssignmentLinkBlock
 	MetaLink new
 		metaObject: [ :node :value | 
 			self
-				add: value class
+				addTypeOf: value
 				asPossibleTypeOf: (UGVariable named: node variable name asString in: class) ];
 		selector: #value:value:;
 		arguments: #(node value);
