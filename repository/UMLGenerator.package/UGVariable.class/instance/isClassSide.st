@@ -1,3 +1,3 @@
 testing
 isClassSide
-	^ isShared or: [ self containingClass isMeta ]
+	^ isShared or: [ super isClassSide ]

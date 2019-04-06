@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "UGTyperAdaptorCombinator",
+	"category" : "UMLGenerator-Typer",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "UGTyperMergeCombinator",
+	"type" : "normal"
+}

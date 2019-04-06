@@ -4,4 +4,5 @@ addTypeOf: aValue asPossibleTypeOf: aUGItem
 	possibleTypes := self possibleTypesOf: aUGItem.
 	(self shouldTypeAsCollection: aValue)
 		ifFalse: [ ^ possibleTypes addPossibleType: aValue class ].
-	aValue do: [ :each | possibleTypes addPossibleCollectionType: aValue class with: each class ]
+	aValue
+		do: [ :each | possibleTypes addPossibleCollectionType: aValue class with: each class ]

@@ -8,13 +8,11 @@
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [
-		"collectionTypers",
-		"methodTypers",
-		"varTypers",
+		"methodTyper",
+		"varTyper",
 		"blockForVariable",
 		"knownTypes",
 		"persistence",
-		"typerAdapters",
 		"autoSave",
 		"blockForParameter",
 		"plannedSave"

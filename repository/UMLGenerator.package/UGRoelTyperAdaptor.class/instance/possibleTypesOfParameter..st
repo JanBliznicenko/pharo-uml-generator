@@ -1,3 +1,3 @@
 api
-possibleTypesOfParameter: aParameterName
-	^ {}
+possibleTypesOfParameter: aUGParameter
+	^ UGTypePossibilities for: aUGParameter

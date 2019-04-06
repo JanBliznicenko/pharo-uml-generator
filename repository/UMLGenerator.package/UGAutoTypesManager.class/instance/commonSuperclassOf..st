@@ -1,12 +1,12 @@
 retrieving
-commonSuperclassOf: ugClasses
-	| realClasses currentSuperclasses bestCommonIndex commonHierarchy |
-	ugClasses ifEmpty: [ ^ Object ].
-	realClasses := ugClasses collect: #realClass.
-	realClasses size = 1
-		ifTrue: [ ^ realClasses first ].
-	commonHierarchy := realClasses copyWithoutFirst
-		inject: realClasses first withAllSuperclasses reversed
+commonSuperclassOf: classes
+	| currentSuperclasses bestCommonIndex commonHierarchy classesArray |
+	classesArray := classes asArray reject: #isNil.
+	classesArray ifEmpty: [ ^ Object ].
+	classesArray size = 1
+		ifTrue: [ ^ classesArray anyOne ].
+	commonHierarchy := classesArray copyWithoutFirst
+		inject: classesArray first withAllSuperclasses reversed
 		into: [ :lastHierarchy :realClass | 
 			currentSuperclasses := realClass withAllSuperclasses reversed.
 			lastHierarchy first == currentSuperclasses first

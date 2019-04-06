@@ -1,0 +1,11 @@
+{
+	"commentStamp" : "",
+	"super" : "UGPackagingUMLGenerator",
+	"category" : "UMLGenerator-Generator",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [ ],
+	"name" : "UGModelioUMLGenerator",
+	"type" : "normal"
+}

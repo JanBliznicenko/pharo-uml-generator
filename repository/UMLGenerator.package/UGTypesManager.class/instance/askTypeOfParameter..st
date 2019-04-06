@@ -3,7 +3,5 @@ askTypeOfParameter: aParameter
 	^ self
 		addType:
 			(blockForParameter
-				value:
-					(UGTypePossibilities
-						withAll: (self varTypers collect: [ :each | each possibleTypesOfParameter: aParameter ])))
+				value: (methodTyper possibleTypesOfParameter: aParameter))
 		of: aParameter

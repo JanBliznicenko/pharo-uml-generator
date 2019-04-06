@@ -1,4 +1,6 @@
 printing
 printName
-	collectionRealClass ifNil: [ ^ '*' , self itemName ].
-	^ collectionRealClass name , '<' , self itemName , '>'
+	| name |
+	name := '*' , self itemName.
+	collectionRealClass ifNil: [ ^ name ].
+	^ name , '*' , collectionRealClass name

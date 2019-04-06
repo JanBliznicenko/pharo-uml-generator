@@ -5,6 +5,6 @@ planSave
 	plannedSave
 		ifTrue: [ ^ self ].
 	plannedSave := true.
-	[ 10 seconds wait.
+	[ 5 seconds wait.
 	plannedSave := false.
 	self save ] fork

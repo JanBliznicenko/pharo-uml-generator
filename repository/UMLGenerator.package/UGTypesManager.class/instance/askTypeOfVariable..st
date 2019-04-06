@@ -1,9 +1,5 @@
 retrieving
 askTypeOfVariable: aVariable
 	^ self
-		addType:
-			(blockForVariable
-				value:
-					(UGTypePossibilities
-						withAll: (self varTypers collect: [ :each | each possibleTypesOfVariable: aVariable ])))
+		addType: (blockForVariable value: (varTyper possibleTypesOfVariable: aVariable))
 		of: aVariable
