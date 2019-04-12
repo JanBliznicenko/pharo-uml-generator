@@ -2,7 +2,10 @@
 	"commentStamp" : "",
 	"super" : "Object",
 	"category" : "UMLGenerator-Generator",
-	"classinstvars" : [ ],
+	"classinstvars" : [
+		"classOrdering",
+		"classUniqueness"
+	],
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [

@@ -4,4 +4,4 @@ simpleTypesFromTyper: aTyper ofVariable: aUGVariable
 		filterTypes:
 			((aTyper guessTypesFor: aUGVariable variableName)
 				collect: #realClass
-				thenReject: [ :each | each == Collection or: [ each inheritsFrom: Collection ] ]) asSet
+				thenReject: [ :each | each includesBehavior: Collection ]) asSet

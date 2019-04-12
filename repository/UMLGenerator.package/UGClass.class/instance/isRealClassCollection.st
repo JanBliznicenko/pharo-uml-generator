@@ -1,3 +1,3 @@
 testing
 isRealClassCollection
-	^ self realClass inheritsFrom: Collection
+	^ self realClass includesBehavior: Collection

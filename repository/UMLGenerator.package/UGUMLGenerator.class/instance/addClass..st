@@ -18,5 +18,4 @@ addClass: aClass
 		ifTrue: [ self addClass: aClass class ].
 	self addVariablesOf: aClass.
 	self addMethodsOf: aClass.
-	self addedClass: aClass.
 	^ umlClass

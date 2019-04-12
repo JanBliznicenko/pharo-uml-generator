@@ -1,11 +1,13 @@
 {
 	"commentStamp" : "",
-	"super" : "UGTypesManagerExtension",
+	"super" : "Object",
 	"category" : "UMLGenerator-TypeManager",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
-	"instvars" : [ ],
-	"name" : "UGAutoTypesManager",
+	"instvars" : [
+		"typesManager"
+	],
+	"name" : "UGTypesManagerFinalizer",
 	"type" : "normal"
 }

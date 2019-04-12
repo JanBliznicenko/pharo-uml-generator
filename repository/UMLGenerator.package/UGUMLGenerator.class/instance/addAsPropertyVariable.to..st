@@ -1,12 +1,16 @@
 adding
 addAsPropertyVariable: aVariable to: umlClass
-	| umlProperty ugClass upperBound |
+	| umlProperty typeUGClass upperBound |
 	umlProperty := OPUMLProperty new.
-	ugClass := self typeOf: aVariable.
-	upperBound := (ugClass isNotNil and: [ ugClass isCollectionClass ])
-		ifTrue: [ OPUMLLiteralUnlimitedNatural new value: '*' ]
+	typeUGClass := self typeOf: aVariable.
+	upperBound := (typeUGClass isNotNil
+		and: [ typeUGClass isCollectionClass ])
+		ifTrue: [ self
+				addCollectionSpecificsOf: typeUGClass collectionRealClass
+				to: umlProperty.
+			OPUMLLiteralUnlimitedNatural new value: '*' ]
 		ifFalse: [ OPUMLLiteralInteger new value: 1 ].
-	ugClass ifNotNil: [ self addClass: ugClass realClass ].
+	typeUGClass ifNotNil: [ self addClass: typeUGClass realClass ].
 	umlProperty
 		name: aVariable itemName;
 		lowerValue: (OPUMLLiteralInteger new value: 0);
@@ -14,5 +18,8 @@ addAsPropertyVariable: aVariable to: umlClass
 		isStatic: aVariable isClassSide;
 		visibility: OPUMLVisibilityKind protected;
 		owningClass: umlClass;
-		type: (ugClass ifNil: [ umlClasses at: Object ] ifNotNil: [ umlClasses at: ugClass realClass ]).
+		type:
+			(typeUGClass
+				ifNil: [ umlClasses at: Object ]
+				ifNotNil: [ umlClasses at: typeUGClass realClass ]).
 	umlClass ownedAttributes add: umlProperty
