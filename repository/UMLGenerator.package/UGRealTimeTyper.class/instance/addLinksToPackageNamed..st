@@ -1,10 +1,11 @@
 adding
 addLinksToPackageNamed: aPackageName
-	| package |
+	| package definedClasses |
 	package := aPackageName asPackage.
 	(linkedPackages includes: package)
 		ifTrue: [ ^ self ].
-	package definedClasses , (package definedClasses collect: #class)
+	definedClasses := package definedClasses.
+	definedClasses , (definedClasses collect: #class)
 		do: [ :eachClass | 
 			eachClass methods
 				do: [ :eachMethod | 
@@ -14,6 +15,8 @@ addLinksToPackageNamed: aPackageName
 						thenDo: [ :eachNode | eachNode link: (links add: (assignmentLinkBlock value: eachClass)) ].
 					eachMethod ast allChildren
 						select: [ :eachNode | eachNode isReturn ]
-						thenDo: [ :eachNode | eachNode link: (links add: (returnLinkBlock value: eachMethod selector value: eachClass)) ].
+						thenDo:
+							[ :eachNode | eachNode link: (links add: (returnLinkBlock value: eachMethod selector value: eachClass)) ].
 					eachMethod ast lastIsReturn
-						ifFalse: [ eachMethod ast link: (links add: (returnSelfLinkBlock value: eachMethod selector value: eachClass)) ] ] ]
+						ifFalse: [ eachMethod ast
+								link: (links add: (returnSelfLinkBlock value: eachMethod selector value: eachClass)) ] ] ]
