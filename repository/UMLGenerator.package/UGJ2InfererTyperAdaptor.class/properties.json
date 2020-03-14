@@ -6,8 +6,7 @@
 	"pools" : [ ],
 	"classvars" : [ ],
 	"instvars" : [
-		"typer",
-		"inferer"
+		"inferers"
 	],
 	"name" : "UGJ2InfererTyperAdaptor",
 	"type" : "normal"

@@ -1,8 +1,7 @@
 api
 possibleTypesOfParameter: aUGParameter
-	^ super possibleTypesOfParameter: aUGParameter
-	"	| method types |
-	method := (self inferer
+	| method types |
+	method := ((self infererOf: aUGParameter package)
 		typeInfoFor: aUGParameter containingClass realClass)
 		methodTypeFor: aUGParameter compiledMethod.
 	types := (aUGParameter isOut
@@ -13,4 +12,4 @@ possibleTypesOfParameter: aUGParameter
 	^ UGTypePossibilities
 		for: aUGParameter
 		types: types
-		collectionTypes: Dictionary new"
+		collectionTypes: Dictionary new
