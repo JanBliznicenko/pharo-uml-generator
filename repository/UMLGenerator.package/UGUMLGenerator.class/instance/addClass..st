@@ -1,7 +1,9 @@
 adding
 addClass: aClass
 	| umlPackage umlClass |
-	umlClasses at: aClass ifPresent: [ :existingUmlClass | ^ umlClasses at: aClass ].
+	umlClasses
+		at: aClass
+		ifPresent: [ :existingUmlClass | ^ umlClasses at: aClass ].
 	aClass isTrait
 		ifTrue: [ ^ self ].
 	aClass isMeta
@@ -14,7 +16,8 @@ addClass: aClass
 	(focusedPackages includes: aClass package)
 		ifFalse: [ ^ umlClass ].
 	self addSuperclassOf: aClass.
-	(aClass class methods isNotEmpty or: [ aClass class instanceVariables isNotEmpty ])
+	(aClass class methods isNotEmpty
+		or: [ aClass class instVarNames isNotEmpty ])
 		ifTrue: [ self addClass: aClass class ].
 	self addVariablesOf: aClass.
 	self addMethodsOf: aClass.

@@ -1,0 +1,14 @@
+{
+	"commentStamp" : "",
+	"super" : "UGTyperAdaptor",
+	"category" : "UMLGenerator-Typer",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"typer",
+		"inferer"
+	],
+	"name" : "UGJ2InfererTyperAdaptor",
+	"type" : "normal"
+}
