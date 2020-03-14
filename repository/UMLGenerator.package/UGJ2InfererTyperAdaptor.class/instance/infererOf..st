@@ -8,5 +8,4 @@ infererOf: aPackage
 				do: [ :e | inferer enqueueClass: e ]
 				displayingProgress: [ :e | e name ].
 			inferer runAndWait.
-			inferer notifier close.
 			inferer ]
