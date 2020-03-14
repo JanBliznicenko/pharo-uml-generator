@@ -4,7 +4,6 @@ atomicCollectionTypes
 		ifNil: [ atomicCollectionTypes := {BitmapCharacterSet.
 			CharacterSet.
 			CharacterSetComplement.
-			Matrix.
 			ByteArray.
 			ColorArray.
 			FFIExternalArray.
