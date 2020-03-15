@@ -15,7 +15,8 @@
 		"persistence",
 		"autoSave",
 		"blockForParameter",
-		"plannedSave"
+		"plannedSave",
+		"skipMethods"
 	],
 	"name" : "UGTypesManager",
 	"type" : "normal"

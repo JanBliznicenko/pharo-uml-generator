@@ -1,0 +1,3 @@
+accessing
+variablesOnly
+	variablesOnly := true

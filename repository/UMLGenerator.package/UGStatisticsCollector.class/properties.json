@@ -1,0 +1,16 @@
+{
+	"commentStamp" : "",
+	"super" : "Object",
+	"category" : "UMLGenerator-Statistics",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"packageName",
+		"itemCount",
+		"foundCounts",
+		"variablesOnly"
+	],
+	"name" : "UGStatisticsCollector",
+	"type" : "normal"
+}

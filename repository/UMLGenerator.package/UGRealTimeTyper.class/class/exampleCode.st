@@ -12,6 +12,7 @@ exampleCode
 	UGRealTimeTyper default addLinksToPackageNamed: 'Zinc-HTTP'.
 	
 	"this is the time to run tests/scenarios to log types"
+	self notify: 'This is time to run tests/scenarios to log types for realtime type inferer.', String cr, 'Run the tests/scenarios and then click Proceed'.
 	
 	"save types into following file"
 	typesManager := UGTypesManager withFile: 'default.typeinfo-all-backups.ston'.

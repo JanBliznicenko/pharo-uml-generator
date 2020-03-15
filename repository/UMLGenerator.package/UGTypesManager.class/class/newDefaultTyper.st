@@ -2,5 +2,5 @@ constants
 newDefaultTyper
 	^ UGTyperMergeCombinator
 		withAdaptors:
-			{UGRBTyperAdaptor.
-			UGRoelTyperAdaptor}
+			{UGRBTyperAdaptor new.
+			UGRoelTyperAdaptor new}

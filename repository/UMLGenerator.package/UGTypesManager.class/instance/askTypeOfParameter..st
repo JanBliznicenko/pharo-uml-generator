@@ -1,5 +1,7 @@
 retrieving
 askTypeOfParameter: aParameter
+	skipMethods
+		ifTrue: [ ^ UGClass for: Object ].
 	^ self
 		addType:
 			(blockForParameter
