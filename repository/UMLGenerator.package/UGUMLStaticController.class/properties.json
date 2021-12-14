@@ -1,0 +1,17 @@
+{
+	"commentStamp" : "",
+	"super" : "Object",
+	"category" : "UMLGenerator-Controller",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"generator",
+		"typesManager",
+		"typerAdaptor",
+		"typesFinalizer",
+		"analyzedPackage"
+	],
+	"name" : "UGUMLStaticController",
+	"type" : "normal"
+}

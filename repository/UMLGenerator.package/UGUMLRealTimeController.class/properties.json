@@ -1,0 +1,19 @@
+{
+	"commentStamp" : "",
+	"super" : "Object",
+	"category" : "UMLGenerator-Controller",
+	"classinstvars" : [
+		"instance"
+	],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"generator",
+		"typesManager",
+		"typerAdaptor",
+		"typesFinalizer",
+		"analyzedPackage"
+	],
+	"name" : "UGUMLRealTimeController",
+	"type" : "normal"
+}
