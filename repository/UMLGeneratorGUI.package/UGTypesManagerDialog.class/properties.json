@@ -1,7 +1,7 @@
 {
 	"commentStamp" : "",
 	"super" : "ComposablePresenter",
-	"category" : "UMLGenerator-TypeManager",
+	"category" : "UMLGeneratorGUI",
 	"classinstvars" : [ ],
 	"pools" : [ ],
 	"classvars" : [ ],
