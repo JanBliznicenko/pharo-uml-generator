@@ -8,8 +8,8 @@ Class {
 		'argumentsLinkBlock',
 		'returnSelfLinkBlock',
 		'links',
-		'atomicCollectionTypes',
-		'linkedPackages'
+		'linkedPackages',
+		'originalTestTimeLimit'
 	],
 	#classInstVars : [
 		'default'
@@ -24,42 +24,51 @@ UGRealTimeTyper class >> default [
 
 { #category : #example }
 UGRealTimeTyper class >> exampleCode [
+
+	<example: 'self exampleCode inspect'>
 	| generator model typesManager typerAdaptor typesFinalizer |
 	"removes current metalinks (stops current types logging)"
 	UGRealTimeTyper default uninstallLinks.
-	
+
 	"forces metalinks to be removed"
 	UGRealTimeTyper resetDefault.
 	'Zinc-HTTP' asPackage classes do: #recompile.
-	
+
 	"adds metalinks (starts logging types)"
 	UGRealTimeTyper default addLinksToPackageNamed: 'Zinc-HTTP'.
-	
+
 	"this is the time to run tests/scenarios to log types"
-	self notify: 'This is time to run tests/scenarios to log types for realtime type inferer.', String cr, 'Run the tests/scenarios and then click Proceed'.
-	
+	self notify:
+		'This is time to run tests/scenarios to log types for realtime type inferer.'
+		, String cr , 'Run the tests/scenarios and then click Proceed'.
+
+	"removes current metalinks (stops current types logging)"
+	UGRealTimeTyper default uninstallLinks.
+
 	"save types into following file"
-	typesManager := UGTypesManager withFile: 'default.typeinfo-all-backups.ston'.
+	typesManager := UGTypesManager withFile:
+		                'default.typeinfo-all-backups.ston'.
 	"use following typer(s)"
-	typerAdaptor := UGTyperBackupsCombinator
-		withAdaptors:
-			{UGRealTimeTyperAdaptor new.
-			UGRoelTyperAdaptor new.
-			UGRBTyperAdaptor new}.
-	"setup types manager"			
+	typerAdaptor := UGTyperBackupsCombinator withAdaptors: {
+			                UGRealTimeTyperAdaptor new.
+			                UGRoelTyperAdaptor new.
+			                UGRBTyperAdaptor new }.
+	"setup types manager"
 	typesManager
 		autoSave;
 		typerAdaptor: typerAdaptor.
 	"use finalizer for getting final types from all the ones found by typers"
-	typesFinalizer := UGAutoTypesManagerFinalizer new typesManager: typesManager.
+	typesFinalizer := UGAutoTypesManagerFinalizer new typesManager:
+		                  typesManager.
 	"use the proper generator for the target tool (each one requires little differences in the model)"
-	generator := UGEnterpriseArchitectUMLGenerator new typesManager: typesFinalizer.
-	
+	generator := UGEnterpriseArchitectUMLGenerator new typesManager:
+		             typesFinalizer.
+
 	"generate model for the following packages"
-	model := generator importFromPackagesNamed: {'Zinc-HTTP'}.
+	model := generator importFromPackagesNamed: { 'Zinc-HTTP' }.
 	"save the xmi model into following file"
 	generator saveXmlTo: 'Zinc-HTTP-EA.xmi'.
-	
+
 	^ model
 ]
 
@@ -79,6 +88,10 @@ UGRealTimeTyper >> addLinksToPackageNamed: aPackageName [
 	package := aPackageName asPackage.
 	(linkedPackages includes: package)
 		ifTrue: [ ^ self ].
+		
+	originalTestTimeLimit := originalTestTimeLimit ifNil: [TestCase defaultTimeLimit].
+	TestCase defaultTimeLimit: 60 seconds.
+		
 	definedClasses := package definedClasses.
 	definedClasses , (definedClasses collect: #class)
 		do: [ :eachClass | 
@@ -196,7 +209,12 @@ UGRealTimeTyper >> shouldTypeAsCollection: aValue [
 
 { #category : #api }
 UGRealTimeTyper >> uninstallLinks [
+
 	self links do: #uninstall.
 	links := OrderedCollection new.
 	linkedPackages := Set new.
+
+	originalTestTimeLimit ifNotNil: [
+		TestCase defaultTimeLimit: originalTestTimeLimit ].
+	originalTestTimeLimit := nil
 ]

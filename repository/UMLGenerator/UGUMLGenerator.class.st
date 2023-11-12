@@ -15,7 +15,7 @@ Class {
 		'classOrdering',
 		'classUniqueness'
 	],
-	#category : 'UMLGenerator-Generator'
+	#category : #'UMLGenerator-Generator'
 }
 
 { #category : #'public - importer' }
@@ -402,9 +402,11 @@ UGUMLGenerator >> rootClasses [
 
 { #category : #accessing }
 UGUMLGenerator >> saveXmlTo: aFileName [
+
 	aFileName asFileReference
 		ensureDelete;
-		writeStreamDo: [ :s | OPXMIWriter write: (self umlXmiWriter new write: model) to: s ]
+		writeStreamDo: [ :s |
+			OPXMIWriter write: (self umlXmiWriter new write: model) toStream: s ]
 ]
 
 { #category : #private }
