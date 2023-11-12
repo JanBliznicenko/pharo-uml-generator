@@ -1,3 +1,0 @@
-persistence
-skipMethods
-	skipMethods := true

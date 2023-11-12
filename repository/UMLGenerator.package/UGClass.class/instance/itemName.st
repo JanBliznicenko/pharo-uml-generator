@@ -1,3 +1,0 @@
-accessing
-itemName
-	^ realClass asString

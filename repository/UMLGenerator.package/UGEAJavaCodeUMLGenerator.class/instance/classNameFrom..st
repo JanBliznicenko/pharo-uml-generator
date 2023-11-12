@@ -1,3 +1,0 @@
-conversions
-classNameFrom: aString
-	^ aString

@@ -1,3 +1,0 @@
-testing
-isMethodTyper
-	^ true

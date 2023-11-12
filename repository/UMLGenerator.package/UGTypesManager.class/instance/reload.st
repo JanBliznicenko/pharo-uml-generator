@@ -1,3 +1,0 @@
-persistence
-reload
-	^ persistence loadTypes

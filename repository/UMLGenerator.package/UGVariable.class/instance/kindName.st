@@ -1,3 +1,0 @@
-constants
-kindName
-	^ 'variable'

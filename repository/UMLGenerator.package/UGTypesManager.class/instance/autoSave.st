@@ -1,3 +1,0 @@
-persistence
-autoSave
-	autoSave := true.

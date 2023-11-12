@@ -1,3 +1,0 @@
-accessing
-compiledMethod
-	^ method compiledMethod

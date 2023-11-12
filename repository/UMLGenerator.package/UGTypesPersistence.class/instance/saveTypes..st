@@ -1,3 +1,0 @@
-persistence
-saveTypes: aDictionary
-	self subclassResponsibility

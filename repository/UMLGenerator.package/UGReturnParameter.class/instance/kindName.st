@@ -1,3 +1,0 @@
-constants
-kindName
-	^ 'return parameter'

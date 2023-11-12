@@ -1,3 +1,0 @@
-conversions
-variableNameFrom: aString
-	^ aString

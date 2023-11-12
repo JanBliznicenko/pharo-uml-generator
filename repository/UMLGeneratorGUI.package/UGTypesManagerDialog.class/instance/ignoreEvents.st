@@ -1,3 +1,0 @@
-accessing
-ignoreEvents
-	ignoreEvents := true

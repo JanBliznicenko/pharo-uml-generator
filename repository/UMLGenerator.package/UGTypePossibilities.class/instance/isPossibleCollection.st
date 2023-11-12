@@ -1,3 +1,0 @@
-testing
-isPossibleCollection
-	^ possibleCollectionTypes isNotEmpty

@@ -1,3 +1,0 @@
-private
-umlPackageOf: aClass
-	^ encompassingPackage

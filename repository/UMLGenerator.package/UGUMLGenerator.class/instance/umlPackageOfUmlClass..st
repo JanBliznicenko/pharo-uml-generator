@@ -1,3 +1,0 @@
-private
-umlPackageOfUmlClass: aUmlClass
-	^ encompassingPackage
