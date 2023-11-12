@@ -4,7 +4,7 @@ I store metadata for this package. These meta data are used by other tools such 
 Class {
 	#name : #ManifestUMLGenerator,
 	#superclass : #PackageManifest,
-	#category : 'UMLGenerator'
+	#category : #UMLGenerator
 }
 
 { #category : #'code-critics' }
@@ -15,4 +15,11 @@ ManifestUMLGenerator class >> ruleFloatReferencesRuleV1FalsePositive [
 { #category : #'code-critics' }
 ManifestUMLGenerator class >> ruleRBUsesAddRuleV1FalsePositive [
 	^ #(#(#(#RGMethodDefinition #(#UGRealTimeTyper #addLinksToPackageNamed: #false)) #'2019-04-01T12:10:30.703418+02:00') )
+]
+
+{ #category : #'code-critics' }
+ManifestUMLGenerator class >> ruleUsesAddRuleV1FalsePositive [
+
+	<ignoreForCoverage>
+	^ #(#(#(#RGMethodDefinition #(#UGRealTimeTyper #addLinksToPackageNamed: #false)) #'2023-11-12T14:33:36.612+01:00') )
 ]

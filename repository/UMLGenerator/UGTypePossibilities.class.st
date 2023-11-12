@@ -11,29 +11,36 @@ Class {
 		'atomicCollectionTypes',
 		'classReplacements'
 	],
-	#category : 'UMLGenerator-Typer'
+	#category : #'UMLGenerator-Typer'
 }
 
 { #category : #accessing }
 UGTypePossibilities class >> atomicCollectionTypes [
-	^ atomicCollectionTypes
-		ifNil: [ atomicCollectionTypes := {BitmapCharacterSet.
-			CharacterSet.
-			CharacterSetComplement.
-			ByteArray.
-			ColorArray.
-			FFIExternalArray.
-			FloatArray.
-			IntegerArray.
-			ShortIntegerArray.
-			SparseLargeTable.
-			String.
-			Text.
-			WordArray.
-			Interval.
-			Semaphore.
-			ProcessList.
-			RunArray} asSet flatCollect: [ :each | each withAllSubclasses ] ]
+
+	^ atomicCollectionTypes ifNil: [
+		  atomicCollectionTypes := {
+			                           BitmapCharacterSet.
+			                           CharacterSet.
+			                           CharacterSetComplement.
+			                           Bitmap.
+			                           ByteArray.
+			                           DoubleByteArray.
+			                           DoubleWordArray.
+			                           FFIExternalArray.
+			                           Float32Array.
+			                           Float64Array.
+			                           IntegerArray.
+			                           ShortIntegerArray.
+			                           SparseLargeTable.
+			                           String.
+			                           Text.
+			                           WordArray.
+			                           Interval.
+			                           Semaphore.
+			                           ProcessList.
+			                           RunArray.
+			                           WideCharacterSet } asSet flatCollect: [
+			                           :each | each withAllSubclasses ] ]
 ]
 
 { #category : #accessing }

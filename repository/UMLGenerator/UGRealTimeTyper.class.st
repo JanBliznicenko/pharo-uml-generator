@@ -14,7 +14,7 @@ Class {
 	#classInstVars : [
 		'default'
 	],
-	#category : 'UMLGenerator-Typer'
+	#category : #'UMLGenerator-Typer'
 }
 
 { #category : #accessing }
@@ -86,7 +86,7 @@ UGRealTimeTyper >> addLinksToPackageNamed: aPackageName [
 				do: [ :eachMethod | 
 					eachMethod ast link: (links add: (argumentsLinkBlock value: eachMethod)).
 					eachMethod ast assignmentNodes
-						select: [ :eachNode | eachNode variable isInstance ]
+						select: [ :eachNode | eachNode variable isInstanceVariable ]
 						thenDo: [ :eachNode | eachNode link: (links add: (assignmentLinkBlock value: eachClass)) ].
 					eachMethod ast allChildren
 						select: [ :eachNode | eachNode isReturn ]
