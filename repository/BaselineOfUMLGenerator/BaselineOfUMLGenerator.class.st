@@ -1,7 +1,7 @@
 Class {
 	#name : #BaselineOfUMLGenerator,
 	#superclass : #BaselineOf,
-	#category : 'BaselineOfUMLGenerator'
+	#category : #BaselineOfUMLGenerator
 }
 
 { #category : #baselines }
@@ -19,7 +19,7 @@ BaselineOfUMLGenerator >> baseline: spec [
 			baseline: 'MetaLinksToolkit'
 			with: [
 				spec repository:
-						'github://peteruhnak/metalinks-toolkit/repository' ].
+						'github://JanBliznicenko/metalinks-toolkit/repository' ].
 		spec package: 'UMLGenerator' with: [
 			spec requires:
 				#( 'OPUMLXMI' 'RoelTyper' 'J2Inferer' 'MetaLinksToolkit' ) ].
