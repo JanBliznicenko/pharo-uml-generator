@@ -212,11 +212,15 @@ UGStatisticsCollector >> latexTableRowWithCountsTo: s [
 
 	s << self packageName << ' & ' << self itemCount asString.
 	self foundCountsDo: [ :each |
+		| percentage |
 		s << ' & ' << each asString << ' ('.
-		each * 100 / self itemCount printOn: s showingDecimalPlaces: 1.
+		percentage := each * 100 / self itemCount.
+		percentage < 1.0
+			ifTrue: [ s << '$<$1' ]
+			ifFalse: [ percentage printOn: s showingDecimalPlaces: 0 ].
 		s << ' \%)' ].
 	s << ' \\'.
-	s lf.
+	s lf
 ]
 
 { #category : #converting }
@@ -231,9 +235,12 @@ UGStatisticsCollector >> latexTableRowWithTimesTo: s [
 	s << self packageName << ' & ' << self itemCount asString.
 	self timesDo: [ :each |
 		s << ' & '.
-		each
-			ifNil: [ s << '!!! unknown !!!' ]
-			ifNotNil: [ :time | ((time / 1000) max: 1.0) printOn: s showingDecimalPlaces: 1 ].
+		each ifNil: [ s << '!!! unknown !!!' ] ifNotNil: [ :time |
+			| ms |
+			ms := time / 1000.
+			ms < 1.0
+				ifTrue: [ s << '$<$1' ]
+				ifFalse: [ ms printOn: s showingDecimalPlaces: 0 ] ].
 		s << ' ms' ].
 	s << ' \\'
 ]
