@@ -83,6 +83,43 @@ UGStatisticsCollector class >> collectPackage: aPackageName variableCountsStream
 ]
 
 { #category : #example }
+UGStatisticsCollector class >> exampleMultipleAutomated [
+
+	'variableCountsTable.tex' asFileReference writeStreamDo: [
+		:variableCountsStream |
+		'countsStream.tex' asFileReference writeStreamDo: [ :countsStream |
+			'timesStream.tex' asFileReference writeStreamDo: [ :timesStream |
+				| packagePairs |
+				packagePairs := {
+					                ('Tool-Diff' -> '.*Tool-Diff.*').
+					                ('XML-Parser' -> '.*XML.*').
+					                ('Zinc-HTTP' -> '.*Zinc.*').
+					                ('Athens-Cairo' -> '.*Athens.*').
+					                ('OSWindow-Core' -> '.*OSWindow.*').
+					                ('LibGit-Core' -> '.*LibGit.*').
+					                ('TraitsV2' -> '.*TraitsV2.*') }.
+				[ :job |
+				packagePairs withIndexDo: [ :eachPair :index |
+						job current: index - 1.
+						job title: 'Running statistics collectors on ' , eachPair key.
+						self
+							collectPackage: eachPair key
+							relevantPackagesPattern: eachPair value
+							variableCountsStream: variableCountsStream
+							countsStream: countsStream
+							timesStream: timesStream ] ] asJob
+					min: 0;
+					max: packagePairs size;
+					title: 'Running statistics collectors';
+					run ] ] ].
+	('countsStream.tex' asFileReference readStreamDo: [ :s | s upToEnd ])
+	, ('variableCountsTable.tex' asFileReference readStreamDo: [ :s |
+			 s upToEnd ])
+	,
+	('timesStream.tex' asFileReference readStreamDo: [ :s | s upToEnd ])
+]
+
+{ #category : #example }
 UGStatisticsCollector class >> exampleRoassalAutomated [
 
 	(String streamContents: [ :s |
@@ -144,7 +181,7 @@ UGStatisticsCollector class >> executeRuntimeCodeOf: aPackagesPattern [
 	exampleMethods := (RPackage organizer packages select: [ :eachPackage |
 		                   eachPackage name matchesRegex: aPackagesPattern ])
 		                  flatCollect: [ :eachPackage |
-			                  eachPackage classes flatCollect: [ :eachClass |
+			                  eachPackage definedClasses flatCollect: [ :eachClass |
 				                  (eachClass class methods difference:
 					                   excludedMethods) select: [ :any |
 					                  any ~= excludedMethods and: [
