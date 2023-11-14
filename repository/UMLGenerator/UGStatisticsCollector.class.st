@@ -38,11 +38,15 @@ UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPatt
 					                , exampleMethods size asString.
 
 			                each
-				                valueWithReceiver: each classBinding value instanceSide
-				                arguments: #(  ).
-			                self inform: 'Executed ' , each asString ] ] asJob
+				                valueWithReceiver:
+				                each classBinding value instanceSide
+				                arguments: #(  ) ] ] asJob
 		                title: 'Executing examples';
 		                run.
+	                exampleMethods ifNotEmpty: [
+		                self inform:
+			                'Executed ' , exampleMethods size asString
+			                , ' examples' ].
 	                self inform: (TestRunner new
 			                 packageSearchUpdate: aPackagesPattern;
 			                 selectAllPackages;
