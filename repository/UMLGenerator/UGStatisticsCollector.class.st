@@ -107,7 +107,10 @@ UGStatisticsCollector class >> exampleMultipleAutomated [
 							relevantPackagesPattern: eachPair value
 							variableCountsStream: variableCountsStream
 							countsStream: countsStream
-							timesStream: timesStream ] ] asJob
+							timesStream: timesStream.
+						variableCountsStream flush.
+						countsStream flush.
+						timesStream flush ] ] asJob
 					min: 0;
 					max: packagePairs size;
 					title: 'Running statistics collectors';
