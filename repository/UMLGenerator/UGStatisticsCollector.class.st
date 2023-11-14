@@ -38,7 +38,7 @@ UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPatt
 					                , exampleMethods size asString.
 
 			                each
-				                valueWithReceiver: each classBinding value
+				                valueWithReceiver: each classBinding value instanceSide
 				                arguments: #(  ).
 			                self inform: 'Executed ' , each asString ] ] asJob
 		                title: 'Executing examples';
@@ -98,7 +98,7 @@ UGStatisticsCollector class >> exampleRoassalAutomated [
 	(String streamContents: [ :s |
 		 self
 			 collectPackage: 'Roassal3'
-			 relevantPackagesPattern: 'Roassal3'
+			 relevantPackagesPattern: '.*Roassal3.*'
 			 variableCountsStream: s
 			 countsStream: s
 			 timesStream: s ]) inspect
@@ -110,7 +110,7 @@ UGStatisticsCollector class >> exampleXMLParserAutomated [
 	(String streamContents: [ :s |
 		 self
 			 collectPackage: 'XML-Parser'
-			 relevantPackagesPattern: 'XML'
+			 relevantPackagesPattern: '.*XML.*'
 			 variableCountsStream: s
 			 countsStream: s
 			 timesStream: s ]) inspect
@@ -122,7 +122,7 @@ UGStatisticsCollector class >> exampleZincAutomated [
 	(String streamContents: [ :s |
 		 self
 			 collectPackage: 'Zinc-HTTP'
-			 relevantPackagesPattern: 'Zinc'
+			 relevantPackagesPattern: '.*Zinc.*'
 			 variableCountsStream: s
 			 countsStream: s
 			 timesStream: s ]) inspect
