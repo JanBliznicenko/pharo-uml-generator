@@ -85,41 +85,44 @@ UGStatisticsCollector class >> collectPackage: aPackageName variableCountsStream
 { #category : #example }
 UGStatisticsCollector class >> exampleMultipleAutomated [
 
-	'variableCountsTable.tex' asFileReference writeStreamDo: [
-		:variableCountsStream |
-		'countsStream.tex' asFileReference writeStreamDo: [ :countsStream |
-			'timesStream.tex' asFileReference writeStreamDo: [ :timesStream |
-				| packagePairs |
-				packagePairs := {
-					                ('Tool-Diff' -> '.*Tool-Diff.*').
-					                ('XML-Parser' -> '.*XML.*').
-					                ('Zinc-HTTP' -> '.*Zinc.*').
-					                ('Athens-Cairo' -> '.*Athens.*').
-					                ('OSWindow-Core' -> '.*OSWindow.*').
-					                ('LibGit-Core' -> '.*LibGit.*').
-					                ('TraitsV2' -> '.*TraitsV2.*') }.
-				[ :job |
-				packagePairs withIndexDo: [ :eachPair :index |
-						job current: index - 1.
-						job title: 'Running statistics collectors on ' , eachPair key.
-						self
-							collectPackage: eachPair key
-							relevantPackagesPattern: eachPair value
-							variableCountsStream: variableCountsStream
-							countsStream: countsStream
-							timesStream: timesStream.
-						variableCountsStream flush.
-						countsStream flush.
-						timesStream flush ] ] asJob
-					min: 0;
-					max: packagePairs size;
-					title: 'Running statistics collectors';
-					run ] ] ].
-	('countsStream.tex' asFileReference readStreamDo: [ :s | s upToEnd ])
-	, ('variableCountsTable.tex' asFileReference readStreamDo: [ :s |
-			 s upToEnd ])
-	,
-	('timesStream.tex' asFileReference readStreamDo: [ :s | s upToEnd ])
+	'tableOfVariableCounts.tex' asFileReference
+		ensureDelete;
+		writeStreamDo: [ :variableCountsStream |
+			'tableOfAllCounts.tex' asFileReference
+				ensureDelete;
+				writeStreamDo: [ :countsStream |
+					'tableOfTimes.tex' asFileReference
+						ensureDelete;
+						writeStreamDo: [ :timesStream |
+							| packagePairs |
+							packagePairs := {
+								                ('Tool-Diff' -> '.*Tool-Diff.*').
+								                ('XML-Parser' -> '.*XML.*').
+								                ('Zinc-HTTP' -> '.*Zinc.*').
+								                ('Athens-Cairo' -> '.*Athens.*').
+								                ('OSWindow-Core' -> '.*OSWindow.*').
+								                ('LibGit-Core' -> '.*LibGit.*').
+								                ('TraitsV2' -> '.*TraitsV2.*') }.
+							[ :job |
+							packagePairs withIndexDo: [ :eachPair :index |
+									job current: index - 1.
+									job title: 'Running statistics collectors on ' , eachPair key.
+									self
+										collectPackage: eachPair key
+										relevantPackagesPattern: eachPair value
+										variableCountsStream: variableCountsStream
+										countsStream: countsStream
+										timesStream: timesStream.
+									variableCountsStream flush.
+									countsStream flush.
+									timesStream flush ] ] asJob
+								min: 0;
+								max: packagePairs size;
+								title: 'Running statistics collectors';
+								run ];
+						readStreamDo: [ :s | s upToEnd inspect ] ];
+				readStreamDo: [ :s | s upToEnd inspect ] ];
+		readStreamDo: [ :s | s upToEnd inspect ]
 ]
 
 { #category : #example }
