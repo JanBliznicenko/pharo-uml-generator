@@ -16,20 +16,33 @@ UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPatt
 
 	| runtimeBlock |
 	runtimeBlock := [
-	                RPackage organizer packages
-		                select: [ :eachPackage |
-		                eachPackage name matchesRegex: aPackagesPattern ]
-		                thenDo: [ :eachPackage |
-			                eachPackage classes do: [ :eachClass |
-				                eachClass class methods
-					                select: [ :any |
-					                any numArgs = 0 and: [
-						                any selector beginsWith: 'example' ] ]
-					                thenDo: [ :each |
-						                each
-							                valueWithReceiver: eachClass
-							                arguments: #(  ).
-						                self inform: 'Executed ' , each asString ] ] ].
+	                | exampleMethods |
+	                exampleMethods := (RPackage organizer packages
+		                                   select: [ :eachPackage |
+		                                   eachPackage name matchesRegex:
+			                                   aPackagesPattern ])
+		                                  flatCollect: [ :eachPackage |
+			                                  eachPackage classes flatCollect: [
+				                                  :eachClass |
+				                                  eachClass class methods select: [
+					                                  :any |
+					                                  any numArgs = 0 and: [
+						                                  any selector beginsWith:
+							                                  'example' ] ] ] ].
+	                [ :job |
+	                exampleMethods withIndexDo: [ :each :index |
+			                job
+				                current: index - 1 / exampleMethods size;
+				                title:
+					                'Executing example ' , index asString , ' / '
+					                , exampleMethods size asString.
+
+			                each
+				                valueWithReceiver: each classBinding value
+				                arguments: #(  ).
+			                self inform: 'Executed ' , each asString ] ] asJob
+		                title: 'Executing examples';
+		                run.
 	                self inform: (TestRunner new
 			                 packageSearchUpdate: aPackagesPattern;
 			                 selectAllPackages;
@@ -85,7 +98,19 @@ UGStatisticsCollector class >> exampleRoassalAutomated [
 	(String streamContents: [ :s |
 		 self
 			 collectPackage: 'Roassal3'
-			 relevantPackagesPattern: 'Roassal'
+			 relevantPackagesPattern: 'Roassal3'
+			 variableCountsStream: s
+			 countsStream: s
+			 timesStream: s ]) inspect
+]
+
+{ #category : #example }
+UGStatisticsCollector class >> exampleXMLParserAutomated [
+
+	(String streamContents: [ :s |
+		 self
+			 collectPackage: 'XML-Parser'
+			 relevantPackagesPattern: 'XML'
 			 variableCountsStream: s
 			 countsStream: s
 			 timesStream: s ]) inspect
@@ -133,19 +158,27 @@ UGStatisticsCollector >> addTimeToRealTime: aTimeInMicroseconds [
 
 { #category : #converting }
 UGStatisticsCollector >> calculate [
-	{(#roel -> UGRoelTyperAdaptor new).
-	(#rb -> UGRBTyperAdaptor new).
-	(#j2 -> UGJ2InfererTyperAdaptor new).
-	(#realtime -> UGRealTimeTyperAdaptor new).
-	(#combined
-		->
-			(UGTyperBackupsCombinator
-				withAdaptors:
-					{UGRealTimeTyperAdaptor new.
-					UGRoelTyperAdaptor new.
-					UGRBTyperAdaptor new.
-					UGJ2InfererTyperAdaptor new}))}
-		do: [ :pair | self calculateTyper: pair value named: pair key ]
+
+	| inferers |
+	inferers := {
+		            (#roel -> UGRoelTyperAdaptor new).
+		            (#rb -> UGRBTyperAdaptor new).
+		            (#j2 -> UGJ2InfererTyperAdaptor new).
+		            (#realtime -> UGRealTimeTyperAdaptor new).
+		            (#combined -> (UGTyperBackupsCombinator withAdaptors: {
+				              UGRealTimeTyperAdaptor new.
+				              UGRoelTyperAdaptor new.
+				              UGRBTyperAdaptor new.
+				              UGJ2InfererTyperAdaptor new })) }.
+	[ :job |
+	inferers withIndexDo: [ :pair :index |
+			job title:
+					'Running type inferer ' , index asString , ' / ' , inferers size asString
+					, ' - ' , pair key.
+			job current: index - 1 / inferers size.
+			self calculateTyper: pair value named: pair key ] ] asJob
+		title: 'Running type inferers';
+		run
 ]
 
 { #category : #converting }
