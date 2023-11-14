@@ -30,6 +30,9 @@ UGStatisticsCollector class >> collectPackage: aPackageName variableCountsStream
 	"removes current metalinks (stops current types logging)"
 
 	| collectorForVariables collectorForAll testingTime |
+	[ :job |
+	job title: 'Collecting statistics - preparing metalinks'.
+
 	UGRealTimeTyper default uninstallLinks.
 
 	"forces metalinks to be removed"
@@ -39,8 +42,14 @@ UGStatisticsCollector class >> collectPackage: aPackageName variableCountsStream
 	"adds metalinks (starts logging types)"
 	UGRealTimeTyper default addLinksToPackageNamed: aPackageName.
 
+	job current: 5.
+	job title: 'Collecting statistics - punning executable code'.
+
 	"this is the time to run tests/scenarios to log types"
 	testingTime := Time microsecondsToRun: aBlock.
+
+	job current: 30.
+	job title: 'Collecting statistics - uninstalling metalinks'.
 
 	"removes current metalinks (stops current types logging)"
 	UGRealTimeTyper default uninstallLinks.
@@ -54,10 +63,23 @@ UGStatisticsCollector class >> collectPackage: aPackageName variableCountsStream
 	collectorForAll := self new.
 	collectorForAll packageName: aPackageName.
 
+	job current: 35.
+	job title: 'Collecting statistics - for all items'.
+
 	collectorForAll latexTableRowWithCountsTo: countsStream.
+
+	job current: 70.
+	job title: 'Collecting statistics - for variables only'.
+
 	collectorForVariables latexTableRowWithCountsTo: variableCountsStream.
+
+	job current: 95.
+	job title: 'Collecting statistics - printing resulting times'.
+
 	collectorForVariables addTimeToRealTime: testingTime.
-	collectorForVariables latexTableRowWithTimesTo: timesStream
+	collectorForVariables latexTableRowWithTimesTo: timesStream ] asJob
+		title: 'Collecting statistics';
+		run
 ]
 
 { #category : #example }
@@ -131,16 +153,15 @@ UGStatisticsCollector class >> executeRuntimeCodeOf: aPackagesPattern [
 	originalWindows := Smalltalk currentWorld systemWindows asSet.
 	[ :job |
 	exampleMethods withIndexDo: [ :each :index |
-			job
-				current: index;
-				title: 'Executing example ' , index asString , ' / '
+			job current: index - 1.
+			job title: 'Executing example ' , index asString , ' / '
 					, exampleMethods size asString.
 
 			each
 				valueWithReceiver: each classBinding value instanceSide
 				arguments: #(  ) ] ] asJob
-		minValue: 1;
-		maxValue: exampleMethods size;
+		min: 0;
+		max: exampleMethods size;
 		title: 'Executing examples';
 		run.
 	exampleMethods ifNotEmpty: [
@@ -181,28 +202,22 @@ UGStatisticsCollector >> calculate [
 				              UGJ2InfererTyperAdaptor new })) }.
 	[ :job |
 	inferers withIndexDo: [ :pair :index |
+			job current: index - 1.
 			job title: 'Running type inferer ' , index asString , ' / '
 					, inferers size asString , ' - ' , pair key.
-			job current: index.
 			self calculateTyper: pair value named: pair key ] ] asJob
 		title: 'Running type inferers';
-		minValue: 1;
-		maxValue: inferers size;
+		min: 0;
+		max: inferers size;
 		run
 ]
 
 { #category : #converting }
-UGStatisticsCollector >> calculateTyper: aTyper named: aTyperName [
+UGStatisticsCollector >> calculateTyper: aTyperAdaptor named: aTyperName [
 
-	| typesManager typerAdaptor typesFinalizer generator |
-	typesManager := UGTypesManager withFile:
-		                self packageName , (variablesOnly
-			                 ifTrue: [ '-vars-' ]
-			                 ifFalse: [ '-' ]) , aTyperName , '-types.ston'.
-	typerAdaptor := aTyper.
-	typesManager
-		autoSave;
-		typerAdaptor: typerAdaptor.
+	| typesManager typesFinalizer generator |
+	typesManager := UGTypesManager new.
+	typesManager typerAdaptor: aTyperAdaptor.
 	variablesOnly ifTrue: [ typesManager skipMethods ].
 	typesFinalizer := UGAutoTypesManagerFinalizer new typesManager:
 		                  typesManager.
