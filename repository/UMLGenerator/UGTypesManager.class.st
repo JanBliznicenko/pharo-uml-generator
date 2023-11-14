@@ -10,12 +10,13 @@ Class {
 		'autoSave',
 		'blockForParameter',
 		'plannedSave',
-		'skipMethods'
+		'skipMethods',
+		'measuredMicroSeconds'
 	],
 	#classInstVars : [
 		'default'
 	],
-	#category : 'UMLGenerator-TypeManager'
+	#category : #'UMLGenerator-TypeManager'
 }
 
 { #category : #'instance creation' }
@@ -139,6 +140,24 @@ UGTypesManager >> loadFromFile: aFileName [
 	knownTypes := persistence loadTypes
 ]
 
+{ #category : #profiling }
+UGTypesManager >> measureTimeFor: aBlock [
+
+	| result |
+	measuredMicroSeconds ifNil: [ ^ aBlock value ].
+	measuredMicroSeconds := measuredMicroSeconds
+	                        +
+	                        (Time microsecondsToRun: [
+		                         result := aBlock value ]).
+	^ result
+]
+
+{ #category : #profiling }
+UGTypesManager >> measuredTime [
+
+	^ measuredMicroSeconds
+]
+
 { #category : #accessing }
 UGTypesManager >> methodTyper [
 	^ methodTyper
@@ -176,9 +195,18 @@ UGTypesManager >> skipMethods [
 	skipMethods := true
 ]
 
+{ #category : #profiling }
+UGTypesManager >> startTimeMeasuring [
+
+	measuredMicroSeconds := 0
+]
+
 { #category : #retrieving }
 UGTypesManager >> typeOf: anItem [
-	^ knownTypes at: anItem ifAbsent: [ anItem acceptVisitor: self ]
+
+	^ knownTypes
+		  at: anItem
+		  ifAbsent: [ self measureTimeFor: [ anItem acceptVisitor: self ] ]
 ]
 
 { #category : #accessing }
@@ -195,6 +223,18 @@ UGTypesManager >> varTyper [
 { #category : #accessing }
 UGTypesManager >> varTyper: aTyperAdaptor [
 	varTyper := aTyperAdaptor
+]
+
+{ #category : #visiting }
+UGTypesManager >> visitClass: aParameter [
+
+	self error: 'Unable to get type of class'
+]
+
+{ #category : #visiting }
+UGTypesManager >> visitCollectionClass: aParameter [
+
+	self error: 'Unable to get type of class'
 ]
 
 { #category : #visiting }

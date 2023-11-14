@@ -32,7 +32,7 @@ UGRealTimeTyper class >> exampleCode [
 
 	"forces metalinks to be removed"
 	UGRealTimeTyper resetDefault.
-	'Zinc-HTTP' asPackage classes do: #recompile.
+	'Zinc-HTTP' asPackage recompileAndIncludeTraitMethods.
 
 	"adds metalinks (starts logging types)"
 	UGRealTimeTyper default addLinksToPackageNamed: 'Zinc-HTTP'.

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'typesManager'
 	],
-	#category : 'UMLGenerator-TypeManager'
+	#category : #'UMLGenerator-TypeManager'
 }
 
 { #category : #example }
@@ -33,6 +33,18 @@ UGTypesManagerFinalizer class >> resetDefault [
 UGTypesManagerFinalizer >> initialize [
 	super initialize.
 	self typesManager: UGTypesManager default
+]
+
+{ #category : #profiling }
+UGTypesManagerFinalizer >> measuredTime [
+
+	^ typesManager measuredTime
+]
+
+{ #category : #profiling }
+UGTypesManagerFinalizer >> startTimeMeasuring [
+
+	typesManager startTimeMeasuring
 ]
 
 { #category : #retrieving }

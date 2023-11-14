@@ -305,11 +305,13 @@ UGUMLGenerator >> addSuperclassOf: aClass [
 
 { #category : #adding }
 UGUMLGenerator >> addVariable: aVariable to: umlClass [
-	(doType
-		and: [ | typeClass |
-			typeClass := typesManager typeOf: aVariable.
-			typeClass isNotNil and: [ focusedPackages includes: typeClass package ] ])
-		ifTrue: [ ^ self addAsAssociationVariable: aVariable to: umlClass ].
+
+	(doType and: [
+		 | typeClass |
+		 typeClass := self typeOf: aVariable.
+		 typeClass isNotNil and: [
+			 focusedPackages includes: typeClass package ] ]) ifTrue: [
+		^ self addAsAssociationVariable: aVariable to: umlClass ].
 	^ self addAsPropertyVariable: aVariable to: umlClass
 ]
 
@@ -377,6 +379,12 @@ UGUMLGenerator >> initialize [
 	focusedPackages := Set new.
 ]
 
+{ #category : #profiling }
+UGUMLGenerator >> measuredTime [
+
+	^ typesManager measuredTime
+]
+
 { #category : #adding }
 UGUMLGenerator >> newReturnParameter [
 	^ OPUMLParameter new direction: OPUMLParameterDirectionKind return
@@ -422,6 +430,12 @@ UGUMLGenerator >> shouldOmitAccessor: aMethod [
 	selector last = $:
 		ifTrue: [ selector := selector allButLast ].
 	^ varNames includes: selector
+]
+
+{ #category : #profiling }
+UGUMLGenerator >> startTimeMeasuring [
+
+	typesManager startTimeMeasuring
 ]
 
 { #category : #adding }

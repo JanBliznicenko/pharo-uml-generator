@@ -11,7 +11,7 @@ Class {
 	#classInstVars : [
 		'instance'
 	],
-	#category : 'UMLGenerator-Controller'
+	#category : #'UMLGenerator-Controller'
 }
 
 { #category : #'uml - generation' }
@@ -60,11 +60,12 @@ UGUMLRealTimeController >> analyzedPackage: anObject [
 { #category : #'uml - generation' }
 UGUMLRealTimeController >> clearAfterRealTimeInferer [
 	"removes current metalinks (stops current types logging)"
+
 	UGRealTimeTyper default uninstallLinks.
 	"forces metalinks to be removed"
 	UGRealTimeTyper resetDefault.
-	analyzedPackage ifNotNil: [ :arg | 
-		analyzedPackage asPackage classes do: #recompile ]
+	analyzedPackage ifNotNil: [ :arg |
+		analyzedPackage asPackage recompileAndIncludeTraitMethods ]
 ]
 
 { #category : #'uml - generation' }
