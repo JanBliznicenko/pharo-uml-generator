@@ -49,6 +49,8 @@ UGTypesManager class >> newDefaultTyper [
 
 { #category : #singleton }
 UGTypesManager class >> resetDefault [
+
+	<script>
 	default := nil
 ]
 

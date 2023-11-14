@@ -74,7 +74,9 @@ UGRealTimeTyper class >> exampleCode [
 
 { #category : #singleton }
 UGRealTimeTyper class >> resetDefault [
-	default := nil.
+
+	<script>
+	default := nil
 ]
 
 { #category : #adding }
