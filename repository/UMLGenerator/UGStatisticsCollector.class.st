@@ -15,7 +15,7 @@ Class {
 UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPattern: aPackagesPattern variableCountsStream: variableCountsStream countsStream: countsStream timesStream: timesStream [
 
 	| runtimeBlock |
-	runtimeBlock := [ self executeRuntimeCodeOf: aPackagesPattern ].
+	runtimeBlock := [ self executeAllCodeOf: aPackagesPattern ].
 
 	self
 		collectPackage: aPackageName
@@ -174,20 +174,31 @@ UGStatisticsCollector class >> exampleZincManual [
 ]
 
 { #category : #example }
-UGStatisticsCollector class >> executeRuntimeCodeOf: aPackagesPattern [
+UGStatisticsCollector class >> executeAllCodeOf: aPackagesPattern [
 
-	| exampleMethods excludedMethods originalWindows |
+	| originalWindows |
+	originalWindows := Smalltalk currentWorld systemWindows asSet.
+	self executeExamplesOf: aPackagesPattern.
+	self executeTestsOf: aPackagesPattern.
+	(Smalltalk currentWorld systemWindows asSet difference:
+		 originalWindows) do: #delete
+]
+
+{ #category : #example }
+UGStatisticsCollector class >> executeExamplesOf: aPackagesPattern [
+
+	| exampleMethods excludedMethods |
 	excludedMethods := { (RSLayout class >> #exampleBasic) }.
 	exampleMethods := (RPackage organizer packages select: [ :eachPackage |
 		                   eachPackage name matchesRegex: aPackagesPattern ])
 		                  flatCollect: [ :eachPackage |
-			                  eachPackage definedClasses flatCollect: [ :eachClass |
+			                  eachPackage definedClasses flatCollect: [
+				                  :eachClass |
 				                  (eachClass class methods difference:
 					                   excludedMethods) select: [ :any |
 					                  any ~= excludedMethods and: [
 						                  any numArgs = 0 and: [
 							                  any selector beginsWith: 'example' ] ] ] ] ].
-	originalWindows := Smalltalk currentWorld systemWindows asSet.
 	[ :job |
 	exampleMethods withIndexDo: [ :each :index |
 			job current: index - 1.
@@ -203,14 +214,30 @@ UGStatisticsCollector class >> executeRuntimeCodeOf: aPackagesPattern [
 		run.
 	exampleMethods ifNotEmpty: [
 		self inform:
-			'Executed ' , exampleMethods size asString , ' examples' ].
+			'Executed ' , exampleMethods size asString , ' examples' ]
+]
+
+{ #category : #example }
+UGStatisticsCollector class >> executeTestsOf: aPackagesPattern [
+
+	| packages testClass |
+	packages := RPackage organizer packages select: [ :eachPackage |
+		            eachPackage name matchesRegex: aPackagesPattern ].
+	packages ifEmpty: [
+		self error: 'There is no package matching ' , aPackagesPattern ].
+	testClass := TestRunner new baseClass.
+	(packages anySatisfy: [ :anyPackage |
+		 anyPackage definedClasses anySatisfy: [ :anyClass |
+			 anyClass inheritsFrom: testClass ] ]) ifFalse: [
+		self inform:
+			'There are no tests in packages matching ' , aPackagesPattern.
+		^ self ].
+
 	self inform: (TestRunner new
 			 packageSearchUpdate: aPackagesPattern;
 			 selectAllPackages;
 			 runAll;
-			 result) asString.
-	(Smalltalk currentWorld systemWindows asSet difference:
-		 originalWindows) do: #delete
+			 result) asString
 ]
 
 { #category : #adding }
