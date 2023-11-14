@@ -100,9 +100,9 @@ UGStatisticsCollector class >> exampleMultipleAutomated [
 								                ('XML-Parser' -> '.*XML.*').
 								                ('Zinc-HTTP' -> '.*Zinc.*').
 								                ('Athens-Cairo' -> '.*Athens.*').
-								                ('OSWindow-Core' -> '.*OSWindow.*').
-								                ('LibGit-Core' -> '.*LibGit.*').
-								                ('TraitsV2' -> '.*TraitsV2.*') }.
+								                ('TraitsV2' -> '.*TraitsV2.*').
+								                ('ProfilerUI' -> '.*ProfilerUI.*').
+								                ('OSWindow-Core' -> '.*OSWindow.*') }.
 							[ :job |
 							packagePairs withIndexDo: [ :eachPair :index |
 									job current: index - 1.
@@ -348,7 +348,9 @@ UGStatisticsCollector >> latexTableRowWithCountsTo: s [
 			ifFalse: [ percentage printOn: s showingDecimalPlaces: 0 ].
 		s << ' \%)' ].
 	s << ' \\'.
-	s lf
+	s crlf.
+	s << '\Xhline{0.5\arrayrulewidth}'.
+	s crlf
 ]
 
 { #category : #converting }
