@@ -96,6 +96,10 @@ UGStatisticsCollector class >> exampleMultipleAutomated [
 						writeStreamDo: [ :timesStream |
 							| packagePairs |
 							packagePairs := {
+								                ('Fuel-Core' -> '.*Fuel.*').
+								                ('Metacello-Core' -> '.*Metacello.*').
+								                ('Monticello' -> '.*Monticello.*').
+								                ('Commander2' -> '.*Commander2.*').
 								                ('Tool-Diff' -> '.*Tool-Diff.*').
 								                ('XML-Parser' -> '.*XML.*').
 								                ('Zinc-HTTP' -> '.*Zinc.*').
@@ -348,9 +352,9 @@ UGStatisticsCollector >> latexTableRowWithCountsTo: s [
 			ifFalse: [ percentage printOn: s showingDecimalPlaces: 0 ].
 		s << ' \%)' ].
 	s << ' \\'.
-	s crlf.
+	s lf.
 	s << '\Xhline{0.5\arrayrulewidth}'.
-	s crlf
+	s lf
 ]
 
 { #category : #converting }
@@ -372,7 +376,10 @@ UGStatisticsCollector >> latexTableRowWithTimesTo: s [
 				ifTrue: [ s << '$<$1' ]
 				ifFalse: [ ms printOn: s showingDecimalPlaces: 0 ] ].
 		s << ' ms' ].
-	s << ' \\'
+	s << ' \\'.
+	s lf.
+	s << '\Xhline{0.5\arrayrulewidth}'.
+	s lf
 ]
 
 { #category : #converting }
