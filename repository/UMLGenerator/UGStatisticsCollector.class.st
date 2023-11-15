@@ -248,7 +248,7 @@ UGStatisticsCollector class >> executeTestsOf: aPackagesPattern for: aPackage [
 	methods := aPackage methods.
 
 	runner := TestRunner new
-		          packageSearchUpdate: '.*Zinc.*';
+		          packageSearchUpdate: aPackagesPattern;
 		          selectAllPackages;
 		          resetResult.
 
