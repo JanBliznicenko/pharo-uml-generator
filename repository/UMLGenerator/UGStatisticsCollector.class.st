@@ -30,7 +30,7 @@ UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPatt
 	UGRealTimeTyper default addLinksToPackageNamed: aPackageName.
 
 	job current: 5.
-	job title: 'Collecting statistics - punning executable code'.
+	job title: 'Collecting statistics - running executable code'.
 
 	"this is the time to run tests/scenarios to log types"
 	originalWindows := Smalltalk currentWorld systemWindows asSet.
@@ -63,81 +63,24 @@ UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPatt
 	collectorForAll packageName: aPackageName.
 
 	job current: 35.
-	job title: 'Collecting statistics - for all items'.
-
-	collectorForAll latexTableRowWithCountsTo: countsStream.
-
-	job current: 70.
 	job title: 'Collecting statistics - for variables only'.
 
 	collectorForVariables latexTableRowWithCountsTo: variableCountsStream.
 
-	job current: 95.
-	job title: 'Collecting statistics - printing resulting times'.
+	job current: 55.
+	job title: 'Collecting statistics - printing coverage and times'.
 
 	collectorForVariables addTimeToRealTime: testingTime.
 	collectorForVariables latexTableRowWithTimesTo: timesStream.
 	collectorForVariables
 		latexTableRowWithCoverage: testCoverage
 		examples: examples
-		to: coverageStream ] asJob
-		title: 'Collecting statistics';
-		run
-]
+		to: coverageStream.
 
-{ #category : #example }
-UGStatisticsCollector class >> collectPackage: aPackageName variableCountsStream: variableCountsStream countsStream: countsStream timesStream: timesStream codeForRealTimeGathering: aBlock [
-	"removes current metalinks (stops current types logging)"
-
-	| collectorForVariables collectorForAll testingTime |
-	[ :job |
-	job title: 'Collecting statistics - preparing metalinks'.
-
-	UGRealTimeTyper default uninstallLinks.
-
-	"forces metalinks to be removed"
-	UGRealTimeTyper resetDefault.
-	aPackageName asPackage recompileAndIncludeTraitMethods.
-
-	"adds metalinks (starts logging types)"
-	UGRealTimeTyper default addLinksToPackageNamed: aPackageName.
-
-	job current: 5.
-	job title: 'Collecting statistics - running executable code'.
-
-	"this is the time to run tests/scenarios to log types"
-	testingTime := Time microsecondsToRun: aBlock.
-
-	job current: 30.
-	job title: 'Collecting statistics - uninstalling metalinks'.
-
-	"removes current metalinks (stops current types logging)"
-	UGRealTimeTyper default uninstallLinks.
-
-	"executing the main part and saving into a stream"
-	collectorForVariables := self new.
-	collectorForVariables
-		variablesOnly;
-		packageName: aPackageName.
-
-	collectorForAll := self new.
-	collectorForAll packageName: aPackageName.
-
-	job current: 35.
+	job current: 60.
 	job title: 'Collecting statistics - for all items'.
 
-	collectorForAll latexTableRowWithCountsTo: countsStream.
-
-	job current: 70.
-	job title: 'Collecting statistics - for variables only'.
-
-	collectorForVariables latexTableRowWithCountsTo: variableCountsStream.
-
-	job current: 95.
-	job title: 'Collecting statistics - printing resulting times'.
-
-	collectorForVariables addTimeToRealTime: testingTime.
-	collectorForVariables latexTableRowWithTimesTo: timesStream ] asJob
+	collectorForAll latexTableRowWithCountsTo: countsStream ] asJob
 		title: 'Collecting statistics';
 		run
 ]
