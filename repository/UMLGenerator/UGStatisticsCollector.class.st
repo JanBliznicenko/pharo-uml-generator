@@ -18,18 +18,24 @@ UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPatt
 	| collectorForVariables collectorForAll testingTime originalWindows testCoverage examples package |
 	package := aPackageName asPackage.
 	[ :job |
-	job title: 'Collecting statistics - preparing metalinks'.
-
+	job title: 'Collecting statistics - removing previous metalinks'.
 	UGRealTimeTyper default uninstallLinks.
 
 	"forces metalinks to be removed"
+	job current: 1.
+	job title: 'Collecting statistics - resetting typer'.
 	UGRealTimeTyper resetDefault.
+
+	job current: 2.
+	job title: 'Collecting statistics - recompiling all methods'.
 	package recompileAndIncludeTraitMethods.
 
 	"adds metalinks (starts logging types)"
+	job current: 5.
+	job title: 'Collecting statistics - inserting metalinks'.
 	UGRealTimeTyper default addLinksToPackageNamed: aPackageName.
 
-	job current: 5.
+	job current: 10.
 	job title: 'Collecting statistics - running executable code'.
 
 	"this is the time to run tests/scenarios to log types"
@@ -47,13 +53,14 @@ UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPatt
 
 	(Smalltalk currentWorld systemWindows asSet difference:
 			 originalWindows) do: #delete.
-	job current: 30.
-	job title: 'Collecting statistics - uninstalling metalinks'.
-
 	"removes current metalinks (stops current types logging)"
+	job current: 30.
+	job title: 'Collecting statistics - removing new metalinks'.
 	UGRealTimeTyper default uninstallLinks.
 
 	"executing the main part and saving into a stream"
+	job current: 39.
+	job title: 'Collecting statistics - preparing collectors'.
 	collectorForVariables := self new.
 	collectorForVariables
 		variablesOnly;
@@ -62,7 +69,7 @@ UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPatt
 	collectorForAll := self new.
 	collectorForAll packageName: aPackageName.
 
-	job current: 35.
+	job current: 40.
 	job title: 'Collecting statistics - for variables only'.
 
 	collectorForVariables latexTableRowWithCountsTo: variableCountsStream.
@@ -87,6 +94,26 @@ UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPatt
 	countsStream flush ] asJob
 		title: 'Collecting statistics';
 		run
+]
+
+{ #category : #example }
+UGStatisticsCollector class >> example [
+
+	[ 
+	self examplePackage: 'Metacello-Core' relevantPackagesPattent: '.*Metacello.*'.
+	self examplePackage: 'Monticello' relevantPackagesPattent: '.*Monticello.*'.
+	self examplePackage: 'Fuel-Core' relevantPackagesPattent: '.*Fuel.*'.
+	self examplePackage: 'Commander2' relevantPackagesPattent: '.*Commander2.*'.
+	self examplePackage: 'Tool-Diff' relevantPackagesPattent: '.*Tool-Diff.*'.
+	self examplePackage: 'XML-Parser' relevantPackagesPattent: '.*XML.*'.
+	self examplePackage: 'Zinc-HTTP' relevantPackagesPattent: '.*Zinc.*'.
+	self examplePackage: 'Athens-Cairo' relevantPackagesPattent:'.*Athens.*' .
+	self examplePackage: 'TraitsV2' relevantPackagesPattent: '.*TraitsV2.*'.
+	self examplePackage: 'ProfilerUI' relevantPackagesPattent: '.*ProfilerUI.*'.
+	self examplePackage: 'OSWindow-Core' relevantPackagesPattent:  '.*OSWindow.*'.
+	]
+		forkAt: Processor userBackgroundPriority
+		named: 'UG Statistics Collector'
 ]
 
 { #category : #example }
@@ -137,6 +164,45 @@ UGStatisticsCollector class >> exampleMultipleAutomated [
 						readStreamDo: [ :s | s upToEnd inspect ] ];
 				readStreamDo: [ :s | s upToEnd inspect ] ];
 		readStreamDo: [ :s | s upToEnd inspect ]
+]
+
+{ #category : #example }
+UGStatisticsCollector class >> examplePackage: aPackageName relevantPackagesPattent: aPackagesPattern [
+
+	| fileNameExtensions |
+	fileNameExtensions := '.'
+	                      ,
+	                      (aPackageName select: #isAlphaNumberic)
+		                      asLowercase , '.tex'.
+	[
+	('tableOfVariableCounts' , fileNameExtensions) asFileReference
+		ensureDelete;
+		writeStreamDo: [ :variableCountsStream |
+			('tableOfAllCounts' , fileNameExtensions) asFileReference
+				ensureDelete;
+				writeStreamDo: [ :countsStream |
+					('tableOfTimes' , fileNameExtensions) asFileReference
+						ensureDelete;
+						writeStreamDo: [ :timesStream |
+							('tableOfCoverage' , fileNameExtensions) asFileReference
+								ensureDelete;
+								writeStreamDo: [ :coverageStream |
+									[ :job |
+									self
+										collectPackage: aPackageName
+										relevantPackagesPattern: aPackagesPattern
+										variableCountsStream: variableCountsStream
+										countsStream: countsStream
+										timesStream: timesStream
+										coverageStream: coverageStream ] asJob
+										title: 'Running statistics collectors on ' , aPackageName;
+										run ];
+								readStreamDo: [ :s | s upToEnd inspect ] ];
+						readStreamDo: [ :s | s upToEnd inspect ] ];
+				readStreamDo: [ :s | s upToEnd inspect ] ];
+		readStreamDo: [ :s | s upToEnd inspect ] ]
+		forkAt: Processor userBackgroundPriority
+		named: 'UG Statistics Collector'
 ]
 
 { #category : #example }
