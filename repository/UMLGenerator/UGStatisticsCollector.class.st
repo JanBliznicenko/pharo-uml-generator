@@ -12,17 +12,77 @@ Class {
 }
 
 { #category : #example }
-UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPattern: aPackagesPattern variableCountsStream: variableCountsStream countsStream: countsStream timesStream: timesStream [
+UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPattern: aPackagesPattern variableCountsStream: variableCountsStream countsStream: countsStream timesStream: timesStream coverageStream: coverageStream [
+	"removes current metalinks (stops current types logging)"
 
-	| runtimeBlock |
-	runtimeBlock := [ self executeAllCodeOf: aPackagesPattern ].
+	| collectorForVariables collectorForAll testingTime originalWindows testCoverage examples package |
+	package := aPackageName asPackage.
+	[ :job |
+	job title: 'Collecting statistics - preparing metalinks'.
 
-	self
-		collectPackage: aPackageName
-		variableCountsStream: variableCountsStream
-		countsStream: countsStream
-		timesStream: timesStream
-		codeForRealTimeGathering: runtimeBlock
+	UGRealTimeTyper default uninstallLinks.
+
+	"forces metalinks to be removed"
+	UGRealTimeTyper resetDefault.
+	package recompileAndIncludeTraitMethods.
+
+	"adds metalinks (starts logging types)"
+	UGRealTimeTyper default addLinksToPackageNamed: aPackageName.
+
+	job current: 5.
+	job title: 'Collecting statistics - punning executable code'.
+
+	"this is the time to run tests/scenarios to log types"
+	originalWindows := Smalltalk currentWorld systemWindows asSet.
+
+	examples := 0.
+	testCoverage := 0.
+
+	testingTime := Time microsecondsToRun: [
+			               examples := self executeExamplesOf: aPackagesPattern.
+
+			               testCoverage := self
+				                               executeTestsOf: aPackagesPattern
+				                               for: package ].
+
+	(Smalltalk currentWorld systemWindows asSet difference:
+			 originalWindows) do: #delete.
+	job current: 30.
+	job title: 'Collecting statistics - uninstalling metalinks'.
+
+	"removes current metalinks (stops current types logging)"
+	UGRealTimeTyper default uninstallLinks.
+
+	"executing the main part and saving into a stream"
+	collectorForVariables := self new.
+	collectorForVariables
+		variablesOnly;
+		packageName: aPackageName.
+
+	collectorForAll := self new.
+	collectorForAll packageName: aPackageName.
+
+	job current: 35.
+	job title: 'Collecting statistics - for all items'.
+
+	collectorForAll latexTableRowWithCountsTo: countsStream.
+
+	job current: 70.
+	job title: 'Collecting statistics - for variables only'.
+
+	collectorForVariables latexTableRowWithCountsTo: variableCountsStream.
+
+	job current: 95.
+	job title: 'Collecting statistics - printing resulting times'.
+
+	collectorForVariables addTimeToRealTime: testingTime.
+	collectorForVariables latexTableRowWithTimesTo: timesStream.
+	collectorForVariables
+		latexTableRowWithCoverage: testCoverage
+		examples: examples
+		to: coverageStream ] asJob
+		title: 'Collecting statistics';
+		run
 ]
 
 { #category : #example }
@@ -43,7 +103,7 @@ UGStatisticsCollector class >> collectPackage: aPackageName variableCountsStream
 	UGRealTimeTyper default addLinksToPackageNamed: aPackageName.
 
 	job current: 5.
-	job title: 'Collecting statistics - punning executable code'.
+	job title: 'Collecting statistics - running executable code'.
 
 	"this is the time to run tests/scenarios to log types"
 	testingTime := Time microsecondsToRun: aBlock.
@@ -94,104 +154,45 @@ UGStatisticsCollector class >> exampleMultipleAutomated [
 					'tableOfTimes.tex' asFileReference
 						ensureDelete;
 						writeStreamDo: [ :timesStream |
-							| packagePairs |
-							packagePairs := {
-								                ('Fuel-Core' -> '.*Fuel.*').
-								                ('Metacello-Core' -> '.*Metacello.*').
-								                ('Monticello' -> '.*Monticello.*').
-								                ('Commander2' -> '.*Commander2.*').
-								                ('Tool-Diff' -> '.*Tool-Diff.*').
-								                ('XML-Parser' -> '.*XML.*').
-								                ('Zinc-HTTP' -> '.*Zinc.*').
-								                ('Athens-Cairo' -> '.*Athens.*').
-								                ('TraitsV2' -> '.*TraitsV2.*').
-								                ('ProfilerUI' -> '.*ProfilerUI.*').
-								                ('OSWindow-Core' -> '.*OSWindow.*') }.
-							[ :job |
-							packagePairs withIndexDo: [ :eachPair :index |
-									job current: index - 1.
-									job title: 'Running statistics collectors on ' , eachPair key.
-									self
-										collectPackage: eachPair key
-										relevantPackagesPattern: eachPair value
-										variableCountsStream: variableCountsStream
-										countsStream: countsStream
-										timesStream: timesStream.
-									variableCountsStream flush.
-									countsStream flush.
-									timesStream flush ] ] asJob
-								min: 0;
-								max: packagePairs size;
-								title: 'Running statistics collectors';
-								run ];
+							'tableOfCoverage.tex' asFileReference
+								ensureDelete;
+								writeStreamDo: [ :coverageStream |
+									| packagePairs |
+									packagePairs := {
+										                ('Fuel-Core' -> '.*Fuel.*').
+										                ('Metacello-Core' -> '.*Metacello.*').
+										                ('Monticello' -> '.*Monticello.*').
+										                ('Commander2' -> '.*Commander2.*').
+										                ('Tool-Diff' -> '.*Tool-Diff.*').
+										                ('XML-Parser' -> '.*XML.*').
+										                ('Zinc-HTTP' -> '.*Zinc.*').
+										                ('Athens-Cairo' -> '.*Athens.*').
+										                ('TraitsV2' -> '.*TraitsV2.*').
+										                ('ProfilerUI' -> '.*ProfilerUI.*').
+										                ('OSWindow-Core' -> '.*OSWindow.*') }.
+									[ :job |
+									packagePairs withIndexDo: [ :eachPair :index |
+											job current: index - 1.
+											job title:
+													'Running statistics collectors on ' , eachPair key.
+											self
+												collectPackage: eachPair key
+												relevantPackagesPattern: eachPair value
+												variableCountsStream: variableCountsStream
+												countsStream: countsStream
+												timesStream: timesStream
+												coverageStream: coverageStream.
+											variableCountsStream flush.
+											countsStream flush.
+											timesStream flush ] ] asJob
+										min: 0;
+										max: packagePairs size;
+										title: 'Running statistics collectors';
+										run ];
+								readStreamDo: [ :s | s upToEnd inspect ] ];
 						readStreamDo: [ :s | s upToEnd inspect ] ];
 				readStreamDo: [ :s | s upToEnd inspect ] ];
 		readStreamDo: [ :s | s upToEnd inspect ]
-]
-
-{ #category : #example }
-UGStatisticsCollector class >> exampleRoassalAutomated [
-
-	(String streamContents: [ :s |
-		 self
-			 collectPackage: 'Roassal3'
-			 relevantPackagesPattern: '.*Roassal3.*'
-			 variableCountsStream: s
-			 countsStream: s
-			 timesStream: s ]) inspect
-]
-
-{ #category : #example }
-UGStatisticsCollector class >> exampleXMLParserAutomated [
-
-	(String streamContents: [ :s |
-		 self
-			 collectPackage: 'XML-Parser'
-			 relevantPackagesPattern: '.*XML.*'
-			 variableCountsStream: s
-			 countsStream: s
-			 timesStream: s ]) inspect
-]
-
-{ #category : #example }
-UGStatisticsCollector class >> exampleZincAutomated [
-
-	(String streamContents: [ :s |
-		 self
-			 collectPackage: 'Zinc-HTTP'
-			 relevantPackagesPattern: '.*Zinc.*'
-			 variableCountsStream: s
-			 countsStream: s
-			 timesStream: s ]) inspect
-]
-
-{ #category : #example }
-UGStatisticsCollector class >> exampleZincManual [
-
-	| testingBlock |
-	testingBlock := [
-	                self notify:
-		                'This is time to run tests/scenarios to log types for realtime type inferer.'
-		                , String cr
-		                , 'Run the tests/scenarios and then click Proceed' ].
-	(String streamContents: [ :s |
-		 self
-			 collectPackage: 'Zinc-HTTP'
-			 variableCountsStream: s
-			 countsStream: s
-			 timesStream: s
-			 codeForRealTimeGathering: testingBlock ]) inspect
-]
-
-{ #category : #example }
-UGStatisticsCollector class >> executeAllCodeOf: aPackagesPattern [
-
-	| originalWindows |
-	originalWindows := Smalltalk currentWorld systemWindows asSet.
-	self executeExamplesOf: aPackagesPattern.
-	self executeTestsOf: aPackagesPattern.
-	(Smalltalk currentWorld systemWindows asSet difference:
-		 originalWindows) do: #delete
 ]
 
 { #category : #example }
@@ -224,13 +225,14 @@ UGStatisticsCollector class >> executeExamplesOf: aPackagesPattern [
 		run.
 	exampleMethods ifNotEmpty: [
 		self inform:
-			'Executed ' , exampleMethods size asString , ' examples' ]
+			'Executed ' , exampleMethods size asString , ' examples' ].
+	^ exampleMethods size
 ]
 
 { #category : #example }
-UGStatisticsCollector class >> executeTestsOf: aPackagesPattern [
+UGStatisticsCollector class >> executeTestsOf: aPackagesPattern for: aPackage [
 
-	| packages testClass |
+	| packages testClass result methods runner collector coverage percentsOfCoverage |
 	packages := RPackage organizer packages select: [ :eachPackage |
 		            eachPackage name matchesRegex: aPackagesPattern ].
 	packages ifEmpty: [
@@ -241,13 +243,32 @@ UGStatisticsCollector class >> executeTestsOf: aPackagesPattern [
 			 anyClass inheritsFrom: testClass ] ]) ifFalse: [
 		self inform:
 			'There are no tests in packages matching ' , aPackagesPattern.
-		^ self ].
+		^ 0 ].
 
-	self inform: (TestRunner new
-			 packageSearchUpdate: aPackagesPattern;
-			 selectAllPackages;
-			 runAll;
-			 result) asString
+	methods := aPackage methods.
+
+	runner := TestRunner new
+		          packageSearchUpdate: '.*Zinc.*';
+		          selectAllPackages;
+		          resetResult.
+
+	collector := CoverageCollector new.
+	collector methods: methods.
+	coverage := collector runOn: [
+		            runner runSuite: runner suiteForAllSelected ].
+
+	percentsOfCoverage := 100
+	                      -
+	                      (100 * coverage uncoveredMethods size
+	                       // methods size).
+
+	result := runner result.
+
+	self inform: 'Executed tests with coverage '
+		, percentsOfCoverage asInteger asString , ' % for '
+		, aPackagesPattern , ': ' , result asString , ''.
+
+	^ percentsOfCoverage
 ]
 
 { #category : #adding }
@@ -334,12 +355,6 @@ UGStatisticsCollector >> itemCount [
 ]
 
 { #category : #converting }
-UGStatisticsCollector >> latexTableRowWithCounts [
-
-	^ String streamContents: [ :s | self latexTableRowWithCountsTo: s ]
-]
-
-{ #category : #converting }
 UGStatisticsCollector >> latexTableRowWithCountsTo: s [
 
 	s << self packageName << ' & ' << self itemCount asString.
@@ -358,9 +373,26 @@ UGStatisticsCollector >> latexTableRowWithCountsTo: s [
 ]
 
 { #category : #converting }
-UGStatisticsCollector >> latexTableRowWithTimes [
+UGStatisticsCollector >> latexTableRowWithCoverage: aCoverageInPercents examples: anAmountOfExamples to: s [
 
-	^ String streamContents: [ :s | self latexTableRowWithTimesTo: s ]
+	s << self packageName << ' & ' << self itemCount asString << ' & '
+	<< aCoverageInPercents asInteger asString << ' \% & '
+	<< anAmountOfExamples asString.
+	{
+		(times at: #realtime).
+		(times at: #chained) } do: [ :each |
+		s << ' & '.
+		each ifNil: [ s << '!!! unknown !!!' ] ifNotNil: [ :time |
+			| ms |
+			ms := time / 1000.
+			ms < 1.0
+				ifTrue: [ s << '$<$1' ]
+				ifFalse: [ ms printOn: s showingDecimalPlaces: 0 ] ].
+		s << ' ms' ].
+	s << ' \\'.
+	s lf.
+	s << '\Xhline{0.5\arrayrulewidth}'.
+	s lf
 ]
 
 { #category : #converting }
