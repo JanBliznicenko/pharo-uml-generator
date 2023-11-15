@@ -9,15 +9,15 @@ Class {
 
 { #category : #private }
 UGJ2InfererTyperAdaptor >> infererOf: aPackage [
-	^ inferers
-		at: aPackage
-		ifAbsentPut: [ | inferer |
-			inferer := J2Inferer withNotifier: J2NullNotifier new.
-			aPackage definedClasses
-				reject: [ :each | each isTrait ]
-				thenDo: [ :e | inferer enqueueClass: e ].
-			inferer runAndWait.
-			inferer ]
+
+	^ inferers at: aPackage ifAbsentPut: [
+		  | inferer |
+		  inferer := J2Inferer withNotifier: J2NullNotifier new.
+		  ((J2InferenceManager findTransitiveRelatedClassesTo:
+			    aPackage definedClasses asSet) reject: [ :each | each isTrait ])
+			  do: [ :e | inferer enqueueClass: e ].
+		  inferer runAndWait.
+		  inferer ]
 ]
 
 { #category : #initialization }

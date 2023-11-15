@@ -13,7 +13,7 @@ BaselineOfUMLGenerator >> baseline: spec [
 			baseline: 'OPUMLXMI'
 			with: [ spec repository: 'github://openponk/uml-xmi/repository' ];
 			baseline: 'RoelTyper'
-			with: [ spec repository: 'github://RMODINRIA/RoelTyper/src' ];
+			with: [ spec repository: 'github://JanBliznicenko/RoelTyper/src' ];
 			baseline: 'J2Inferer'
 			with: [ spec repository: 'github://JanBliznicenko/j2Inferer/mc' ];
 			baseline: 'MetaLinksToolkit'

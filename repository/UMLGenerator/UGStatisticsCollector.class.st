@@ -12,10 +12,10 @@ Class {
 }
 
 { #category : #example }
-UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPattern: aPackagesPattern variableCountsStream: variableCountsStream countsStream: countsStream timesStream: timesStream coverageStream: coverageStream [
+UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPattern: aPackagesPattern variableCountsStream: variableCountsStream countsStream: countsStream timesStream: timesStream coverageStream: coverageStream thenDo: finishedBlock [
 	"removes current metalinks (stops current types logging)"
 
-	| collectorForVariables collectorForAll testingTime originalWindows testCoverage examples package |
+	| collectorForVariables collectorForAll testingTime testCoverage examples package |
 	package := aPackageName asPackage.
 	[ :job |
 	job title: 'Collecting statistics - removing previous metalinks'.
@@ -27,8 +27,8 @@ UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPatt
 	UGRealTimeTyper resetDefault.
 
 	job current: 2.
-	job title: 'Collecting statistics - recompiling all methods'.
-	package recompileAndIncludeTraitMethods.
+	job title: 'Collecting statistics - including trait methods'.
+	package includeTraitMethods.
 
 	"adds metalinks (starts logging types)"
 	job current: 5.
@@ -39,10 +39,11 @@ UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPatt
 	job title: 'Collecting statistics - running executable code'.
 
 	"this is the time to run tests/scenarios to log types"
-	originalWindows := Smalltalk currentWorld systemWindows asSet.
 
 	examples := 0.
 	testCoverage := 0.
+
+	Smalltalk garbageCollect.
 
 	testingTime := Time microsecondsToRun: [
 			               examples := self executeExamplesOf: aPackagesPattern.
@@ -50,9 +51,8 @@ UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPatt
 			               testCoverage := self
 				                               executeTestsOf: aPackagesPattern
 				                               for: package ].
+	self timeToCloseExamples wait.
 
-	(Smalltalk currentWorld systemWindows asSet difference:
-			 originalWindows) do: #delete.
 	"removes current metalinks (stops current types logging)"
 	job current: 30.
 	job title: 'Collecting statistics - removing new metalinks'.
@@ -93,98 +93,47 @@ UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPatt
 	collectorForAll latexTableRowWithCountsTo: countsStream.
 	countsStream flush ] asJob
 		title: 'Collecting statistics';
-		run
+		run.
+
+	finishedBlock cull: collectorForVariables cull: collectorForAll
 ]
 
 { #category : #example }
 UGStatisticsCollector class >> example [
 
-	[ 
-	self examplePackage: 'Metacello-Core' relevantPackagesPattent: '.*Metacello.*'.
-	self examplePackage: 'Monticello' relevantPackagesPattent: '.*Monticello.*'.
-	self examplePackage: 'Fuel-Core' relevantPackagesPattent: '.*Fuel.*'.
-	self examplePackage: 'Commander2' relevantPackagesPattent: '.*Commander2.*'.
-	self examplePackage: 'Tool-Diff' relevantPackagesPattent: '.*Tool-Diff.*'.
-	self examplePackage: 'XML-Parser' relevantPackagesPattent: '.*XML.*'.
-	self examplePackage: 'Zinc-HTTP' relevantPackagesPattent: '.*Zinc.*'.
-	self examplePackage: 'Athens-Cairo' relevantPackagesPattent:'.*Athens.*' .
-	self examplePackage: 'TraitsV2' relevantPackagesPattent: '.*TraitsV2.*'.
-	self examplePackage: 'ProfilerUI' relevantPackagesPattent: '.*ProfilerUI.*'.
-	self examplePackage: 'OSWindow-Core' relevantPackagesPattent:  '.*OSWindow.*'.
-	]
-		forkAt: Processor userBackgroundPriority
-		named: 'UG Statistics Collector'
+	self examplePackages: (LinkedList withAll: {
+				 ('Athens-Cairo' -> '.*Athens.*').
+				 ('Commander2' -> '.*Commander2.*').
+				 ('Metacello-Core' -> '.*Metacello.*').
+				 ('OSWindow-Core' -> '.*OSWindow.*').
+				 ('ProfilerUI' -> '.*ProfilerUI.*').
+				 ('STON-Core' -> '.*Fuel.*').
+				 ('Tool-Diff' -> '.*Tool-Diff.*').
+				 ('XML-Parser' -> '.*XML.*').
+				 ('Zinc-HTTP' -> '.*Zinc.*') })
 ]
 
 { #category : #example }
-UGStatisticsCollector class >> exampleMultipleAutomated [
+UGStatisticsCollector class >> examplePackage: aPackageName relevantPackagesPattent: aPackagesPattern thenDo: aBlock [
 
-	'tableOfVariableCounts.tex' asFileReference
-		ensureDelete;
-		writeStreamDo: [ :variableCountsStream |
-			'tableOfAllCounts.tex' asFileReference
-				ensureDelete;
-				writeStreamDo: [ :countsStream |
-					'tableOfTimes.tex' asFileReference
-						ensureDelete;
-						writeStreamDo: [ :timesStream |
-							'tableOfCoverage.tex' asFileReference
-								ensureDelete;
-								writeStreamDo: [ :coverageStream |
-									| packagePairs |
-									packagePairs := {
-										                ('Metacello-Core' -> '.*Metacello.*').
-										                ('Fuel-Core' -> '.*Fuel.*').
-										                ('Monticello' -> '.*Monticello.*').
-										                ('Commander2' -> '.*Commander2.*').
-										                ('Tool-Diff' -> '.*Tool-Diff.*').
-										                ('XML-Parser' -> '.*XML.*').
-										                ('Zinc-HTTP' -> '.*Zinc.*').
-										                ('Athens-Cairo' -> '.*Athens.*').
-										                ('TraitsV2' -> '.*TraitsV2.*').
-										                ('ProfilerUI' -> '.*ProfilerUI.*').
-										                ('OSWindow-Core' -> '.*OSWindow.*') }.
-									[ :job |
-									packagePairs withIndexDo: [ :eachPair :index |
-											job current: index - 1.
-											job title:
-													'Running statistics collectors on ' , eachPair key.
-											self
-												collectPackage: eachPair key
-												relevantPackagesPattern: eachPair value
-												variableCountsStream: variableCountsStream
-												countsStream: countsStream
-												timesStream: timesStream
-												coverageStream: coverageStream ] ] asJob
-										min: 0;
-										max: packagePairs size;
-										title: 'Running statistics collectors';
-										run ];
-								readStreamDo: [ :s | s upToEnd inspect ] ];
-						readStreamDo: [ :s | s upToEnd inspect ] ];
-				readStreamDo: [ :s | s upToEnd inspect ] ];
-		readStreamDo: [ :s | s upToEnd inspect ]
-]
-
-{ #category : #example }
-UGStatisticsCollector class >> examplePackage: aPackageName relevantPackagesPattent: aPackagesPattern [
-
-	| fileNameExtensions |
+	| dir fileNameExtensions |
+	dir := 'C:\Users\Honza\OneDrive - České vysoké učení technické v Praze\PhD\COLA\results'
+		       asFileReference.
 	fileNameExtensions := '.'
 	                      ,
-	                      (aPackageName select: #isAlphaNumberic)
+	                      (aPackageName select: #isAlphaNumeric)
 		                      asLowercase , '.tex'.
 	[
-	('tableOfVariableCounts' , fileNameExtensions) asFileReference
+	(dir / ('tableOfVariableCounts' , fileNameExtensions))
 		ensureDelete;
 		writeStreamDo: [ :variableCountsStream |
-			('tableOfAllCounts' , fileNameExtensions) asFileReference
+			(dir / ('tableOfAllCounts' , fileNameExtensions))
 				ensureDelete;
 				writeStreamDo: [ :countsStream |
-					('tableOfTimes' , fileNameExtensions) asFileReference
+					(dir / ('tableOfTimes' , fileNameExtensions))
 						ensureDelete;
 						writeStreamDo: [ :timesStream |
-							('tableOfCoverage' , fileNameExtensions) asFileReference
+							(dir / ('tableOfCoverage' , fileNameExtensions))
 								ensureDelete;
 								writeStreamDo: [ :coverageStream |
 									[ :job |
@@ -194,7 +143,8 @@ UGStatisticsCollector class >> examplePackage: aPackageName relevantPackagesPatt
 										variableCountsStream: variableCountsStream
 										countsStream: countsStream
 										timesStream: timesStream
-										coverageStream: coverageStream ] asJob
+										coverageStream: coverageStream
+										thenDo: aBlock ] asJob
 										title: 'Running statistics collectors on ' , aPackageName;
 										run ];
 								readStreamDo: [ :s | s upToEnd inspect ] ];
@@ -203,6 +153,17 @@ UGStatisticsCollector class >> examplePackage: aPackageName relevantPackagesPatt
 		readStreamDo: [ :s | s upToEnd inspect ] ]
 		forkAt: Processor userBackgroundPriority
 		named: 'UG Statistics Collector'
+]
+
+{ #category : #example }
+UGStatisticsCollector class >> examplePackages: aSequenceableCollection [
+
+	self
+		examplePackage: aSequenceableCollection first key
+		relevantPackagesPattent: aSequenceableCollection first value
+		thenDo: [
+			aSequenceableCollection size > 1 ifTrue: [
+				self examplePackages: aSequenceableCollection copyWithoutFirst ] ]
 ]
 
 { #category : #example }
@@ -222,13 +183,22 @@ UGStatisticsCollector class >> executeExamplesOf: aPackagesPattern [
 							                  any selector beginsWith: 'example' ] ] ] ] ].
 	[ :job |
 	exampleMethods withIndexDo: [ :each :index |
+			| originalWindows windowsToDelete |
 			job current: index - 1.
 			job title: 'Executing example ' , index asString , ' / '
 					, exampleMethods size asString.
 
+			originalWindows := Smalltalk currentWorld systemWindows asSet.
 			each
 				valueWithReceiver: each classBinding value instanceSide
-				arguments: #(  ) ] ] asJob
+				arguments: #(  ).
+			windowsToDelete := Smalltalk currentWorld systemWindows asSet
+				                   difference: originalWindows.
+			[
+			self timeToCloseExamples wait.
+			windowsToDelete do: #delete ]
+				forkAt: Processor userSchedulingPriority
+				named: 'UGStatisticts collection windows deletion' ] ] asJob
 		min: 0;
 		max: exampleMethods size;
 		title: 'Executing examples';
@@ -242,7 +212,7 @@ UGStatisticsCollector class >> executeExamplesOf: aPackagesPattern [
 { #category : #example }
 UGStatisticsCollector class >> executeTestsOf: aPackagesPattern for: aPackage [
 
-	| packages testClass result methods runner collector coverage percentsOfCoverage |
+	| packages testClass result methods runner collector coverage percentsOfCoverage originalWindows |
 	packages := RPackage organizer packages select: [ :eachPackage |
 		            eachPackage name matchesRegex: aPackagesPattern ].
 	packages ifEmpty: [
@@ -264,8 +234,12 @@ UGStatisticsCollector class >> executeTestsOf: aPackagesPattern for: aPackage [
 
 	collector := CoverageCollector new.
 	collector methods: methods.
+
+	originalWindows := Smalltalk currentWorld systemWindows asSet.
 	coverage := collector runOn: [
 		            runner runSuite: runner suiteForAllSelected ].
+	(Smalltalk currentWorld systemWindows asSet difference:
+		 originalWindows) do: #delete.
 
 	percentsOfCoverage := 100
 	                      -
@@ -279,6 +253,12 @@ UGStatisticsCollector class >> executeTestsOf: aPackagesPattern for: aPackage [
 		, aPackagesPattern , ': ' , result asString , ''.
 
 	^ percentsOfCoverage
+]
+
+{ #category : #constants }
+UGStatisticsCollector class >> timeToCloseExamples [
+
+	^ 8 seconds
 ]
 
 { #category : #adding }
@@ -328,6 +308,8 @@ UGStatisticsCollector >> calculateTyper: aTyperAdaptor named: aTyperName [
 		                  typesManager.
 	generator := UGEnterpriseArchitectUMLGenerator new typesManager:
 		             typesFinalizer.
+		
+	Smalltalk garbageCollect.
 	time := Time microsecondsToRun: [
 		        generator importFromPackagesNamed: { self packageName } ].
 	foundCounts
@@ -371,7 +353,9 @@ UGStatisticsCollector >> latexTableRowWithCountsTo: s [
 	self foundCountsDo: [ :each |
 		| percentage |
 		s << ' & ' << each asString << ' ('.
-		percentage := each * 100 / self itemCount.
+		percentage := self itemCount = 0
+			              ifTrue: [ 100 ]
+			              ifFalse: [ each * 100 / self itemCount ].
 		percentage < 1.0
 			ifTrue: [ s << '$<$1' ]
 			ifFalse: [ percentage printOn: s showingDecimalPlaces: 0 ].
@@ -412,12 +396,17 @@ UGStatisticsCollector >> latexTableRowWithTimesTo: s [
 	self timesDo: [ :each |
 		s << ' & '.
 		each ifNil: [ s << '!!! unknown !!!' ] ifNotNil: [ :time |
-			| ms |
-			ms := time / 1000.
-			ms < 1.0
-				ifTrue: [ s << '$<$1' ]
-				ifFalse: [ ms printOn: s showingDecimalPlaces: 0 ] ].
-		s << ' ms' ].
+			| seconds |
+			seconds := time / 1000000.
+			seconds < 0.1
+				ifTrue: [ s << '$<$0,1' ]
+				ifFalse: [
+					s
+					<<
+					((seconds printShowingDecimalPlaces: 1)
+						 copyReplaceAll: '.'
+						 with: ',') ] ].
+		s << ' s' ].
 	s << ' \\'.
 	s lf.
 	s << '\Xhline{0.5\arrayrulewidth}'.
