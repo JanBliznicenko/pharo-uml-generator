@@ -10,8 +10,7 @@ Class {
 		'autoSave',
 		'blockForParameter',
 		'plannedSave',
-		'skipMethods',
-		'measuredMicroSeconds'
+		'skipMethods'
 	],
 	#classInstVars : [
 		'default'
@@ -142,24 +141,6 @@ UGTypesManager >> loadFromFile: aFileName [
 	knownTypes := persistence loadTypes
 ]
 
-{ #category : #profiling }
-UGTypesManager >> measureTimeFor: aBlock [
-
-	| result |
-	measuredMicroSeconds ifNil: [ ^ aBlock value ].
-	measuredMicroSeconds := measuredMicroSeconds
-	                        +
-	                        (Time microsecondsToRun: [
-		                         result := aBlock value ]).
-	^ result
-]
-
-{ #category : #profiling }
-UGTypesManager >> measuredTime [
-
-	^ measuredMicroSeconds
-]
-
 { #category : #accessing }
 UGTypesManager >> methodTyper [
 	^ methodTyper
@@ -206,9 +187,7 @@ UGTypesManager >> startTimeMeasuring [
 { #category : #retrieving }
 UGTypesManager >> typeOf: anItem [
 
-	^ knownTypes
-		  at: anItem
-		  ifAbsent: [ self measureTimeFor: [ anItem acceptVisitor: self ] ]
+	^ knownTypes at: anItem ifAbsent: [ anItem acceptVisitor: self ]
 ]
 
 { #category : #accessing }

@@ -379,12 +379,6 @@ UGUMLGenerator >> initialize [
 	focusedPackages := Set new.
 ]
 
-{ #category : #profiling }
-UGUMLGenerator >> measuredTime [
-
-	^ typesManager measuredTime
-]
-
 { #category : #adding }
 UGUMLGenerator >> newReturnParameter [
 	^ OPUMLParameter new direction: OPUMLParameterDirectionKind return
@@ -430,12 +424,6 @@ UGUMLGenerator >> shouldOmitAccessor: aMethod [
 	selector last = $:
 		ifTrue: [ selector := selector allButLast ].
 	^ varNames includes: selector
-]
-
-{ #category : #profiling }
-UGUMLGenerator >> startTimeMeasuring [
-
-	typesManager startTimeMeasuring
 ]
 
 { #category : #adding }

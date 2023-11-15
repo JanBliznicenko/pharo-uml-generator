@@ -254,7 +254,7 @@ UGStatisticsCollector >> calculate [
 { #category : #converting }
 UGStatisticsCollector >> calculateTyper: aTyperAdaptor named: aTyperName [
 
-	| typesManager typesFinalizer generator |
+	| typesManager typesFinalizer generator time |
 	typesManager := UGTypesManager new.
 	typesManager typerAdaptor: aTyperAdaptor.
 	variablesOnly ifTrue: [ typesManager skipMethods ].
@@ -262,14 +262,14 @@ UGStatisticsCollector >> calculateTyper: aTyperAdaptor named: aTyperName [
 		                  typesManager.
 	generator := UGEnterpriseArchitectUMLGenerator new typesManager:
 		             typesFinalizer.
-	generator startTimeMeasuring.
-	generator importFromPackagesNamed: { self packageName }.
+	time := Time microsecondsToRun: [
+		        generator importFromPackagesNamed: { self packageName } ].
 	foundCounts
 		at: aTyperName
 		put: (typesManager knownTypes associations count: [ :each |
 				 each value realClass ~= Object or: [
 					 each value isCollectionClass ] ]).
-	times at: aTyperName put: typesFinalizer measuredTime.
+	times at: aTyperName put: time.
 	itemCount
 		ifNil: [ itemCount := typesManager knownTypes size ]
 		ifNotNil: [

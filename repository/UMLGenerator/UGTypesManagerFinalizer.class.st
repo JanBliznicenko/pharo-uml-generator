@@ -36,12 +36,6 @@ UGTypesManagerFinalizer >> initialize [
 ]
 
 { #category : #profiling }
-UGTypesManagerFinalizer >> measuredTime [
-
-	^ typesManager measuredTime
-]
-
-{ #category : #profiling }
 UGTypesManagerFinalizer >> startTimeMeasuring [
 
 	typesManager startTimeMeasuring
