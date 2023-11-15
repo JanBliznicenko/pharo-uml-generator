@@ -106,8 +106,8 @@ UGStatisticsCollector class >> exampleMultipleAutomated [
 								writeStreamDo: [ :coverageStream |
 									| packagePairs |
 									packagePairs := {
-										                ('Fuel-Core' -> '.*Fuel.*').
 										                ('Metacello-Core' -> '.*Metacello.*').
+										                ('Fuel-Core' -> '.*Fuel.*').
 										                ('Monticello' -> '.*Monticello.*').
 										                ('Commander2' -> '.*Commander2.*').
 										                ('Tool-Diff' -> '.*Tool-Diff.*').
@@ -324,7 +324,7 @@ UGStatisticsCollector >> latexTableRowWithCoverage: aCoverageInPercents examples
 	<< anAmountOfExamples asString.
 	{
 		(times at: #realtime).
-		(times at: #chained) } do: [ :each |
+		(times at: #combined) } do: [ :each |
 		s << ' & '.
 		each ifNil: [ s << '!!! unknown !!!' ] ifNotNil: [ :time |
 			| ms |
