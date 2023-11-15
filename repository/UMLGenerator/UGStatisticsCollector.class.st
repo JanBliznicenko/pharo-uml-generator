@@ -66,21 +66,25 @@ UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPatt
 	job title: 'Collecting statistics - for variables only'.
 
 	collectorForVariables latexTableRowWithCountsTo: variableCountsStream.
+	variableCountsStream flush.
 
 	job current: 55.
 	job title: 'Collecting statistics - printing coverage and times'.
 
 	collectorForVariables addTimeToRealTime: testingTime.
 	collectorForVariables latexTableRowWithTimesTo: timesStream.
+	timesStream flush.
 	collectorForVariables
 		latexTableRowWithCoverage: testCoverage
 		examples: examples
 		to: coverageStream.
+	coverageStream flush.
 
 	job current: 60.
 	job title: 'Collecting statistics - for all items'.
 
-	collectorForAll latexTableRowWithCountsTo: countsStream ] asJob
+	collectorForAll latexTableRowWithCountsTo: countsStream.
+	countsStream flush ] asJob
 		title: 'Collecting statistics';
 		run
 ]
@@ -124,10 +128,7 @@ UGStatisticsCollector class >> exampleMultipleAutomated [
 												variableCountsStream: variableCountsStream
 												countsStream: countsStream
 												timesStream: timesStream
-												coverageStream: coverageStream.
-											variableCountsStream flush.
-											countsStream flush.
-											timesStream flush ] ] asJob
+												coverageStream: coverageStream ] ] asJob
 										min: 0;
 										max: packagePairs size;
 										title: 'Running statistics collectors';
