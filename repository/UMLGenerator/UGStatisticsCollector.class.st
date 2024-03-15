@@ -102,15 +102,15 @@ UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPatt
 UGStatisticsCollector class >> example [
 
 	self examplePackages: (LinkedList withAll: {
-				 ('Athens-Cairo' -> '.*Athens.*').
 				 ('Commander2' -> '.*Commander2.*').
-				 ('Metacello-Core' -> '.*Metacello.*').
-				 ('OSWindow-Core' -> '.*OSWindow.*').
 				 ('ProfilerUI' -> '.*ProfilerUI.*').
-				 ('STON-Core' -> '.*Fuel.*').
 				 ('Tool-Diff' -> '.*Tool-Diff.*').
+				 ('STON-Core' -> '.*Fuel.*').
+				 ('Metacello-Core' -> '.*Metacello.*').
+				 ('Zinc-HTTP' -> '.*Zinc.*').
 				 ('XML-Parser' -> '.*XML.*').
-				 ('Zinc-HTTP' -> '.*Zinc.*') })
+				 ('Athens-Cairo' -> '.*Athens.*').
+				 ('OSWindow-Core' -> '.*OSWindow.*'). })
 ]
 
 { #category : #example }
