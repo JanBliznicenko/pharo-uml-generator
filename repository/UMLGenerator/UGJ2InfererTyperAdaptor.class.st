@@ -37,42 +37,48 @@ UGJ2InfererTyperAdaptor >> isVarTyper [
 ]
 
 { #category : #api }
-UGJ2InfererTyperAdaptor >> possibleTypesOfParameter: aUGParameter [
+UGJ2InfererTyperAdaptor >> possibleTypesOfInputParameter: aUGParameter [
 
-	| method types possibleClasses classes |
 	self flag: #hackBecauseOfJ2InfiniteLoopBug.
 	(aUGParameter itemName = 'anEvent' and: [
 		 aUGParameter method itemName = 'announce:' ]) ifTrue: [
-		^ UGTypePossibilities for: aUGParameter ].
+		^ UGTypePossibilities emptyFor: aUGParameter ].
+	^ self
+		  possibleTypesOfParameter: aUGParameter
+		  byJ2VariableBlock: [ :method |
+			  method parameters detect: [ :any |
+				  any variableName = aUGParameter itemName ] ]
+]
+
+{ #category : #api }
+UGJ2InfererTyperAdaptor >> possibleTypesOfParameter: aUGParameter byJ2VariableBlock: aBlock [
+
+	| method types possibleClasses classes |
 	method := ((self infererOf: aUGParameter package) typeInfoFor:
 		           aUGParameter containingClass realClass) methodTypeFor:
 		          aUGParameter compiledMethod.
-	possibleClasses := (aUGParameter isOut
-		                    ifTrue: [ method returnValue ]
-		                    ifFalse: [
-			                    method parameters detect: [ :any |
-				                    any variableName = aUGParameter itemName ] ])
-		                   possibleClasses.
+	possibleClasses := (aBlock value: method) possibleClasses.
 	classes := possibleClasses classes.
 	types := classes collect: #analysedClass.
-	types remove: UndefinedObject ifAbsent: [  ]. "
-	self
-		haltIf: [ types
-				anySatisfy: [ :any | any = Collection or: [ any inheritsFrom: Collection ] ] ]."
-	^ UGTypePossibilities
-		  for: aUGParameter
-		  types: types
-		  collectionTypes: Dictionary new
+	types remove: UndefinedObject ifAbsent: [  ].
+	^ UGTypePossibilities for: aUGParameter types: types
+]
+
+{ #category : #api }
+UGJ2InfererTyperAdaptor >> possibleTypesOfReturnParameter: aUGParameter [
+
+	^ self
+		  possibleTypesOfParameter: aUGParameter
+		  byJ2VariableBlock: [ :method | method returnValue ]
 ]
 
 { #category : #api }
 UGJ2InfererTyperAdaptor >> possibleTypesOfVariable: aUGVariable [
+
 	^ UGTypePossibilities
-		for: aUGVariable
-		types:
-			((((self infererOf: aUGVariable package)
-				typeInfoFor: aUGVariable realContainingClass)
-				instanceVariable: aUGVariable itemName) possibleClasses classes
-				collect: #analysedClass)
-		collectionTypes: Dictionary new
+		  for: aUGVariable
+		  types: ((((self infererOf: aUGVariable package) typeInfoFor:
+				     aUGVariable realContainingClass) instanceVariable:
+				    aUGVariable itemName) possibleClasses classes collect:
+				   #analysedClass)
 ]

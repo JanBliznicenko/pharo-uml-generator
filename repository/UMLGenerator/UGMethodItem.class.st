@@ -5,7 +5,7 @@ Class {
 		'method',
 		'containingClass'
 	],
-	#category : 'UMLGenerator-Structure'
+	#category : #'UMLGenerator-Structure'
 }
 
 { #category : #'instance creation' }
@@ -57,6 +57,12 @@ UGMethodItem >> method [
 UGMethodItem >> method: aMethod [
 	method := aMethod.
 	containingClass := method containingClass
+]
+
+{ #category : #accessing }
+UGMethodItem >> methodName [
+
+	^ method itemName
 ]
 
 { #category : #accessing }

@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'item',
 		'possibleTypes',
-		'possibleCollectionTypes',
-		'classReplacements'
+		'possibleCollectionElementTypes'
 	],
 	#classInstVars : [
 		'atomicCollectionTypes',
@@ -60,158 +59,145 @@ UGTypePossibilities class >> classReplacements [
 			(SmallInteger -> Integer)} asDictionary ]
 ]
 
-{ #category : #'instance creation' }
-UGTypePossibilities class >> for: anItem [
-	^ self new
-		item: anItem;
-		yourself
+{ #category : #retrieving }
+UGTypePossibilities class >> commonSuperclassOf: classes [
+
+	| currentSuperclasses bestCommonIndex commonHierarchy classesArray |
+	classesArray := classes asArray reject: #isNil.
+	classesArray ifEmpty: [ ^ Object ].
+	classesArray size = 1 ifTrue: [ ^ classesArray anyOne ].
+	commonHierarchy := classesArray copyWithoutFirst
+		                   inject:
+		                   classesArray first withAllSuperclasses reversed
+		                   into: [ :lastHierarchy :realClass |
+			                   currentSuperclasses := realClass
+				                                          withAllSuperclasses
+				                                          reversed.
+			                   lastHierarchy first == currentSuperclasses first
+				                   ifFalse: [ ^ Object ].
+			                   bestCommonIndex := 1.
+			                   1 to:
+				                   (lastHierarchy size min:
+					                    currentSuperclasses size) do: [ :i |
+				                   (lastHierarchy at: i)
+				                   == (currentSuperclasses at: i) ifTrue: [
+					                   bestCommonIndex := i ] ].
+			                   lastHierarchy first: bestCommonIndex ].
+	^ commonHierarchy last
 ]
 
 { #category : #'instance creation' }
-UGTypePossibilities class >> for: anItem types: aCollectionOfTypes collectionTypes: aDictionaryOfCollectionTypes [
+UGTypePossibilities class >> emptyFor: anItem [
+
 	^ self new
-		item: anItem;
-		possibleTypes: aCollectionOfTypes;
-		possibleCollectionTypes: aDictionaryOfCollectionTypes;
-		yourself
+		  item: anItem;
+		  yourself
+]
+
+{ #category : #'instance creation' }
+UGTypePossibilities class >> for: anItem types: aCollectionOfTypes [
+
+	^ (self emptyFor: anItem)
+		  possibleTypes: aCollectionOfTypes;
+		  yourself
+]
+
+{ #category : #'instance creation' }
+UGTypePossibilities class >> for: anItem types: aCollectionOfTypes collectionElementTypes: aCollectionOfElementTypes [
+
+	^ (self for: anItem types: aCollectionOfTypes)
+		  possibleCollectionElementTypes: aCollectionOfElementTypes;
+		  yourself
 ]
 
 { #category : #accessing }
 UGTypePossibilities class >> shouldTypeAsCollection: aClass [
-	^ (aClass includesBehavior: Collection)
-		and: [ (UGTypePossibilities atomicCollectionTypes includes: aClass) not ]
-]
 
-{ #category : #'instance creation' }
-UGTypePossibilities class >> withAll: aCollectionOfTypePossibilities [
-	| item collectionTypes |
-	item := aCollectionOfTypePossibilities anyOne item.
-	self assert: (aCollectionOfTypePossibilities allSatisfy: [ :each | each item = item ]).
-	collectionTypes := Dictionary new.
-	aCollectionOfTypePossibilities
-		do: [ :each | collectionTypes addAll: each possibleCollectionTypes ].
-	^ self
-		for: item
-		types: (aCollectionOfTypePossibilities flatCollect: [ :each | each possibleTypes ])
-		collectionTypes: collectionTypes
+	^ (aClass includesBehavior: Collection) and: [
+		  (self atomicCollectionTypes includes: aClass) not ]
 ]
 
 { #category : #copying }
 UGTypePossibilities >> , otherTypePossibilities [
-	^ UGTypePossibilities
-		for: item
-		types: possibleTypes , otherTypePossibilities possibleTypes
-		collectionTypes: possibleCollectionTypes , otherTypePossibilities possibleCollectionTypes
-]
 
-{ #category : #accessing }
-UGTypePossibilities >> addPossibleCollectionType: aClass [
-	self addPossibleCollectionType: nil with: aClass
+	^ self class
+		  for: item
+		  types: possibleTypes , otherTypePossibilities possibleTypes
+		  collectionElementTypes: possibleCollectionElementTypes
+			  , otherTypePossibilities possibleCollectionElementTypes
 ]
 
 { #category : #adding }
-UGTypePossibilities >> addPossibleCollectionType: aCollectionClass with: aClass [
-	| classReplacement collectionClassReplacement |
-	aClass == UndefinedObject
-		ifTrue: [ ^ self ].
-	classReplacement := self replacementOfClass: aClass.
-	collectionClassReplacement := self replacementOfClass: aCollectionClass.
-	(possibleCollectionTypes
-		at: classReplacement
-		ifAbsentPut: [ collectionClassReplacement ])
-		== collectionClassReplacement
-		ifFalse: [ possibleCollectionTypes
-				at: classReplacement
-				put:
-					(self
-						commonSuperclassOf:
-							{(possibleCollectionTypes at: classReplacement).
-							collectionClassReplacement}) ]
+UGTypePossibilities >> addPossibleCollectionType: aCollectionClass withElementType: anElementClass [
+
+	(aCollectionClass isNil or: [
+		 aCollectionClass == UndefinedObject or: [
+			 (aCollectionClass includesBehavior: Collection) not ] ]) ifTrue: [
+		^ self error: 'Trying to save non-collection as a collection type' ].
+	possibleTypes add: (self replacementOfClass: aCollectionClass).
+	anElementClass ifNil: [ ^ self ].
+	anElementClass == UndefinedObject ifTrue: [ ^ self ].
+	possibleCollectionElementTypes add:
+		(self replacementOfClass: anElementClass)
 ]
 
 { #category : #accessing }
 UGTypePossibilities >> addPossibleType: aClass [
+
+	aClass ifNil: [ ^ self ].
 	aClass == UndefinedObject ifTrue: [ ^ self ].
 	possibleTypes add: (self replacementOfClass: aClass)
 ]
 
-{ #category : #converting }
-UGTypePossibilities >> asUGClasses [
-	^ self possibleTypesAsUGClasses , self possibleCollectionTypesAsUGClasses
+{ #category : #testing }
+UGTypePossibilities >> includesCollectionType [
+
+	^ possibleTypes anySatisfy: [ :any |
+		  self class shouldTypeAsCollection: any ]
 ]
 
-{ #category : #private }
-UGTypePossibilities >> commonSuperclassOf: classes [
-	| currentSuperclasses bestCommonIndex commonHierarchy classesArray |
-	classes ifEmpty: [ ^ Object ].
-	classes size = 1
-		ifTrue: [ ^ classes anyOne ].
-	classesArray := classes asArray.
-	commonHierarchy := classesArray copyWithoutFirst
-		inject: classesArray first withAllSuperclasses reversed
-		into: [ :lastHierarchy :realClass | 
-			currentSuperclasses := realClass withAllSuperclasses reversed.
-			lastHierarchy first == currentSuperclasses first
-				ifFalse: [ ^ Object ].
-			bestCommonIndex := 1.
-			1 to: (lastHierarchy size min: currentSuperclasses size) do: [ :i | 
-				(lastHierarchy at: i) == (currentSuperclasses at: i)
-					ifTrue: [ bestCommonIndex := i ] ].
-			lastHierarchy first: bestCommonIndex ].
-	^ commonHierarchy last
+{ #category : #testing }
+UGTypePossibilities >> includesObjectType [
+
+	^ possibleTypes anySatisfy: [ :any | any == Object ]
 ]
 
 { #category : #initialization }
 UGTypePossibilities >> initialize [
+
 	super initialize.
 	possibleTypes := Set new.
-	possibleCollectionTypes := Dictionary new
+	possibleCollectionElementTypes := Set new
 ]
 
 { #category : #testing }
-UGTypePossibilities >> isEmpty [
-	^ possibleTypes isEmpty & possibleCollectionTypes isEmpty
+UGTypePossibilities >> isCollection [
+
+	^ possibleTypes isNotEmpty and: [
+		  possibleTypes allSatisfy: [ :any |
+			  self class shouldTypeAsCollection: any ] ]
 ]
 
 { #category : #testing }
-UGTypePossibilities >> isNotFullyKnown [
-	| typeEmpty typeObject typeCollections collectionsEmpty collectionsObject collectionsOfObjects |
-	typeEmpty := possibleTypes isEmpty.
-	typeObject := possibleTypes size = 1
-		and: [ possibleTypes anyOne = Object or: [ possibleTypes anyOne isNil ] ].
-	typeCollections := possibleTypes
-		allSatisfy: [ :each | self class shouldTypeAsCollection: each ].
-	collectionsEmpty := possibleCollectionTypes isEmpty.
-	collectionsObject := possibleCollectionTypes size = 1
-		and: [ possibleCollectionTypes anyOne = Object ].
-	collectionsOfObjects := possibleCollectionTypes size = 1
-		and: [ possibleCollectionTypes keys anyOne = Object
-				or: [ possibleCollectionTypes keys anyOne isNil ] ].
-	^ typeEmpty | typeObject | typeCollections
-		& (collectionsEmpty | collectionsObject | collectionsOfObjects)
+UGTypePossibilities >> isFullyKnown [
+	"Answer true if we know the type and if it is a collection, we also know type of elements"
+
+	self isFullyUnknown ifTrue: [ ^ false ].
+	(possibleTypes noneSatisfy: [ :each |
+		 self class shouldTypeAsCollection: each ]) ifTrue: [ ^ true ].
+	possibleCollectionElementTypes ifEmpty: [ ^ true ].
+	possibleCollectionElementTypes size > 1 ifTrue: [ ^ true ].
+	^ possibleCollectionElementTypes anyOne ~= Object
 ]
 
 { #category : #testing }
-UGTypePossibilities >> isPossibleCollection [
-	^ possibleCollectionTypes isNotEmpty
-]
+UGTypePossibilities >> isFullyUnknown [
+	"Answer true if we do not know anything about the type"
 
-{ #category : #testing }
-UGTypePossibilities >> isUnknown [
-	| typeEmpty typeObject typeCollections collectionsEmpty collectionsObject collectionsOfObjects |
-	typeEmpty := possibleTypes isEmpty.
-	typeObject := possibleTypes size = 1
-		and: [ possibleTypes anyOne = Object or: [ possibleTypes anyOne isNil ] ].
-	typeCollections := possibleTypes
-		allSatisfy: [ :each | self class shouldTypeAsCollection: each ].
-	collectionsEmpty := possibleCollectionTypes isEmpty.
-	collectionsObject := possibleCollectionTypes size = 1
-		and: [ possibleCollectionTypes anyOne = Object ].
-	collectionsOfObjects := possibleCollectionTypes size = 1
-		and: [ possibleCollectionTypes keys anyOne = Object
-				or: [ possibleCollectionTypes keys anyOne isNil ] ].
-	^ typeEmpty | typeObject | typeCollections
-		& (collectionsEmpty | (collectionsObject & collectionsOfObjects))
+	possibleTypes ifEmpty: [ ^ true ].
+	(possibleTypes size = 1 ifTrue: [ possibleTypes anyOne == Object ])
+		ifTrue: [ ^ true ].
+	^ false
 ]
 
 { #category : #accessing }
@@ -225,25 +211,19 @@ UGTypePossibilities >> item: anItem [
 ]
 
 { #category : #accessing }
-UGTypePossibilities >> possibleCollectionTypes [
-	^ possibleCollectionTypes
+UGTypePossibilities >> possibleCollectionElementTypes [
+	^ possibleCollectionElementTypes
 ]
 
 { #category : #accessing }
-UGTypePossibilities >> possibleCollectionTypes: aDictionaryOfTypes [
-	possibleCollectionTypes := (aDictionaryOfTypes associations
-		collect: [ :each | (self replacementOfClass: each key) -> (self replacementOfClass: each value) ]
-		thenReject: [ :each | each key == UndefinedObject ]) asDictionary
-]
+UGTypePossibilities >> possibleCollectionElementTypes: aCollectionOfTypes [
 
-{ #category : #converting }
-UGTypePossibilities >> possibleCollectionTypesAsUGClasses [
-	| ugCollections |
-	ugCollections := OrderedCollection new.
-	possibleCollectionTypes
-		keysAndValuesDo:
-			[ :eachClass :eachCollectionClass | ugCollections add: (UGCollection type: eachCollectionClass with: eachClass) ].
-	^ ugCollections
+	possibleCollectionElementTypes := (aCollectionOfTypes reject: [ :each |
+		                                   each isNil or: [
+			                                   each == UndefinedObject ] ])
+		                                  collect: [ :each |
+		                                  self replacementOfClass: each ]
+		                                  as: Set
 ]
 
 { #category : #accessing }
@@ -253,28 +233,32 @@ UGTypePossibilities >> possibleTypes [
 
 { #category : #accessing }
 UGTypePossibilities >> possibleTypes: aCollectionOfTypes [
-	possibleTypes := (aCollectionOfTypes
-		reject: [ :each | each == UndefinedObject ]
-		thenCollect: [ :each | self replacementOfClass: each ]) asSet
-]
 
-{ #category : #converting }
-UGTypePossibilities >> possibleTypesAsUGClasses [
-	^ possibleTypes collect: [ :each | UGClass for: each ] as: OrderedCollection
+	possibleTypes := Set new.
+
+	aCollectionOfTypes do: [ :each | self addPossibleType: each ]
 ]
 
 { #category : #printing }
 UGTypePossibilities >> printOn: aStream [
+
 	super printOn: aStream.
-	aStream << ' (' << self size asString << ')'
+	aStream nextPut: Character space.
+	possibleTypes printElementsOn: aStream.
+	possibleCollectionElementTypes printElementsOn: aStream
+]
+
+{ #category : #transforming }
+UGTypePossibilities >> reducedToCommonSuperclass [
+
+	^ self class
+		  for: item
+		  types: (Set with: (self class commonSuperclassOf: possibleTypes))
+		  collectionElementTypes: (Set with:
+				   (self class commonSuperclassOf: possibleCollectionElementTypes))
 ]
 
 { #category : #private }
 UGTypePossibilities >> replacementOfClass: aClass [
 	^ self class classReplacements at: aClass ifAbsent: [ aClass ]
-]
-
-{ #category : #accessing }
-UGTypePossibilities >> size [
-	^ possibleCollectionTypes size + possibleTypes size
 ]

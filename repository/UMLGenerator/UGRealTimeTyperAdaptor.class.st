@@ -4,13 +4,18 @@ Class {
 	#instVars : [
 		'typer'
 	],
-	#category : 'UMLGenerator-Typer'
+	#category : #'UMLGenerator-Typer'
 }
 
 { #category : #initialization }
 UGRealTimeTyperAdaptor >> initialize [
 	super initialize.
 	typer := UGRealTimeTyper default
+]
+
+{ #category : #testing }
+UGRealTimeTyperAdaptor >> isCollectionTyper [
+	^ true
 ]
 
 { #category : #testing }
@@ -24,8 +29,21 @@ UGRealTimeTyperAdaptor >> isVarTyper [
 ]
 
 { #category : #api }
+UGRealTimeTyperAdaptor >> possibleTypesOfInputParameter: aUGParameter [
+
+	^ self possibleTypesOfParameter: aUGParameter
+]
+
+{ #category : #api }
 UGRealTimeTyperAdaptor >> possibleTypesOfParameter: aUGParameter [
+
 	^ typer possibleTypesOf: aUGParameter
+]
+
+{ #category : #api }
+UGRealTimeTyperAdaptor >> possibleTypesOfReturnParameter: aUGParameter [
+
+	^ self possibleTypesOfParameter: aUGParameter
 ]
 
 { #category : #api }

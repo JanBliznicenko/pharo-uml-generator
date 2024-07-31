@@ -49,7 +49,7 @@ UGRealTimeTyper class >> exampleCode [
 	typesManager := UGTypesManager withFile:
 		                'default.typeinfo-all-backups.ston'.
 	"use following typer(s)"
-	typerAdaptor := UGTyperBackupsCombinator withAdaptors: {
+	typerAdaptor := UGTyperChainingCombinator withAdaptors: {
 			                UGRealTimeTyperAdaptor new.
 			                UGRoelTyperAdaptor new.
 			                UGRBTyperAdaptor new }.
@@ -119,7 +119,7 @@ UGRealTimeTyper >> addTypeOf: aValue asPossibleTypeOf: aUGItem [
 	(self shouldTypeAsCollection: aValue)
 		ifFalse: [ ^ possibleTypes addPossibleType: aValue class ].
 	aValue
-		do: [ :each | possibleTypes addPossibleCollectionType: aValue class with: each class ]
+		do: [ :each | possibleTypes addPossibleCollectionType: aValue class withElementType: each class ]
 ]
 
 { #category : #initialization }
@@ -201,7 +201,7 @@ UGRealTimeTyper >> links [
 
 { #category : #api }
 UGRealTimeTyper >> possibleTypesOf: aUGItem [
-	^ typePossibilitiesDictionary at: aUGItem ifAbsentPut: [ UGTypePossibilities for: aUGItem ]
+	^ typePossibilitiesDictionary at: aUGItem ifAbsentPut: [ UGTypePossibilities emptyFor: aUGItem ]
 ]
 
 { #category : #adding }

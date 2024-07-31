@@ -40,7 +40,7 @@ UGTypesManager class >> methodTypers [
 
 { #category : #constants }
 UGTypesManager class >> newDefaultTyper [
-	^ UGTyperMergeCombinator
+	^ UGTyperUnionCombinator
 		withAdaptors:
 			{UGRBTyperAdaptor new.
 			UGRoelTyperAdaptor new}
@@ -69,14 +69,28 @@ UGTypesManager >> addType: aTypeOfItem of: anItem [
 ]
 
 { #category : #retrieving }
-UGTypesManager >> askTypeOfParameter: aParameter [
-	skipMethods
-		ifTrue: [ ^ UGClass for: Object ].
+UGTypesManager >> addTypeOfParameter: aParameter from: possibleTypes [
+
+	skipMethods ifTrue: [ ^ UGClass for: Object ].
 	^ self
-		addType:
-			(blockForParameter
-				value: (methodTyper possibleTypesOfParameter: aParameter))
-		of: aParameter
+		  addType: (blockForParameter value: possibleTypes)
+		  of: aParameter
+]
+
+{ #category : #retrieving }
+UGTypesManager >> askTypeOfInputParameter: aParameter [
+
+	^ self
+		  addTypeOfParameter: aParameter
+		  from: (methodTyper possibleTypesOfInputParameter: aParameter)
+]
+
+{ #category : #retrieving }
+UGTypesManager >> askTypeOfReturnParameter: aParameter [
+
+	^ self
+		  addTypeOfParameter: aParameter
+		  from: (methodTyper possibleTypesOfReturnParameter: aParameter)
 ]
 
 { #category : #retrieving }
@@ -178,12 +192,6 @@ UGTypesManager >> skipMethods [
 	skipMethods := true
 ]
 
-{ #category : #profiling }
-UGTypesManager >> startTimeMeasuring [
-
-	measuredMicroSeconds := 0
-]
-
 { #category : #retrieving }
 UGTypesManager >> typeOf: anItem [
 
@@ -220,7 +228,7 @@ UGTypesManager >> visitCollectionClass: aParameter [
 
 { #category : #visiting }
 UGTypesManager >> visitInputMethodParameter: aParameter [
-	^ self askTypeOfParameter: aParameter
+	^ self askTypeOfInputParameter: aParameter
 ]
 
 { #category : #visiting }
@@ -230,7 +238,7 @@ UGTypesManager >> visitMethod: aMethod [
 
 { #category : #visiting }
 UGTypesManager >> visitReturnParameter: aParameter [
-	^ self askTypeOfParameter: aParameter
+	^ self askTypeOfReturnParameter: aParameter
 ]
 
 { #category : #visiting }

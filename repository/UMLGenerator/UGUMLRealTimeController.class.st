@@ -84,7 +84,7 @@ UGUMLRealTimeController >> generateAndSaveTo: aFile [
 	"save types into following file"
 	typesManager := UGTypesManager withFile: self class typeInfo.
 	"use following typer(s)"
-	typerAdaptor := UGTyperBackupsCombinator withAdaptors: {UGRealTimeTyperAdaptor new. UGRBTyperAdaptor new. UGJ2InfererTyperAdaptor new }.
+	typerAdaptor := UGTyperChainingCombinator withAdaptors: {UGRealTimeTyperAdaptor new. UGRBTyperAdaptor new. UGJ2InfererTyperAdaptor new }.
 	"setup types manager"
 	typesManager
 		autoSave;
@@ -128,7 +128,7 @@ UGUMLRealTimeController >> silentGenerateAndSaveTo: aFile [
 	"save types into following file"
 	typesManager := UGTypesManager withFile: self class typeInfo.
 	"use following typer(s)"
-	typerAdaptor := UGTyperBackupsCombinator withAdaptors: {UGRealTimeTyperAdaptor new. UGRBTyperAdaptor new. UGJ2InfererTyperAdaptor new }.
+	typerAdaptor := UGTyperChainingCombinator withAdaptors: {UGRealTimeTyperAdaptor new. UGRBTyperAdaptor new. UGJ2InfererTyperAdaptor new }.
 	"setup types manager"
 	typesManager
 		autoSave;

@@ -8,7 +8,7 @@ Class {
 		'typesFinalizer',
 		'analyzedPackage'
 	],
-	#category : 'UMLGenerator-Controller'
+	#category : #'UMLGenerator-Controller'
 }
 
 { #category : #'uml - generation' }
@@ -44,7 +44,7 @@ UGUMLStaticController >> generateAndSaveTo: aFile [
 	"save types into following file"
 	typesManager := UGTypesManager withFile: self class typeInfo.
 	"use following typer(s)"
-	typerAdaptor := UGTyperBackupsCombinator withAdaptors: {UGRBTyperAdaptor new. UGJ2InfererTyperAdaptor new.}.
+	typerAdaptor := UGTyperChainingCombinator withAdaptors: {UGRBTyperAdaptor new. UGJ2InfererTyperAdaptor new.}.
 	"setup types manager"
 	typesManager
 		autoSave;
@@ -74,7 +74,7 @@ UGUMLStaticController >> generator: anObject [
 { #category : #initialization }
 UGUMLStaticController >> initialize [
 	typesManager := UGTypesManager withFile: self class typeInfo.
-	typerAdaptor := UGTyperBackupsCombinator withAdaptors: {UGRBTyperAdaptor new. UGJ2InfererTyperAdaptor new.}.
+	typerAdaptor := UGTyperChainingCombinator withAdaptors: {UGRBTyperAdaptor new. UGJ2InfererTyperAdaptor new.}.
 	typesManager autoSave;
 		typerAdaptor: typerAdaptor.
 	typesFinalizer := UGAutoTypesManagerFinalizer new typesManager: typesManager.

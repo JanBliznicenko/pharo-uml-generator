@@ -102,15 +102,15 @@ UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPatt
 UGStatisticsCollector class >> example [
 
 	self examplePackages: (LinkedList withAll: {
+				 ('Athens-Cairo' -> '.*Athens.*|.*Roassal.*').
 				 ('Commander2' -> '.*Commander2.*').
-				 ('ProfilerUI' -> '.*ProfilerUI.*').
-				 ('Tool-Diff' -> '.*Tool-Diff.*').
-				 ('STON-Core' -> '.*Fuel.*').
 				 ('Metacello-Core' -> '.*Metacello.*').
-				 ('Zinc-HTTP' -> '.*Zinc.*').
+				 ('OSWindow-Core' -> '.*OSWindow.*').
+				 ('ProfilerUI' -> '.*ProfilerUI.*').
+				 ('STON-Core' -> '.*STON.*').
+				 ('Tool-Diff' -> '.*Tool-Diff.*').
 				 ('XML-Parser' -> '.*XML.*').
-				 ('Athens-Cairo' -> '.*Athens.*').
-				 ('OSWindow-Core' -> '.*OSWindow.*'). })
+				 ('Zinc-HTTP' -> '.*Zinc.*'). })
 ]
 
 { #category : #example }
@@ -267,8 +267,17 @@ UGStatisticsCollector >> addTimeToRealTime: aTimeInMicroseconds [
 	times at: #realtime ifPresent: [ :current |
 		current ifNotNil: [ times at: #realtime put: current + aTimeInMicroseconds ] ].
 
-	times at: #combined ifPresent: [ :current |
-		current ifNotNil: [ times at: #combined put: current + aTimeInMicroseconds ] ]
+	times at: #chainedReRoRbJ ifPresent: [ :current |
+		current ifNotNil: [ times at: #chainedReRoRbJ put: current + aTimeInMicroseconds ] ].
+
+	times at: #chainedRoRbJRe ifPresent: [ :current |
+		current ifNotNil: [ times at: #chainedRoRbJRe put: current + aTimeInMicroseconds ] ].
+
+	times at: #chainedRbJRoRe ifPresent: [ :current |
+		current ifNotNil: [ times at: #chainedRbJRoRe put: current + aTimeInMicroseconds ] ].
+
+	times at: #majority ifPresent: [ :current |
+		current ifNotNil: [ times at: #majority put: current + aTimeInMicroseconds ] ]
 ]
 
 { #category : #converting }
@@ -280,11 +289,30 @@ UGStatisticsCollector >> calculate [
 		            (#rb -> UGRBTyperAdaptor new).
 		            (#j2 -> UGJ2InfererTyperAdaptor new).
 		            (#realtime -> UGRealTimeTyperAdaptor new).
-		            (#combined -> (UGTyperBackupsCombinator withAdaptors: {
-				              UGRealTimeTyperAdaptor new.
-				              UGRoelTyperAdaptor new.
-				              UGRBTyperAdaptor new.
-				              UGJ2InfererTyperAdaptor new })) }.
+		            (#chainedReRoRbJ
+		             -> (UGTyperChainingCombinator withAdaptors: {
+					              UGRealTimeTyperAdaptor new.
+					              UGRoelTyperAdaptor new.
+					              UGRBTyperAdaptor new.
+					              UGJ2InfererTyperAdaptor new })).
+		            (#chainedRoRbJRe
+		             -> (UGTyperChainingCombinator withAdaptors: {
+					              UGRoelTyperAdaptor new.
+					              UGRBTyperAdaptor new.
+					              UGJ2InfererTyperAdaptor new.
+					              UGRealTimeTyperAdaptor new })).
+		            (#chainedRbJRoRe
+		             -> (UGTyperChainingCombinator withAdaptors: {
+					              UGRBTyperAdaptor new.
+					              UGJ2InfererTyperAdaptor new.
+					              UGRoelTyperAdaptor new.
+					              UGRealTimeTyperAdaptor new })).
+		            (#majority
+		             -> (UGTyperMajorityCombinator withAdaptors: {
+					              UGRoelTyperAdaptor new.
+					              UGRBTyperAdaptor new.
+					              UGJ2InfererTyperAdaptor new.
+					              UGRealTimeTyperAdaptor new })) }.
 	[ :job |
 	inferers withIndexDo: [ :pair :index |
 			job current: index - 1.
@@ -374,7 +402,7 @@ UGStatisticsCollector >> latexTableRowWithCoverage: aCoverageInPercents examples
 	<< anAmountOfExamples asString.
 	{
 		(times at: #realtime).
-		(times at: #combined) } do: [ :each |
+		(times at: #chainingRoRbJRe) } do: [ :each |
 		s << ' & '.
 		each ifNil: [ s << '!!! unknown !!!' ] ifNotNil: [ :time |
 			| ms |

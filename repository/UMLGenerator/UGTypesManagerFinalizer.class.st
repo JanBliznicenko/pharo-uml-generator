@@ -35,12 +35,6 @@ UGTypesManagerFinalizer >> initialize [
 	self typesManager: UGTypesManager default
 ]
 
-{ #category : #profiling }
-UGTypesManagerFinalizer >> startTimeMeasuring [
-
-	typesManager startTimeMeasuring
-]
-
 { #category : #retrieving }
 UGTypesManagerFinalizer >> typeFor: typePossibilities [
 	^ self subclassResponsibility

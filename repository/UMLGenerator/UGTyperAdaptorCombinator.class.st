@@ -1,10 +1,10 @@
 Class {
 	#name : #UGTyperAdaptorCombinator,
-	#superclass : #UGTyperAdaptor,
+	#superclass : #Object,
 	#instVars : [
 		'adaptors'
 	],
-	#category : 'UMLGenerator-Typer'
+	#category : #'UMLGenerator-Typer'
 }
 
 { #category : #'instance creation' }
@@ -19,28 +19,60 @@ UGTyperAdaptorCombinator >> adaptors: aCollection [
 	adaptors := aCollection asArray
 ]
 
-{ #category : #testing }
-UGTyperAdaptorCombinator >> isCollectionTyper [
-	^ adaptors anySatisfy: [ :any | any isCollectionTyper ]
+{ #category : #private }
+UGTyperAdaptorCombinator >> canImmediatelyAnswer: typePossibilities [
+
+	^ self subclassResponsibility
 ]
 
-{ #category : #testing }
-UGTyperAdaptorCombinator >> isMethodTyper [
-	^ adaptors anySatisfy: [ :any | any isMethodTyper ]
+{ #category : #private }
+UGTyperAdaptorCombinator >> combine: collectionOfTypePossibilities [
+
+	^ self subclassResponsibility
 ]
 
-{ #category : #testing }
-UGTyperAdaptorCombinator >> isVarTyper [
-	^ adaptors anySatisfy: [ :any | any isVarTyper ]
+{ #category : #private }
+UGTyperAdaptorCombinator >> possibleTypesFromBlock: aBlock [
+
+	| collectionOfTypePossibilities |
+	adaptors ifEmpty: [ self error: 'No TyperAdaptor available' ].
+	collectionOfTypePossibilities := adaptors collect: [ :each |
+		                                 | adaptorTypePossibilities |
+		                                 adaptorTypePossibilities := self
+			                                                             processAdaptorTypes:
+			                                                             (aBlock
+				                                                              value:
+				                                                              each).
+		                                 (self canImmediatelyAnswer:
+			                                  adaptorTypePossibilities)
+			                                 ifTrue: [
+			                                 ^ adaptorTypePossibilities ].
+		                                 adaptorTypePossibilities ].
+	^ self combine: collectionOfTypePossibilities
 ]
 
 { #category : #api }
-UGTyperAdaptorCombinator >> possibleTypesOfParameter: aParameter [
-	^ self possibleTypesFromBlock: [ :adaptor | adaptor possibleTypesOfParameter: aParameter ]
+UGTyperAdaptorCombinator >> possibleTypesOfInputParameter: aUGParameter [
+
+	^ self possibleTypesFromBlock: [ :adaptor |
+		  adaptor possibleTypesOfInputParameter: aUGParameter ]
+]
+
+{ #category : #api }
+UGTyperAdaptorCombinator >> possibleTypesOfReturnParameter: aUGParameter [
+
+	^ self possibleTypesFromBlock: [ :adaptor |
+		  adaptor possibleTypesOfReturnParameter: aUGParameter ]
 ]
 
 { #category : #api }
 UGTyperAdaptorCombinator >> possibleTypesOfVariable: aVariable [
 	^ self
 		possibleTypesFromBlock: [ :adaptor | adaptor possibleTypesOfVariable: aVariable ]
+]
+
+{ #category : #private }
+UGTyperAdaptorCombinator >> processAdaptorTypes: typePossibilities [
+
+	^ typePossibilities
 ]
