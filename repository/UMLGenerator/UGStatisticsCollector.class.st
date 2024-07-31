@@ -402,7 +402,7 @@ UGStatisticsCollector >> latexTableRowWithCoverage: aCoverageInPercents examples
 	<< anAmountOfExamples asString.
 	{
 		(times at: #realtime).
-		(times at: #chainingRoRbJRe) } do: [ :each |
+		(times at: #chainedRoRbJRe) } do: [ :each |
 		s << ' & '.
 		each ifNil: [ s << '!!! unknown !!!' ] ifNotNil: [ :time |
 			| ms |
