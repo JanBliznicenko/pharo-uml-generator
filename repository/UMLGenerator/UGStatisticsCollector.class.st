@@ -264,20 +264,15 @@ UGStatisticsCollector class >> timeToCloseExamples [
 { #category : #adding }
 UGStatisticsCollector >> addTimeToRealTime: aTimeInMicroseconds [
 
-	times at: #realtime ifPresent: [ :current |
-		current ifNotNil: [ times at: #realtime put: current + aTimeInMicroseconds ] ].
-
-	times at: #chainedReRoRbJ ifPresent: [ :current |
-		current ifNotNil: [ times at: #chainedReRoRbJ put: current + aTimeInMicroseconds ] ].
-
-	times at: #chainedRoRbJRe ifPresent: [ :current |
-		current ifNotNil: [ times at: #chainedRoRbJRe put: current + aTimeInMicroseconds ] ].
-
-	times at: #chainedRbJRoRe ifPresent: [ :current |
-		current ifNotNil: [ times at: #chainedRbJRoRe put: current + aTimeInMicroseconds ] ].
-
-	times at: #majority ifPresent: [ :current |
-		current ifNotNil: [ times at: #majority put: current + aTimeInMicroseconds ] ]
+	times keys
+		select: [ :each |
+			(each beginsWith: 'realtime') or: [
+				(each beginsWith: 'chain') or: [ each beginsWith: 'major' ] ] ]
+		thenDo: [ :eachKey |
+			| current |
+			current := times at: eachKey.
+			current ifNotNil: [
+				times at: eachKey put: current + aTimeInMicroseconds ] ]
 ]
 
 { #category : #converting }
@@ -295,18 +290,6 @@ UGStatisticsCollector >> calculate [
 					              UGRoelTyperAdaptor new.
 					              UGRBTyperAdaptor new.
 					              UGJ2InfererTyperAdaptor new })).
-		            (#chainedRoRbJRe
-		             -> (UGTyperChainingCombinator withAdaptors: {
-					              UGRoelTyperAdaptor new.
-					              UGRBTyperAdaptor new.
-					              UGJ2InfererTyperAdaptor new.
-					              UGRealTimeTyperAdaptor new })).
-		            (#chainedRbJRoRe
-		             -> (UGTyperChainingCombinator withAdaptors: {
-					              UGRBTyperAdaptor new.
-					              UGJ2InfererTyperAdaptor new.
-					              UGRoelTyperAdaptor new.
-					              UGRealTimeTyperAdaptor new })).
 		            (#majority
 		             -> (UGTyperMajorityCombinator withAdaptors: {
 					              UGRoelTyperAdaptor new.
@@ -402,7 +385,7 @@ UGStatisticsCollector >> latexTableRowWithCoverage: aCoverageInPercents examples
 	<< anAmountOfExamples asString.
 	{
 		(times at: #realtime).
-		(times at: #chainedRoRbJRe) } do: [ :each |
+		(times at: #chainedReRoRbJ) } do: [ :each |
 		s << ' & '.
 		each ifNil: [ s << '!!! unknown !!!' ] ifNotNil: [ :time |
 			| ms |
