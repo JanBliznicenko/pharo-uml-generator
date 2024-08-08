@@ -290,12 +290,12 @@ UGStatisticsCollector >> calculate [
 					              UGRoelTyperAdaptor new.
 					              UGRBTyperAdaptor new.
 					              UGJ2InfererTyperAdaptor new })).
-		            (#majority
+		            "(#majority
 		             -> (UGTyperMajorityCombinator withAdaptors: {
 					              UGRoelTyperAdaptor new.
 					              UGRBTyperAdaptor new.
 					              UGJ2InfererTyperAdaptor new.
-					              UGRealTimeTyperAdaptor new })) }.
+					              UGRealTimeTyperAdaptor new }))" }.
 	[ :job |
 	inferers withIndexDo: [ :pair :index |
 			job current: index - 1.
@@ -366,7 +366,7 @@ UGStatisticsCollector >> latexTableRowWithCountsTo: s [
 		percentage := self itemCount = 0
 			              ifTrue: [ 100 ]
 			              ifFalse: [ each * 100 / self itemCount ].
-		percentage < 1.0
+		(percentage < 0.99 and: [ percentage > 0.01 ])
 			ifTrue: [ s << '$<$1' ]
 			ifFalse: [ percentage printOn: s showingDecimalPlaces: 0 ].
 		s << ' \%)' ].
@@ -382,17 +382,19 @@ UGStatisticsCollector >> latexTableRowWithCoverage: aCoverageInPercents examples
 	s << self packageName << ' & ' << self itemCount asString << ' & '
 	<< aCoverageInPercents asInteger asString << ' \% & '
 	<< anAmountOfExamples asString.
+
 	{
-		(times at: #realtime).
-		(times at: #chainedReRoRbJ) } do: [ :each |
-		s << ' & '.
-		each ifNil: [ s << '!!! unknown !!!' ] ifNotNil: [ :time |
-			| ms |
-			ms := time / 1000.
-			ms < 1.0
-				ifTrue: [ s << '$<$1' ]
-				ifFalse: [ ms printOn: s showingDecimalPlaces: 0 ] ].
-		s << ' ms' ].
+		(foundCounts at: #realtime).
+		(foundCounts at: #chainedReRoRbJ) } do: [ :each |
+		| percentage |
+		s << ' & ' << each asString << ' ('.
+		percentage := self itemCount = 0
+			              ifTrue: [ 100 ]
+			              ifFalse: [ each * 100 / self itemCount ].
+		(percentage < 0.99 and: [ percentage > 0.01 ])
+			ifTrue: [ s << '$<$1' ]
+			ifFalse: [ percentage printOn: s showingDecimalPlaces: 0 ].
+		s << ' \%)' ].
 	s << ' \\'.
 	s lf.
 	s << '\Xhline{0.5\arrayrulewidth}'.
