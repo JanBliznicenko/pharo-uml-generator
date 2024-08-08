@@ -7,20 +7,16 @@ Class {
 { #category : #private }
 UGTyperChainingCombinator >> canImmediatelyAnswer: typePossibilities [
 
-	| mainType collectionElementType |
-	mainType := typePossibilities possibleTypes anyOne.
-	mainType == Object ifTrue: [ ^ false ].
-	(UGTypePossibilities shouldTypeAsCollection: mainType) ifFalse: [
-		^ true ].
-	collectionElementType := typePossibilities
-		                         possibleCollectionElementTypes anyOne.
-	^ collectionElementType ~= Object
+	^ typePossibilities isFullyKnown
 ]
 
 { #category : #private }
 UGTyperChainingCombinator >> combine: collectionOfTypePossibilities [
 
 	^ collectionOfTypePossibilities
-		  detect: [ :any | any includesObjectType not ]
-		  ifNone: [ ^ collectionOfTypePossibilities first ]
+		  detect: [ :any | any isFullyKnown ]
+		  ifNone: [
+			  collectionOfTypePossibilities
+				  detect: [ :any | any isFullyUnknown not ]
+				  ifNone: [ collectionOfTypePossibilities first ] ]
 ]

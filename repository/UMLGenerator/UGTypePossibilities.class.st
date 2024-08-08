@@ -150,6 +150,12 @@ UGTypePossibilities >> addPossibleType: aClass [
 ]
 
 { #category : #testing }
+UGTypePossibilities >> includesCollectionElementObjectType [
+
+	^ possibleCollectionElementTypes anySatisfy: [ :any | any == Object ]
+]
+
+{ #category : #testing }
 UGTypePossibilities >> includesCollectionType [
 
 	^ possibleTypes anySatisfy: [ :any |
@@ -182,22 +188,18 @@ UGTypePossibilities >> isCollection [
 UGTypePossibilities >> isFullyKnown [
 	"Answer true if we know the type and if it is a collection, we also know type of elements"
 
+	possibleTypes size = 1 ifFalse: [ ^ false ].
 	self isFullyUnknown ifTrue: [ ^ false ].
-	(possibleTypes noneSatisfy: [ :each |
-		 self class shouldTypeAsCollection: each ]) ifTrue: [ ^ true ].
-	possibleCollectionElementTypes ifEmpty: [ ^ true ].
-	possibleCollectionElementTypes size > 1 ifTrue: [ ^ true ].
-	^ possibleCollectionElementTypes anyOne ~= Object
+	self includesCollectionType ifFalse: [ ^ true ].
+	possibleCollectionElementTypes size = 1 ifFalse: [ ^ false ].
+	^ self includesCollectionElementObjectType not
 ]
 
 { #category : #testing }
 UGTypePossibilities >> isFullyUnknown [
 	"Answer true if we do not know anything about the type"
 
-	possibleTypes ifEmpty: [ ^ true ].
-	(possibleTypes size = 1 ifTrue: [ possibleTypes anyOne == Object ])
-		ifTrue: [ ^ true ].
-	^ false
+	^ possibleTypes isEmpty or: [ self includesObjectType ]
 ]
 
 { #category : #accessing }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'realClass'
 	],
-	#category : 'UMLGenerator-Structure'
+	#category : #'UMLGenerator-Structure'
 }
 
 { #category : #'instance creation' }
@@ -31,11 +31,6 @@ UGClass >> acceptVisitor: aVisitor [
 { #category : #testing }
 UGClass >> isCollectionClass [
 	^ false
-]
-
-{ #category : #testing }
-UGClass >> isRealClassCollection [
-	^ self realClass includesBehavior: Collection
 ]
 
 { #category : #accessing }

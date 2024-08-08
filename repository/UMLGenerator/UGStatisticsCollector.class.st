@@ -319,15 +319,14 @@ UGStatisticsCollector >> calculateTyper: aTyperAdaptor named: aTyperName [
 		                  typesManager.
 	generator := UGEnterpriseArchitectUMLGenerator new typesManager:
 		             typesFinalizer.
-		
+
 	Smalltalk garbageCollect.
 	time := Time microsecondsToRun: [
 		        generator importFromPackagesNamed: { self packageName } ].
 	foundCounts
 		at: aTyperName
 		put: (typesManager knownTypes associations count: [ :each |
-				 each value realClass ~= Object or: [
-					 each value isCollectionClass ] ]).
+				 each value realClass ~= Object ]).
 	times at: aTyperName put: time.
 	itemCount
 		ifNil: [ itemCount := typesManager knownTypes size ]

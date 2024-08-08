@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'collectionRealClass'
 	],
-	#category : 'UMLGenerator-Structure'
+	#category : #'UMLGenerator-Structure'
 }
 
 { #category : #'instance creation' }
@@ -41,6 +41,12 @@ UGCollection >> collectionRealClass [
 { #category : #accessing }
 UGCollection >> collectionRealClass: aClass [
 	collectionRealClass := aClass
+]
+
+{ #category : #accessing }
+UGCollection >> elementRealClass [
+
+	^ self realClass
 ]
 
 { #category : #testing }
