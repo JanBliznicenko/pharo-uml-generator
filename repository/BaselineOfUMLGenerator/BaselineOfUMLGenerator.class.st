@@ -19,7 +19,9 @@ BaselineOfUMLGenerator >> baseline: spec [
 			baseline: 'MetaLinksToolkit'
 			with: [
 				spec repository:
-						'github://JanBliznicenko/metalinks-toolkit/repository' ].
+						'github://JanBliznicenko/metalinks-toolkit/repository' ];
+			baseline: 'XPath'
+			with: [ spec repository: 'github://pharo-contributions/XML-XPath' ].
 		spec package: 'UMLGenerator' with: [
 			spec requires:
 				#( 'OPUMLXMI' 'RoelTyper' 'J2Inferer' 'MetaLinksToolkit' ) ].
@@ -27,5 +29,6 @@ BaselineOfUMLGenerator >> baseline: spec [
 			package: 'UMLGeneratorGUI'
 			with: [ spec requires: #( 'UMLGenerator' ) ].
 		spec group: 'GUI' with: #( 'UMLGeneratorGUI' ).
-		spec group: 'default' with: #( 'UMLGenerator' ) ]
+		spec group: 'default' with: #( 'UMLGenerator' ).
+		spec group: 'statistics' with: #( 'default' 'XPath' ) ]
 ]

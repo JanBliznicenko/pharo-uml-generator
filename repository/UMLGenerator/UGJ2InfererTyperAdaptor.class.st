@@ -13,8 +13,9 @@ UGJ2InfererTyperAdaptor >> infererOf: aPackage [
 	^ inferers at: aPackage ifAbsentPut: [
 		  | inferer |
 		  inferer := J2Inferer withNotifier: J2NullNotifier new.
-		  (aPackage definedClasses reject: [ :each | each isTrait ]) do: [
-			  :e | inferer enqueueClass: e ].
+		  ("(J2InferenceManager findTransitiveRelatedClassesTo:"
+			    aPackage definedClasses "asSet)" reject: [ :each | each isTrait ])
+			  do: [ :e | inferer enqueueClass: e ].
 		  inferer runAndWait.
 		  inferer ]
 ]
