@@ -109,7 +109,7 @@ UGStatisticsCollector class >> example [
 				 ('ProfilerUI' -> '.*ProfilerUI.*').
 				 ('STON-Core' -> '.*STON.*').
 				 ('Tool-Diff' -> '.*Tool-Diff.*').
-				 ('XML-Parser' -> '.*XML.*').
+				 ('XML-Parser' -> '.*XML.*|.*XMI.*|.*XPath.*').
 				 ('Zinc-HTTP' -> '.*Zinc.*'). })
 ]
 
