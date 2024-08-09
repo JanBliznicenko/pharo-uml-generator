@@ -117,8 +117,7 @@ UGStatisticsCollector class >> example [
 UGStatisticsCollector class >> examplePackage: aPackageName relevantPackagesPattent: aPackagesPattern thenDo: aBlock [
 
 	| dir fileNameExtensions |
-	dir := 'C:\Users\Honza\OneDrive - České vysoké učení technické v Praze\PhD\COLA\results'
-		       asFileReference.
+	dir := self outputDirectoryPath asFileReference.
 	fileNameExtensions := '.'
 	                      ,
 	                      (aPackageName select: #isAlphaNumeric)
@@ -253,6 +252,37 @@ UGStatisticsCollector class >> executeTestsOf: aPackagesPattern for: aPackage [
 		, aPackagesPattern , ': ' , result asString , ''.
 
 	^ percentsOfCoverage
+]
+
+{ #category : #example }
+UGStatisticsCollector class >> mergeOutputFiles [
+
+	<script>
+	| filenameExtension dir |
+	filenameExtension := '.all.tex'.
+	dir := self outputDirectoryPath asFileReference.
+	dir isDirectory ifFalse: [
+		self error: 'Dir with output files does not exist' ].
+	dir isReadable ifFalse: [
+		self error: 'Dir with output files does not accessible' ].
+	dir files
+		select: [ :each |
+		each basename includesSubstring: filenameExtension ]
+		thenDo: [ :each | each delete ].
+	dir files sorted do: [ :eachFile |
+		eachFile readStreamDo: [ :srcS |
+			| filenameTableType |
+			filenameTableType := eachFile basename copyUpTo: $..
+			(dir / (filenameTableType , filenameExtension)) asFileReference
+				writeStreamDo: [ :tgtS |
+					tgtS setToEnd.
+					tgtS << srcS upToEnd ] ] ]
+]
+
+{ #category : #example }
+UGStatisticsCollector class >> outputDirectoryPath [
+
+	^ 'C:\Users\Honza\OneDrive - České vysoké učení technické v Praze\PhD\COLA\results'
 ]
 
 { #category : #constants }
