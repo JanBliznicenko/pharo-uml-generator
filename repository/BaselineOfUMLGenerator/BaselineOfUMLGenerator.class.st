@@ -1,16 +1,17 @@
 Class {
-	#name : #BaselineOfUMLGenerator,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfUMLGenerator
+	#name : 'BaselineOfUMLGenerator',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfUMLGenerator',
+	#package : 'BaselineOfUMLGenerator'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfUMLGenerator >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [
 		spec
-			baseline: 'OPUMLXMI'
+			baseline: 'OpenPonkUMLXMI'
 			with: [ spec repository: 'github://openponk/uml-xmi/repository' ];
 			baseline: 'RoelTyper'
 			with: [ spec repository: 'github://JanBliznicenko/RoelTyper/src' ];
@@ -24,7 +25,7 @@ BaselineOfUMLGenerator >> baseline: spec [
 			with: [ spec repository: 'github://pharo-contributions/XML-XPath' ].
 		spec package: 'UMLGenerator' with: [
 			spec requires:
-				#( 'OPUMLXMI' 'RoelTyper' 'J2Inferer' 'MetaLinksToolkit' ) ].
+				#( 'OpenPonkUMLXMI' 'RoelTyper' 'J2Inferer' 'MetaLinksToolkit' ) ].
 		spec
 			package: 'UMLGeneratorGUI'
 			with: [ spec requires: #( 'UMLGenerator' ) ].
