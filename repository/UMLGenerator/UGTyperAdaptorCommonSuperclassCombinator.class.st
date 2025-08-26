@@ -1,10 +1,12 @@
 Class {
-	#name : #UGTyperAdaptorCommonSuperclassCombinator,
-	#superclass : #UGTyperAdaptorCombinator,
-	#category : #'UMLGenerator-Typer'
+	#name : 'UGTyperAdaptorCommonSuperclassCombinator',
+	#superclass : 'UGTyperAdaptorCombinator',
+	#category : 'UMLGenerator-Typer',
+	#package : 'UMLGenerator',
+	#tag : 'Typer'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 UGTyperAdaptorCommonSuperclassCombinator >> processAdaptorTypes: typePossibilities [
 
 	^ typePossibilities reducedToCommonSuperclass

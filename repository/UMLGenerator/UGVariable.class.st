@@ -1,49 +1,51 @@
 Class {
-	#name : #UGVariable,
-	#superclass : #UGClassItem,
+	#name : 'UGVariable',
+	#superclass : 'UGClassItem',
 	#instVars : [
 		'isShared'
 	],
-	#category : 'UMLGenerator-Structure'
+	#category : 'UMLGenerator-Structure',
+	#package : 'UMLGenerator',
+	#tag : 'Structure'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 UGVariable >> acceptVisitor: aVisitor [
 	^ aVisitor visitVariable: self
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGVariable >> initialize [
 	super initialize.
 	isShared := false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGVariable >> isClassSide [
 	^ isShared or: [ super isClassSide ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGVariable >> isShared [
 	^ isShared
 ]
 
-{ #category : #constants }
+{ #category : 'constants' }
 UGVariable >> kindName [
 	^ 'variable'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGVariable >> shared [
 	isShared := true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGVariable >> variableName [
 	^ self itemName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGVariable >> variableName: aString [
 	self itemName: aString
 ]

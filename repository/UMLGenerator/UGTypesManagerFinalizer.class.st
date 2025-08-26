@@ -1,20 +1,22 @@
 Class {
-	#name : #UGTypesManagerFinalizer,
-	#superclass : #Object,
+	#name : 'UGTypesManagerFinalizer',
+	#superclass : 'Object',
 	#instVars : [
 		'typesManager'
 	],
-	#category : #'UMLGenerator-TypeManager'
+	#category : 'UMLGenerator-TypeManager',
+	#package : 'UMLGenerator',
+	#tag : 'TypeManager'
 }
 
-{ #category : #example }
+{ #category : 'example' }
 UGTypesManagerFinalizer class >> example [
 	^ UGEnterpriseArchitectUMLGenerator new
 		typesManager: self new;
 		importFromPackagesNamed: #('Zinc-HTTP')
 ]
 
-{ #category : #example }
+{ #category : 'example' }
 UGTypesManagerFinalizer class >> exampleExportToFile [
 	| generator model |
 	generator := UGEnterpriseArchitectUMLGenerator new typesManager: self new.
@@ -23,29 +25,29 @@ UGTypesManagerFinalizer class >> exampleExportToFile [
 	^ model
 ]
 
-{ #category : #singleton }
+{ #category : 'singleton' }
 UGTypesManagerFinalizer class >> resetDefault [
 	UGTypesManager resetDefault.
 	self new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGTypesManagerFinalizer >> initialize [
 	super initialize.
 	self typesManager: UGTypesManager default
 ]
 
-{ #category : #retrieving }
+{ #category : 'retrieving' }
 UGTypesManagerFinalizer >> typeFor: typePossibilities [
 	^ self subclassResponsibility
 ]
 
-{ #category : #retrieving }
+{ #category : 'retrieving' }
 UGTypesManagerFinalizer >> typeOf: anItem [
 	^ typesManager typeOf: anItem
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypesManagerFinalizer >> typesManager: aTypesManager [
 	aTypesManager blockForVariable: [ :typePossibilities | self typeFor: typePossibilities ].
 	aTypesManager blockForParameter: [ :typePossibilities | self typeFor: typePossibilities ].

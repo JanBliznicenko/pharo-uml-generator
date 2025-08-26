@@ -1,13 +1,15 @@
 Class {
-	#name : #UGRBTyperAdaptor,
-	#superclass : #UGTyperAdaptor,
+	#name : 'UGRBTyperAdaptor',
+	#superclass : 'UGTyperAdaptor',
 	#instVars : [
 		'typers'
 	],
-	#category : #'UMLGenerator-Typer'
+	#category : 'UMLGenerator-Typer',
+	#package : 'UMLGenerator',
+	#tag : 'Typer'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGRBTyperAdaptor class >> invalidClassNames [
 	^ Set
 		with: #GHObjectGhost
@@ -16,19 +18,19 @@ UGRBTyperAdaptor class >> invalidClassNames [
 		with: #GHObjectGhostStub
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGRBTyperAdaptor class >> invalidClasses [
 	^ self invalidClassNames
 		select: [ :each | Smalltalk globals includesKey: each ]
 		thenCollect: [ :each | Smalltalk globals at: each ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGRBTyperAdaptor class >> replacements [
 	^ {(ProtoObject -> Object)} asDictionary
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 UGRBTyperAdaptor >> filterTypes: aCollectionOfClasses [
 	| invalidClasses replacements |
 	invalidClasses := self class invalidClasses.
@@ -38,35 +40,35 @@ UGRBTyperAdaptor >> filterTypes: aCollectionOfClasses [
 		thenCollect: [ :each | replacements at: each ifAbsent: [ each ] ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGRBTyperAdaptor >> initialize [
 	super initialize.
 	typers := IdentityDictionary new
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGRBTyperAdaptor >> isCollectionTyper [
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGRBTyperAdaptor >> isVarTyper [
 	^ true
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGRBTyperAdaptor >> possibleTypesOfInputParameter: aUGParameter [
 
 	^ UGTypePossibilities emptyFor: aUGParameter
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGRBTyperAdaptor >> possibleTypesOfReturnParameter: aUGParameter [
 
 	^ UGTypePossibilities emptyFor: aUGParameter
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGRBTyperAdaptor >> possibleTypesOfVariable: aUGVariable [
 
 	| typer types collectionElementTypes |
@@ -86,7 +88,7 @@ UGRBTyperAdaptor >> possibleTypesOfVariable: aUGVariable [
 		  collectionElementTypes: collectionElementTypes
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 UGRBTyperAdaptor >> typerOf: aClass [
 	^ typers at: aClass ifAbsentPut: [ RBRefactoryTyper new runOn: aClass ]
 ]

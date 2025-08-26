@@ -1,37 +1,39 @@
 Class {
-	#name : #UGTyperAdaptorCombinator,
-	#superclass : #Object,
+	#name : 'UGTyperAdaptorCombinator',
+	#superclass : 'Object',
 	#instVars : [
 		'adaptors'
 	],
-	#category : #'UMLGenerator-Typer'
+	#category : 'UMLGenerator-Typer',
+	#package : 'UMLGenerator',
+	#tag : 'Typer'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 UGTyperAdaptorCombinator class >> withAdaptors: aCollection [
 	^ self new
 		adaptors: aCollection;
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTyperAdaptorCombinator >> adaptors: aCollection [
 	adaptors := aCollection asArray
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 UGTyperAdaptorCombinator >> canImmediatelyAnswer: typePossibilities [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 UGTyperAdaptorCombinator >> combine: collectionOfTypePossibilities [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 UGTyperAdaptorCombinator >> possibleTypesFromBlock: aBlock [
 
 	| collectionOfTypePossibilities |
@@ -51,27 +53,27 @@ UGTyperAdaptorCombinator >> possibleTypesFromBlock: aBlock [
 	^ self combine: collectionOfTypePossibilities
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGTyperAdaptorCombinator >> possibleTypesOfInputParameter: aUGParameter [
 
 	^ self possibleTypesFromBlock: [ :adaptor |
 		  adaptor possibleTypesOfInputParameter: aUGParameter ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGTyperAdaptorCombinator >> possibleTypesOfReturnParameter: aUGParameter [
 
 	^ self possibleTypesFromBlock: [ :adaptor |
 		  adaptor possibleTypesOfReturnParameter: aUGParameter ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGTyperAdaptorCombinator >> possibleTypesOfVariable: aVariable [
 	^ self
 		possibleTypesFromBlock: [ :adaptor | adaptor possibleTypesOfVariable: aVariable ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 UGTyperAdaptorCombinator >> processAdaptorTypes: typePossibilities [
 
 	^ typePossibilities

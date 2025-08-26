@@ -1,10 +1,12 @@
 Class {
-	#name : #UGEnterpriseArchitectUMLXMIWriter,
-	#superclass : #OPUMLXMIWriter,
-	#category : 'UMLGenerator-Generator'
+	#name : 'UGEnterpriseArchitectUMLXMIWriter',
+	#superclass : 'OPUMLXMIWriter',
+	#category : 'UMLGenerator-Generator',
+	#package : 'UMLGenerator',
+	#tag : 'Generator'
 }
 
-{ #category : #writing }
+{ #category : 'writing' }
 UGEnterpriseArchitectUMLXMIWriter >> write: anElement [
 	| document rootElement |
 	unresolved := OrderedCollection new.

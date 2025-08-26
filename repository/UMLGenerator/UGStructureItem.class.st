@@ -1,70 +1,72 @@
 Class {
-	#name : #UGStructureItem,
-	#superclass : #Object,
+	#name : 'UGStructureItem',
+	#superclass : 'Object',
 	#instVars : [
 		'itemName'
 	],
-	#category : 'UMLGenerator-Structure'
+	#category : 'UMLGenerator-Structure',
+	#package : 'UMLGenerator',
+	#tag : 'Structure'
 }
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 UGStructureItem >> < anotherItem [
 	^ self class asString < anotherItem class asString
 		or: [ self itemName < anotherItem itemName ]
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 UGStructureItem >> = anotherItem [
 	^ self class = anotherItem class and: [ self itemName = anotherItem itemName ]
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 UGStructureItem >> acceptVisitor: aVisitor [
 	^ self subclassResponsibility
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 UGStructureItem >> hash [
 	^ self class hash bitXor: self itemName hash
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGStructureItem >> initialize [
 	super initialize.
 	itemName := ''
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGStructureItem >> itemName [
 	^ itemName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGStructureItem >> itemName: aName [
 	itemName := aName
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 UGStructureItem >> kindName [
 	^ self subclassResponsibility
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 UGStructureItem >> printContext [
 	^ self subclassResponsibility
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 UGStructureItem >> printName [
 	^ self itemName
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 UGStructureItem >> printOn: aStream [
 	aStream << self printWithContext
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 UGStructureItem >> printWithContext [
 	^ self printContext , '>' , self printName
 ]

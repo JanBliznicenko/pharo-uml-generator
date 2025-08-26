@@ -1,6 +1,6 @@
 Class {
-	#name : #UGTypePossibilities,
-	#superclass : #Object,
+	#name : 'UGTypePossibilities',
+	#superclass : 'Object',
 	#instVars : [
 		'item',
 		'possibleTypes',
@@ -10,10 +10,12 @@ Class {
 		'atomicCollectionTypes',
 		'classReplacements'
 	],
-	#category : #'UMLGenerator-Typer'
+	#category : 'UMLGenerator-Typer',
+	#package : 'UMLGenerator',
+	#tag : 'Typer'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypePossibilities class >> atomicCollectionTypes [
 
 	^ atomicCollectionTypes ifNil: [
@@ -42,7 +44,7 @@ UGTypePossibilities class >> atomicCollectionTypes [
 			                           :each | each withAllSubclasses ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypePossibilities class >> classReplacements [
 	^ classReplacements
 		ifNil: [ classReplacements := {(True -> Boolean).
@@ -59,7 +61,7 @@ UGTypePossibilities class >> classReplacements [
 			(SmallInteger -> Integer)} asDictionary ]
 ]
 
-{ #category : #retrieving }
+{ #category : 'retrieving' }
 UGTypePossibilities class >> commonSuperclassOf: classes [
 
 	| currentSuperclasses bestCommonIndex commonHierarchy classesArray |
@@ -86,7 +88,7 @@ UGTypePossibilities class >> commonSuperclassOf: classes [
 	^ commonHierarchy last
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 UGTypePossibilities class >> emptyFor: anItem [
 
 	^ self new
@@ -94,7 +96,7 @@ UGTypePossibilities class >> emptyFor: anItem [
 		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 UGTypePossibilities class >> for: anItem types: aCollectionOfTypes [
 
 	^ (self emptyFor: anItem)
@@ -102,7 +104,7 @@ UGTypePossibilities class >> for: anItem types: aCollectionOfTypes [
 		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 UGTypePossibilities class >> for: anItem types: aCollectionOfTypes collectionElementTypes: aCollectionOfElementTypes [
 
 	^ (self for: anItem types: aCollectionOfTypes)
@@ -110,14 +112,14 @@ UGTypePossibilities class >> for: anItem types: aCollectionOfTypes collectionEle
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypePossibilities class >> shouldTypeAsCollection: aClass [
 
 	^ (aClass includesBehavior: Collection) and: [
 		  (self atomicCollectionTypes includes: aClass) not ]
 ]
 
-{ #category : #copying }
+{ #category : 'copying' }
 UGTypePossibilities >> , otherTypePossibilities [
 
 	^ self class
@@ -127,7 +129,7 @@ UGTypePossibilities >> , otherTypePossibilities [
 			  , otherTypePossibilities possibleCollectionElementTypes
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGTypePossibilities >> addPossibleCollectionType: aCollectionClass withElementType: anElementClass [
 
 	(aCollectionClass isNil or: [
@@ -141,7 +143,7 @@ UGTypePossibilities >> addPossibleCollectionType: aCollectionClass withElementTy
 		(self replacementOfClass: anElementClass)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypePossibilities >> addPossibleType: aClass [
 
 	aClass ifNil: [ ^ self ].
@@ -149,26 +151,26 @@ UGTypePossibilities >> addPossibleType: aClass [
 	possibleTypes add: (self replacementOfClass: aClass)
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGTypePossibilities >> includesCollectionElementObjectType [
 
 	^ possibleCollectionElementTypes anySatisfy: [ :any | any == Object ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGTypePossibilities >> includesCollectionType [
 
 	^ possibleTypes anySatisfy: [ :any |
 		  self class shouldTypeAsCollection: any ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGTypePossibilities >> includesObjectType [
 
 	^ possibleTypes anySatisfy: [ :any | any == Object ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGTypePossibilities >> initialize [
 
 	super initialize.
@@ -176,7 +178,7 @@ UGTypePossibilities >> initialize [
 	possibleCollectionElementTypes := Set new
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGTypePossibilities >> isCollection [
 
 	^ possibleTypes isNotEmpty and: [
@@ -184,7 +186,7 @@ UGTypePossibilities >> isCollection [
 			  self class shouldTypeAsCollection: any ] ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGTypePossibilities >> isFullyKnown [
 	"Answer true if we know the type and if it is a collection, we also know type of elements"
 
@@ -195,29 +197,29 @@ UGTypePossibilities >> isFullyKnown [
 	^ self includesCollectionElementObjectType not
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGTypePossibilities >> isFullyUnknown [
 	"Answer true if we do not know anything about the type"
 
 	^ possibleTypes isEmpty or: [ self includesObjectType ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypePossibilities >> item [
 	^ item
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypePossibilities >> item: anItem [
 	item := anItem
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypePossibilities >> possibleCollectionElementTypes [
 	^ possibleCollectionElementTypes
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypePossibilities >> possibleCollectionElementTypes: aCollectionOfTypes [
 
 	possibleCollectionElementTypes := (aCollectionOfTypes reject: [ :each |
@@ -228,12 +230,12 @@ UGTypePossibilities >> possibleCollectionElementTypes: aCollectionOfTypes [
 		                                  as: Set
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypePossibilities >> possibleTypes [
 	^ possibleTypes
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypePossibilities >> possibleTypes: aCollectionOfTypes [
 
 	possibleTypes := Set new.
@@ -241,7 +243,7 @@ UGTypePossibilities >> possibleTypes: aCollectionOfTypes [
 	aCollectionOfTypes do: [ :each | self addPossibleType: each ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 UGTypePossibilities >> printOn: aStream [
 
 	super printOn: aStream.
@@ -250,7 +252,7 @@ UGTypePossibilities >> printOn: aStream [
 	possibleCollectionElementTypes printElementsOn: aStream
 ]
 
-{ #category : #transforming }
+{ #category : 'transforming' }
 UGTypePossibilities >> reducedToCommonSuperclass [
 
 	^ self class
@@ -260,7 +262,7 @@ UGTypePossibilities >> reducedToCommonSuperclass [
 				   (self class commonSuperclassOf: possibleCollectionElementTypes))
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 UGTypePossibilities >> replacementOfClass: aClass [
 	^ self class classReplacements at: aClass ifAbsent: [ aClass ]
 ]

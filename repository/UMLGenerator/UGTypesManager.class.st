@@ -1,6 +1,6 @@
 Class {
-	#name : #UGTypesManager,
-	#superclass : #Object,
+	#name : 'UGTypesManager',
+	#superclass : 'Object',
 	#instVars : [
 		'methodTyper',
 		'varTyper',
@@ -15,10 +15,12 @@ Class {
 	#classInstVars : [
 		'default'
 	],
-	#category : #'UMLGenerator-TypeManager'
+	#category : 'UMLGenerator-TypeManager',
+	#package : 'UMLGenerator',
+	#tag : 'TypeManager'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 UGTypesManager class >> default [
 	^ default
 		ifNil: [ default := (self withFile: 'default.typeinfo.ston')
@@ -26,19 +28,19 @@ UGTypesManager class >> default [
 				yourself ]
 ]
 
-{ #category : #example }
+{ #category : 'example' }
 UGTypesManager class >> example [
 	^ UGEnterpriseArchitectUMLGenerator new
 		typesManager: self new;
 		importFromPackagesNamed: #('Zinc-HTTP')
 ]
 
-{ #category : #constants }
+{ #category : 'constants' }
 UGTypesManager class >> methodTypers [
 	^ {}
 ]
 
-{ #category : #constants }
+{ #category : 'constants' }
 UGTypesManager class >> newDefaultTyper [
 	^ UGTyperUnionCombinator
 		withAdaptors:
@@ -46,21 +48,21 @@ UGTypesManager class >> newDefaultTyper [
 			UGRoelTyperAdaptor new}
 ]
 
-{ #category : #singleton }
+{ #category : 'singleton' }
 UGTypesManager class >> resetDefault [
 
 	<script>
 	default := nil
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 UGTypesManager class >> withFile: aFileName [
 	^ self new
 		loadFromFile: aFileName;
 		yourself
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGTypesManager >> addType: aTypeOfItem of: anItem [
 	aTypeOfItem ifNil: [ ^ aTypeOfItem ].
 	knownTypes at: anItem put: aTypeOfItem.
@@ -68,7 +70,7 @@ UGTypesManager >> addType: aTypeOfItem of: anItem [
 	^ aTypeOfItem
 ]
 
-{ #category : #retrieving }
+{ #category : 'retrieving' }
 UGTypesManager >> addTypeOfParameter: aParameter from: possibleTypes [
 
 	skipMethods ifTrue: [ ^ UGClass for: Object ].
@@ -77,7 +79,7 @@ UGTypesManager >> addTypeOfParameter: aParameter from: possibleTypes [
 		  of: aParameter
 ]
 
-{ #category : #retrieving }
+{ #category : 'retrieving' }
 UGTypesManager >> askTypeOfInputParameter: aParameter [
 
 	^ self
@@ -85,7 +87,7 @@ UGTypesManager >> askTypeOfInputParameter: aParameter [
 		  from: (methodTyper possibleTypesOfInputParameter: aParameter)
 ]
 
-{ #category : #retrieving }
+{ #category : 'retrieving' }
 UGTypesManager >> askTypeOfReturnParameter: aParameter [
 
 	^ self
@@ -93,29 +95,29 @@ UGTypesManager >> askTypeOfReturnParameter: aParameter [
 		  from: (methodTyper possibleTypesOfReturnParameter: aParameter)
 ]
 
-{ #category : #retrieving }
+{ #category : 'retrieving' }
 UGTypesManager >> askTypeOfVariable: aVariable [
 	^ self
 		addType: (blockForVariable value: (varTyper possibleTypesOfVariable: aVariable))
 		of: aVariable
 ]
 
-{ #category : #persistence }
+{ #category : 'persistence' }
 UGTypesManager >> autoSave [
 	autoSave := true.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypesManager >> blockForParameter: aBlock [
 	blockForParameter := aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypesManager >> blockForVariable: aBlock [
 	blockForVariable := aBlock
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGTypesManager >> defaultBlockForParameter [
 	^ blockForParameter := [ :typeRequest | 
 	UIManager default
@@ -123,7 +125,7 @@ UGTypesManager >> defaultBlockForParameter [
 		initialAnswer: 'Object' ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGTypesManager >> defaultBlockForVariable [
 	^ blockForVariable := [ :typeRequest | 
 	UIManager default
@@ -131,7 +133,7 @@ UGTypesManager >> defaultBlockForVariable [
 		initialAnswer: 'Object' ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGTypesManager >> initialize [
 	super initialize.
 	knownTypes := Dictionary new.
@@ -144,28 +146,28 @@ UGTypesManager >> initialize [
 	self defaultBlockForParameter
 ]
 
-{ #category : #persistence }
+{ #category : 'persistence' }
 UGTypesManager >> knownTypes [
 	^ knownTypes
 ]
 
-{ #category : #persistence }
+{ #category : 'persistence' }
 UGTypesManager >> loadFromFile: aFileName [
 	persistence := UGTypesFilePersistence fileName: aFileName.
 	knownTypes := persistence loadTypes
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypesManager >> methodTyper [
 	^ methodTyper
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypesManager >> methodTyper: aTyperAdaptor [
 	methodTyper := aTyperAdaptor
 ]
 
-{ #category : #persistence }
+{ #category : 'persistence' }
 UGTypesManager >> planSave [
 	autoSave
 		ifFalse: [ ^ self ].
@@ -177,71 +179,71 @@ UGTypesManager >> planSave [
 	self save ] fork
 ]
 
-{ #category : #persistence }
+{ #category : 'persistence' }
 UGTypesManager >> reload [
 	^ persistence loadTypes
 ]
 
-{ #category : #persistence }
+{ #category : 'persistence' }
 UGTypesManager >> save [
 	persistence saveTypes: knownTypes
 ]
 
-{ #category : #persistence }
+{ #category : 'persistence' }
 UGTypesManager >> skipMethods [
 	skipMethods := true
 ]
 
-{ #category : #retrieving }
+{ #category : 'retrieving' }
 UGTypesManager >> typeOf: anItem [
 
 	^ knownTypes at: anItem ifAbsent: [ anItem acceptVisitor: self ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypesManager >> typerAdaptor: aTyperAdaptor [
 	self varTyper: aTyperAdaptor.
 	self methodTyper: aTyperAdaptor
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypesManager >> varTyper [
 	^ varTyper
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypesManager >> varTyper: aTyperAdaptor [
 	varTyper := aTyperAdaptor
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 UGTypesManager >> visitClass: aParameter [
 
 	self error: 'Unable to get type of class'
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 UGTypesManager >> visitCollectionClass: aParameter [
 
 	self error: 'Unable to get type of class'
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 UGTypesManager >> visitInputMethodParameter: aParameter [
 	^ self askTypeOfInputParameter: aParameter
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 UGTypesManager >> visitMethod: aMethod [
 	^ self error: 'Method itself has no type (return parameter does)'
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 UGTypesManager >> visitReturnParameter: aParameter [
 	^ self askTypeOfReturnParameter: aParameter
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 UGTypesManager >> visitVariable: aVariable [
 	^ self askTypeOfVariable: aVariable
 ]

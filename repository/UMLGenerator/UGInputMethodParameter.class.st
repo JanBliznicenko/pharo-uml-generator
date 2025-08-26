@@ -1,10 +1,12 @@
 Class {
-	#name : #UGInputMethodParameter,
-	#superclass : #UGMethodParameter,
-	#category : 'UMLGenerator-Structure'
+	#name : 'UGInputMethodParameter',
+	#superclass : 'UGMethodParameter',
+	#category : 'UMLGenerator-Structure',
+	#package : 'UMLGenerator',
+	#tag : 'Structure'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 UGInputMethodParameter class >> named: aString in: aMethod [
 	^ self new
 		method: aMethod;
@@ -12,12 +14,12 @@ UGInputMethodParameter class >> named: aString in: aMethod [
 		yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 UGInputMethodParameter >> acceptVisitor: aVisitor [
 	^ aVisitor visitInputMethodParameter: self
 ]
 
-{ #category : #constants }
+{ #category : 'constants' }
 UGInputMethodParameter >> kindName [
 	^ 'method parameter'
 ]

@@ -1,20 +1,22 @@
 Class {
-	#name : #UGClass,
-	#superclass : #UGStructureItem,
+	#name : 'UGClass',
+	#superclass : 'UGStructureItem',
 	#instVars : [
 		'realClass'
 	],
-	#category : #'UMLGenerator-Structure'
+	#category : 'UMLGenerator-Structure',
+	#package : 'UMLGenerator',
+	#tag : 'Structure'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 UGClass class >> for: realClass [
 	^ self new
 		realClass: realClass;
 		yourself
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 UGClass >> < anotherItem [
 	realClass package = anotherItem realClass package
 		ifFalse: [ ^ realClass package name < anotherItem realClass package name ].
@@ -23,47 +25,47 @@ UGClass >> < anotherItem [
 	^ super < anotherItem
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 UGClass >> acceptVisitor: aVisitor [
 	aVisitor visitClass: self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGClass >> isCollectionClass [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGClass >> itemName [
 	^ realClass asString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGClass >> itemName: aName [
 	self shouldNotImplement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGClass >> kindName [
 	^ 'class'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGClass >> package [
 	^ self realClass package
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 UGClass >> printContext [
 	^ realClass package name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGClass >> realClass [
 	^ realClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGClass >> realClass: aClass [
 	aClass = True
 		ifTrue: [ self halt ].
@@ -71,12 +73,12 @@ UGClass >> realClass: aClass [
 	itemName := aClass asString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 UGClass >> replacedByRealClass: aClass [
 	^ self class for: aClass
 ]
 
-{ #category : #'accessing class hierarchy' }
+{ #category : 'accessing class hierarchy' }
 UGClass >> withAllSuperclasses [
 	^ realClass withAllSuperclasses reversed collect: [ :each | self class for: each ]
 ]

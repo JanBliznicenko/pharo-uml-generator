@@ -1,10 +1,12 @@
 Class {
-	#name : #UGAutoTypesManagerFinalizer,
-	#superclass : #UGTypesManagerFinalizer,
-	#category : #'UMLGenerator-TypeManager'
+	#name : 'UGAutoTypesManagerFinalizer',
+	#superclass : 'UGTypesManagerFinalizer',
+	#category : 'UMLGenerator-TypeManager',
+	#package : 'UMLGenerator',
+	#tag : 'TypeManager'
 }
 
-{ #category : #retrieving }
+{ #category : 'retrieving' }
 UGAutoTypesManagerFinalizer >> typeFor: typePossibilities [
 
 	| typePossibilitiesWithOneClass typeClass |

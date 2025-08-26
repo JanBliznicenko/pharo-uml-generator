@@ -1,13 +1,15 @@
 Class {
-	#name : #UGRoelTyperAdaptor,
-	#superclass : #UGTyperAdaptor,
+	#name : 'UGRoelTyperAdaptor',
+	#superclass : 'UGTyperAdaptor',
 	#instVars : [
 		'extractedTypesByClasses'
 	],
-	#category : #'UMLGenerator-Typer'
+	#category : 'UMLGenerator-Typer',
+	#package : 'UMLGenerator',
+	#tag : 'Typer'
 }
 
-{ #category : #api }
+{ #category : 'api' }
 UGRoelTyperAdaptor >> extractedTypesOfClass: aClass [
 
 	^ extractedTypesByClasses
@@ -16,24 +18,24 @@ UGRoelTyperAdaptor >> extractedTypesOfClass: aClass [
 		  (TypeCollector typeInstvarsOfClass: aClass) asDictionary ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGRoelTyperAdaptor >> initialize [
 
 	super initialize.
 	extractedTypesByClasses := IdentityDictionary new
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGRoelTyperAdaptor >> isMethodTyper [
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGRoelTyperAdaptor >> isVarTyper [
 	^ true
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGRoelTyperAdaptor >> possibleTypesOfInputParameter: aUGParameter [
 
 	aUGParameter itemName = 'return' ifTrue: [
@@ -44,7 +46,7 @@ UGRoelTyperAdaptor >> possibleTypesOfInputParameter: aUGParameter [
 				    aUGParameter itemName) asString) }
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGRoelTyperAdaptor >> possibleTypesOfParameter: aUGParameter withAttemptedNames: aCollectionOfParameterNames [
 
 	| types extractedTypesByNamesInMethods baseName extractedTypes |
@@ -61,7 +63,7 @@ UGRoelTyperAdaptor >> possibleTypesOfParameter: aUGParameter withAttemptedNames:
 	^ UGTypePossibilities for: aUGParameter types: types
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGRoelTyperAdaptor >> possibleTypesOfReturnParameter: aUGParameter [
 
 	^ self
@@ -69,7 +71,7 @@ UGRoelTyperAdaptor >> possibleTypesOfReturnParameter: aUGParameter [
 		  withAttemptedNames: #( return )
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGRoelTyperAdaptor >> possibleTypesOfVariable: aUGVariable [
 
 	| types |

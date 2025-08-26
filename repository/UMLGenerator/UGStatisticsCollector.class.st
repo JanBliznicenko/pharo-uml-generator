@@ -1,6 +1,6 @@
 Class {
-	#name : #UGStatisticsCollector,
-	#superclass : #Object,
+	#name : 'UGStatisticsCollector',
+	#superclass : 'Object',
 	#instVars : [
 		'packageName',
 		'itemCount',
@@ -8,10 +8,12 @@ Class {
 		'variablesOnly',
 		'times'
 	],
-	#category : #'UMLGenerator-Statistics'
+	#category : 'UMLGenerator-Statistics',
+	#package : 'UMLGenerator',
+	#tag : 'Statistics'
 }
 
-{ #category : #example }
+{ #category : 'example' }
 UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPattern: aPackagesPattern variableCountsStream: variableCountsStream countsStream: countsStream timesStream: timesStream coverageStream: coverageStream thenDo: finishedBlock [
 	"removes current metalinks (stops current types logging)"
 
@@ -98,7 +100,7 @@ UGStatisticsCollector class >> collectPackage: aPackageName relevantPackagesPatt
 	finishedBlock cull: collectorForVariables cull: collectorForAll
 ]
 
-{ #category : #example }
+{ #category : 'example' }
 UGStatisticsCollector class >> example [
 
 	self examplePackages: (LinkedList withAll: {
@@ -113,7 +115,7 @@ UGStatisticsCollector class >> example [
 				 ('Zinc-HTTP' -> '.*Zinc.*'). })
 ]
 
-{ #category : #example }
+{ #category : 'example' }
 UGStatisticsCollector class >> examplePackage: aPackageName relevantPackagesPattent: aPackagesPattern thenDo: aBlock [
 
 	| dir fileNameExtensions |
@@ -154,7 +156,7 @@ UGStatisticsCollector class >> examplePackage: aPackageName relevantPackagesPatt
 		named: 'UG Statistics Collector'
 ]
 
-{ #category : #example }
+{ #category : 'example' }
 UGStatisticsCollector class >> examplePackages: aSequenceableCollection [
 
 	self
@@ -165,7 +167,7 @@ UGStatisticsCollector class >> examplePackages: aSequenceableCollection [
 				self examplePackages: aSequenceableCollection copyWithoutFirst ] ]
 ]
 
-{ #category : #example }
+{ #category : 'example' }
 UGStatisticsCollector class >> executeExamplesOf: aPackagesPattern [
 
 	| exampleMethods excludedMethods |
@@ -208,7 +210,7 @@ UGStatisticsCollector class >> executeExamplesOf: aPackagesPattern [
 	^ exampleMethods size
 ]
 
-{ #category : #example }
+{ #category : 'example' }
 UGStatisticsCollector class >> executeTestsOf: aPackagesPattern for: aPackage [
 
 	| packages testClass result methods runner collector coverage percentsOfCoverage originalWindows |
@@ -254,7 +256,7 @@ UGStatisticsCollector class >> executeTestsOf: aPackagesPattern for: aPackage [
 	^ percentsOfCoverage
 ]
 
-{ #category : #example }
+{ #category : 'example' }
 UGStatisticsCollector class >> mergeOutputFiles [
 
 	<script>
@@ -279,19 +281,19 @@ UGStatisticsCollector class >> mergeOutputFiles [
 					tgtS << srcS upToEnd ] ] ]
 ]
 
-{ #category : #example }
+{ #category : 'example' }
 UGStatisticsCollector class >> outputDirectoryPath [
 
 	^ 'C:\Users\Honza\OneDrive - České vysoké učení technické v Praze\PhD\COLA\results'
 ]
 
-{ #category : #constants }
+{ #category : 'constants' }
 UGStatisticsCollector class >> timeToCloseExamples [
 
 	^ 8 seconds
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGStatisticsCollector >> addTimeToRealTime: aTimeInMicroseconds [
 
 	times keys
@@ -305,7 +307,7 @@ UGStatisticsCollector >> addTimeToRealTime: aTimeInMicroseconds [
 				times at: eachKey put: current + aTimeInMicroseconds ] ]
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 UGStatisticsCollector >> calculate [
 
 	| inferers |
@@ -338,7 +340,7 @@ UGStatisticsCollector >> calculate [
 		run
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 UGStatisticsCollector >> calculateTyper: aTyperAdaptor named: aTyperName [
 
 	| typesManager typesFinalizer generator time |
@@ -365,13 +367,13 @@ UGStatisticsCollector >> calculateTyper: aTyperAdaptor named: aTyperName [
 				self error: 'ItemCount varies across typers' ] ]
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 UGStatisticsCollector >> foundCountsDo: aBlock [
 	foundCounts ifNil: [ self calculate ].
 	^ foundCounts do: aBlock
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGStatisticsCollector >> initialize [
 
 	super initialize.
@@ -380,13 +382,13 @@ UGStatisticsCollector >> initialize [
 	times := OrderedDictionary new
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 UGStatisticsCollector >> itemCount [
 	itemCount ifNil: [ self calculate ].
 	^ itemCount
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 UGStatisticsCollector >> latexTableRowWithCountsTo: s [
 
 	s << self packageName << ' & ' << self itemCount asString.
@@ -406,7 +408,7 @@ UGStatisticsCollector >> latexTableRowWithCountsTo: s [
 	s lf
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 UGStatisticsCollector >> latexTableRowWithCoverage: aCoverageInPercents examples: anAmountOfExamples to: s [
 
 	s << self packageName << ' & ' << self itemCount asString << ' & '
@@ -431,7 +433,7 @@ UGStatisticsCollector >> latexTableRowWithCoverage: aCoverageInPercents examples
 	s lf
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 UGStatisticsCollector >> latexTableRowWithTimesTo: s [
 
 	s << self packageName << ' & ' << self itemCount asString.
@@ -455,24 +457,24 @@ UGStatisticsCollector >> latexTableRowWithTimesTo: s [
 	s lf
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 UGStatisticsCollector >> packageName [
 	^ packageName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGStatisticsCollector >> packageName: aString [ 
 	packageName := aString
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 UGStatisticsCollector >> timesDo: aBlock [
 
 	times ifNil: [ self calculate ].
 	^ times do: aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGStatisticsCollector >> variablesOnly [
 	variablesOnly := true
 ]

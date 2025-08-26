@@ -1,6 +1,6 @@
 Class {
-	#name : #UGUMLRealTimeController,
-	#superclass : #Object,
+	#name : 'UGUMLRealTimeController',
+	#superclass : 'Object',
 	#instVars : [
 		'generator',
 		'typesManager',
@@ -11,10 +11,12 @@ Class {
 	#classInstVars : [
 		'instance'
 	],
-	#category : #'UMLGenerator-Controller'
+	#category : 'UMLGenerator-Controller',
+	#package : 'UMLGenerator',
+	#tag : 'Controller'
 }
 
-{ #category : #'uml - generation' }
+{ #category : 'uml - generation' }
 UGUMLRealTimeController class >> finishSilentUmlGenerationWithGenerator: aGeneratorClass saveTo: aFile [
 	instance ifNil: [ self notify: 'startSilentUmlGenerationFor: has to be called first.'. ^ self. ].
 	instance 	generator: aGeneratorClass new;
@@ -22,7 +24,7 @@ UGUMLRealTimeController class >> finishSilentUmlGenerationWithGenerator: aGenera
 	instance := nil.
 ]
 
-{ #category : #'uml - generation' }
+{ #category : 'uml - generation' }
 UGUMLRealTimeController class >> generateUMLFor: aPackageName withGenerator: aGeneratorClass saveTo: aFile [
 	instance ifNotNil: [ instance clearAfterRealTimeInferer. ].
 	instance := self new.
@@ -32,7 +34,7 @@ UGUMLRealTimeController class >> generateUMLFor: aPackageName withGenerator: aGe
 	instance := nil.
 ]
 
-{ #category : #'uml - generation' }
+{ #category : 'uml - generation' }
 UGUMLRealTimeController class >> startSilentUmlGenerationFor: aPackageName [
 	instance ifNotNil: [ instance clearAfterRealTimeInferer. ].
 	instance := self new.
@@ -40,24 +42,24 @@ UGUMLRealTimeController class >> startSilentUmlGenerationFor: aPackageName [
 		prepareForRealTimeInferer.
 ]
 
-{ #category : #constants }
+{ #category : 'constants' }
 UGUMLRealTimeController class >> typeInfo [
 	^ 'default.typeinfo-all-backups.ston'.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLRealTimeController >> analyzedPackage [
 
 	^ analyzedPackage
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLRealTimeController >> analyzedPackage: anObject [
 
 	analyzedPackage := anObject
 ]
 
-{ #category : #'uml - generation' }
+{ #category : 'uml - generation' }
 UGUMLRealTimeController >> clearAfterRealTimeInferer [
 	"removes current metalinks (stops current types logging)"
 
@@ -68,7 +70,7 @@ UGUMLRealTimeController >> clearAfterRealTimeInferer [
 		analyzedPackage asPackage recompileAndIncludeTraitMethods ]
 ]
 
-{ #category : #'uml - generation' }
+{ #category : 'uml - generation' }
 UGUMLRealTimeController >> generateAndSaveTo: aFile [
 	"This file has to be deleted otherwise the interferers won't be started."
 	self class typeInfo asFileReference deleteIfAbsent: [ "Do nothing" ].
@@ -101,19 +103,19 @@ UGUMLRealTimeController >> generateAndSaveTo: aFile [
 	self clearAfterRealTimeInferer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLRealTimeController >> generator [
 
 	^ generator
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLRealTimeController >> generator: anObject [
 
 	generator := anObject
 ]
 
-{ #category : #'uml - generation' }
+{ #category : 'uml - generation' }
 UGUMLRealTimeController >> prepareForRealTimeInferer [
 	"This file has to be deleted otherwise the interferers won't be started."
 	self class typeInfo asFileReference deleteIfAbsent: [ "Do nothing" ].
@@ -123,7 +125,7 @@ UGUMLRealTimeController >> prepareForRealTimeInferer [
 	UGRealTimeTyper default addLinksToPackageNamed: analyzedPackage.
 ]
 
-{ #category : #'uml - generation' }
+{ #category : 'uml - generation' }
 UGUMLRealTimeController >> silentGenerateAndSaveTo: aFile [
 	"save types into following file"
 	typesManager := UGTypesManager withFile: self class typeInfo.
@@ -145,37 +147,37 @@ UGUMLRealTimeController >> silentGenerateAndSaveTo: aFile [
 	self clearAfterRealTimeInferer.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLRealTimeController >> typerAdaptor [
 
 	^ typerAdaptor
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLRealTimeController >> typerAdaptor: anObject [
 
 	typerAdaptor := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLRealTimeController >> typesFinalizer [
 
 	^ typesFinalizer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLRealTimeController >> typesFinalizer: anObject [
 
 	typesFinalizer := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLRealTimeController >> typesManager [
 
 	^ typesManager
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLRealTimeController >> typesManager: anObject [
 
 	typesManager := anObject

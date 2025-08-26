@@ -1,36 +1,38 @@
 Class {
-	#name : #UGMethod,
-	#superclass : #UGClassItem,
-	#category : 'UMLGenerator-Structure'
+	#name : 'UGMethod',
+	#superclass : 'UGClassItem',
+	#category : 'UMLGenerator-Structure',
+	#package : 'UMLGenerator',
+	#tag : 'Structure'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 UGMethod >> acceptVisitor: aVisitor [
 	^ aVisitor visitMethod: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGMethod >> compiledMethod [
 	^ containingClass >> self itemName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGMethod >> inputParameters [
 	^ self compiledMethod argumentNames
 		collect: [ :each | UGInputMethodParameter named: each in: self ]
 ]
 
-{ #category : #constants }
+{ #category : 'constants' }
 UGMethod >> kindName [
 	^ 'method'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGMethod >> parameters [
 	^ self inputParameters , {self returnParameter}
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGMethod >> returnParameter [
 	^ UGReturnParameter in: self
 ]

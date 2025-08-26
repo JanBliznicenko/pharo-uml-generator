@@ -1,31 +1,33 @@
 Class {
-	#name : #UGReturnParameter,
-	#superclass : #UGMethodParameter,
-	#category : 'UMLGenerator-Structure'
+	#name : 'UGReturnParameter',
+	#superclass : 'UGMethodParameter',
+	#category : 'UMLGenerator-Structure',
+	#package : 'UMLGenerator',
+	#tag : 'Structure'
 }
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 UGReturnParameter >> acceptVisitor: aVisitor [
 	^ aVisitor visitReturnParameter: self
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGReturnParameter >> initialize [
 	super initialize.
 	itemName := 'return'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGReturnParameter >> isOut [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGReturnParameter >> itemName: aName [
 	self shouldNotImplement
 ]
 
-{ #category : #constants }
+{ #category : 'constants' }
 UGReturnParameter >> kindName [
 	^ 'return parameter'
 ]

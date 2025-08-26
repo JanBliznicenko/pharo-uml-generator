@@ -1,16 +1,18 @@
 Class {
-	#name : #UGTyperChainingCombinator,
-	#superclass : #UGTyperAdaptorCommonSuperclassCombinator,
-	#category : #'UMLGenerator-Typer'
+	#name : 'UGTyperChainingCombinator',
+	#superclass : 'UGTyperAdaptorCommonSuperclassCombinator',
+	#category : 'UMLGenerator-Typer',
+	#package : 'UMLGenerator',
+	#tag : 'Typer'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 UGTyperChainingCombinator >> canImmediatelyAnswer: typePossibilities [
 
 	^ typePossibilities isFullyKnown
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 UGTyperChainingCombinator >> combine: collectionOfTypePossibilities [
 
 	^ collectionOfTypePossibilities

@@ -1,6 +1,6 @@
 Class {
-	#name : #UGUMLGenerator,
-	#superclass : #Object,
+	#name : 'UGUMLGenerator',
+	#superclass : 'Object',
 	#instVars : [
 		'focusedPackages',
 		'model',
@@ -15,25 +15,27 @@ Class {
 		'classOrdering',
 		'classUniqueness'
 	],
-	#category : #'UMLGenerator-Generator'
+	#category : 'UMLGenerator-Generator',
+	#package : 'UMLGenerator',
+	#tag : 'Generator'
 }
 
-{ #category : #'public - importer' }
+{ #category : 'public - importer' }
 UGUMLGenerator class >> importFromClasses: aCollection [
 	^ self new importFromClasses: aCollection
 ]
 
-{ #category : #'public - importer' }
+{ #category : 'public - importer' }
 UGUMLGenerator class >> importFromPackageNamed: aString [
 	^ self new importFromPackagesNamed: {aString}
 ]
 
-{ #category : #'public - importer' }
+{ #category : 'public - importer' }
 UGUMLGenerator class >> importFromPackagesNamed: aCollectionOfStrings [
 	^ self new importFromPackagesNamed: aCollectionOfStrings
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGUMLGenerator class >> isOrderedCollectionClass: collectionRealClass [
 	classOrdering
 		ifNil: [ classOrdering := ({(Bag -> false).
@@ -55,7 +57,7 @@ UGUMLGenerator class >> isOrderedCollectionClass: collectionRealClass [
 		ifAbsent: [ nil ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGUMLGenerator class >> isUniqueCollectionClass: collectionRealClass [
 	classUniqueness
 		ifNil: [ classUniqueness := ({(Bag -> false).
@@ -81,7 +83,7 @@ UGUMLGenerator class >> isUniqueCollectionClass: collectionRealClass [
 	^ classUniqueness at: collectionRealClass ifAbsent: [ nil ]
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> addAsAssociationVariable: aVariable to: umlClass [
 	| umlClassProperty umlAssociationProperty typeUGClass upperBound umlAssociation |
 	umlClassProperty := OPUMLProperty new.
@@ -122,7 +124,7 @@ UGUMLGenerator >> addAsAssociationVariable: aVariable to: umlClass [
 		add: umlAssociation
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> addAsPropertyVariable: aVariable to: umlClass [
 	| umlProperty typeUGClass upperBound |
 	umlProperty := OPUMLProperty new.
@@ -149,7 +151,7 @@ UGUMLGenerator >> addAsPropertyVariable: aVariable to: umlClass [
 	umlClass ownedAttributes add: umlProperty
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> addClass: aClass [
 	| umlPackage umlClass |
 	umlClasses
@@ -175,7 +177,7 @@ UGUMLGenerator >> addClass: aClass [
 	^ umlClass
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> addClasses: aClassesCollection [
 	focusedPackages
 		ifEmpty: [ focusedPackages := aClassesCollection
@@ -185,7 +187,7 @@ UGUMLGenerator >> addClasses: aClassesCollection [
 	self addGeneralizations
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> addCollectionSpecificsOf: collectionRealClass to: umlElement [
 	(self class isOrderedCollectionClass: collectionRealClass)
 		ifNotNil: [ :isOrdered | umlElement isOrdered: isOrdered ].
@@ -194,7 +196,7 @@ UGUMLGenerator >> addCollectionSpecificsOf: collectionRealClass to: umlElement [
 	^ umlElement
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> addGeneralizationSetTo: aSuperclass [
 	| set subclasses |
 	subclasses := aSuperclass subclasses
@@ -213,12 +215,12 @@ UGUMLGenerator >> addGeneralizationSetTo: aSuperclass [
 	encompassingPackage packagedElements add: set
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> addGeneralizations [
 	umlClasses keysDo: [ :each | self addGeneralizationSetTo: each ]
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> addGeneralizationsTo: aSuperclass toSet: aGeneralizationSet [
 	aSuperclass subclasses
 		select: [ :eachSubclass | umlClasses includesKey: eachSubclass ]
@@ -231,7 +233,7 @@ UGUMLGenerator >> addGeneralizationsTo: aSuperclass toSet: aGeneralizationSet [
 						yourself) ]
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> addMethod: aMethod to: umlClass [
 	| umlMethod |
 	(self shouldOmitAccessor: aMethod)
@@ -242,12 +244,12 @@ UGUMLGenerator >> addMethod: aMethod to: umlClass [
 	umlClass ownedOperations add: umlMethod
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> addMethodsOf: realClass [
 	self addMethodsOf: realClass to: (umlClasses at: realClass)
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> addMethodsOf: realClass to: umlClass [
 	realClass methods,	realClass class methods
 		do: [ :eachMethod | self addMethod: eachMethod to: umlClass ].
@@ -256,7 +258,7 @@ UGUMLGenerator >> addMethodsOf: realClass to: umlClass [
 		ifFalse: [ self addMethodsOf: realClass superclass to: umlClass ]
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> addParameter: anUgParameter to: umlMethod [
 	| typeUGClass upperBound umlParameter |
 	typeUGClass := self typeOf: anUgParameter.
@@ -282,7 +284,7 @@ UGUMLGenerator >> addParameter: anUgParameter to: umlMethod [
 	umlMethod ownedParameters add: umlParameter
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> addParametersOf: aMethod to: umlMethod [
 	| ugMethod |
 	ugMethod := UGMethod named: umlMethod name in: aMethod methodClass.
@@ -294,7 +296,7 @@ UGUMLGenerator >> addParametersOf: aMethod to: umlMethod [
 	self addParameter: (UGReturnParameter in: ugMethod) to: umlMethod
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> addSuperclassOf: aClass [
 	| superClass |
 	superClass := aClass superclass.
@@ -303,7 +305,7 @@ UGUMLGenerator >> addSuperclassOf: aClass [
 	^ umlClasses at: superClass ifAbsent: [ self addClass: superClass ]
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> addVariable: aVariable to: umlClass [
 
 	(doType and: [
@@ -315,12 +317,12 @@ UGUMLGenerator >> addVariable: aVariable to: umlClass [
 	^ self addAsPropertyVariable: aVariable to: umlClass
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> addVariablesOf: realClass [
 	self addVariablesOf: realClass to: (umlClasses at: realClass)
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> addVariablesOf: realClass to: umlClass [
 	realClass instVarNames
 		do: [ :eachVariable | 
@@ -337,7 +339,7 @@ UGUMLGenerator >> addVariablesOf: realClass to: umlClass [
 		ifFalse: [ self addVariablesOf: realClass superclass to: umlClass ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 UGUMLGenerator >> addVisibilityOf: aMethod to: umlMethod [
 	| protocol |
 	protocol := aMethod protocol.
@@ -350,14 +352,14 @@ UGUMLGenerator >> addVisibilityOf: aMethod to: umlMethod [
 				ifFalse: [ OPUMLVisibilityKind public ])
 ]
 
-{ #category : #'public - importer' }
+{ #category : 'public - importer' }
 UGUMLGenerator >> importFromClasses: aClassesCollection [
 	self addClass: Object.
 	self addClasses: aClassesCollection.
 	^ model
 ]
 
-{ #category : #'public - importer' }
+{ #category : 'public - importer' }
 UGUMLGenerator >> importFromPackagesNamed: aCollectionOfStrings [
 	| packages |
 	packages := aCollectionOfStrings collect: #asPackage as: Set.
@@ -366,7 +368,7 @@ UGUMLGenerator >> importFromPackagesNamed: aCollectionOfStrings [
 	^ model
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGUMLGenerator >> initialize [
 	super initialize.
 	includeAccessors := true.
@@ -379,17 +381,17 @@ UGUMLGenerator >> initialize [
 	focusedPackages := Set new.
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> newReturnParameter [
 	^ OPUMLParameter new direction: OPUMLParameterDirectionKind return
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLGenerator >> omitAccessors [
 	includeAccessors := false
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 UGUMLGenerator >> rootClasses [
 	^ rootClasses
 		ifNil: [ rootClasses := {Object.
@@ -402,7 +404,7 @@ UGUMLGenerator >> rootClasses [
 				yourself ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLGenerator >> saveXmlTo: aFileName [
 
 	aFileName asFileReference
@@ -411,7 +413,7 @@ UGUMLGenerator >> saveXmlTo: aFileName [
 			OPXMIWriter write: (self umlXmiWriter new write: model) toStream: s ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 UGUMLGenerator >> shouldOmitAccessor: aMethod [
 	| protocol varNames selector |
 	includeAccessors
@@ -426,7 +428,7 @@ UGUMLGenerator >> shouldOmitAccessor: aMethod [
 	^ varNames includes: selector
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> typeOf: anItem [
 	| ugClass |
 	doType
@@ -442,12 +444,12 @@ UGUMLGenerator >> typeOf: anItem [
 	^ ugClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLGenerator >> typesManager: aManager [
 	typesManager := aManager
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> umlClassFrom: aClass [
 	^ OPUMLClass new
 		name: aClass name;
@@ -455,7 +457,7 @@ UGUMLGenerator >> umlClassFrom: aClass [
 		yourself
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGUMLGenerator >> umlMethodFrom: aMethod [
 	^ OPUMLOperation new
 		name: aMethod selector;
@@ -463,17 +465,17 @@ UGUMLGenerator >> umlMethodFrom: aMethod [
 		yourself
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 UGUMLGenerator >> umlPackageOf: aClass [
 	^ encompassingPackage
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 UGUMLGenerator >> umlPackageOfUmlClass: aUmlClass [
 	^ encompassingPackage
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 UGUMLGenerator >> umlXmiWriter [
 	^ OPUMLXMIWriter
 ]

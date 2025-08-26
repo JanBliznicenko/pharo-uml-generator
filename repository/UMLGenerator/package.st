@@ -1,1 +1,1 @@
-Package { #name : #UMLGenerator }
+Package { #name : 'UMLGenerator' }

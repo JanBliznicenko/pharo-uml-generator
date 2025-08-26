@@ -1,88 +1,90 @@
 Class {
-	#name : #UGMethodItem,
-	#superclass : #UGStructureItem,
+	#name : 'UGMethodItem',
+	#superclass : 'UGStructureItem',
 	#instVars : [
 		'method',
 		'containingClass'
 	],
-	#category : #'UMLGenerator-Structure'
+	#category : 'UMLGenerator-Structure',
+	#package : 'UMLGenerator',
+	#tag : 'Structure'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 UGMethodItem class >> in: aMethod [
 	^ self new
 		method: aMethod;
 		yourself
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 UGMethodItem >> < anotherItem [
 	method = anotherItem method
 		ifFalse: [ ^ method < anotherItem method ].
 	^ super < anotherItem
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 UGMethodItem >> = anotherItem [
 	^ (anotherItem respondsTo: #method)
 		and: [ method = anotherItem method and: [ super = anotherItem ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGMethodItem >> compiledMethod [
 	^ method compiledMethod
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGMethodItem >> containingClass [
 	^ containingClass
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 UGMethodItem >> hash [
 	^ method hash bitXor: super hash
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGMethodItem >> isClassSide [
 	^ self method isClassSide
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGMethodItem >> method [
 	^ method
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGMethodItem >> method: aMethod [
 	method := aMethod.
 	containingClass := method containingClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGMethodItem >> methodName [
 
 	^ method itemName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGMethodItem >> package [
 	^ self containingClass package
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGMethodItem >> possiblyMetaContainingClass [
 	self isClassSide
 		ifTrue: [ ^ self containingClass class ].
 	^ self containingClass
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 UGMethodItem >> printContext [
 	^ method printWithContext
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGMethodItem >> realContainingClass [
 	self isClassSide
 		ifTrue: [ ^ self containingClass realClass class ].

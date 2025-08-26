@@ -1,10 +1,12 @@
 Class {
-	#name : #UGEnterpriseArchitectUMLGenerator,
-	#superclass : #UGPackagingUMLGenerator,
-	#category : 'UMLGenerator-Generator'
+	#name : 'UGEnterpriseArchitectUMLGenerator',
+	#superclass : 'UGPackagingUMLGenerator',
+	#category : 'UMLGenerator-Generator',
+	#package : 'UMLGenerator',
+	#tag : 'Generator'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGEnterpriseArchitectUMLGenerator >> initialize [
 	super initialize.
 	encompassingPackage := OPUMLPackage new.
@@ -12,12 +14,12 @@ UGEnterpriseArchitectUMLGenerator >> initialize [
 	model packagedElements add: encompassingPackage
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 UGEnterpriseArchitectUMLGenerator >> newReturnParameter [
 	^ super newReturnParameter uuid: 'EAID_RT000000_' , (UUID new asString allButFirst: 9)
 ]
 
-{ #category : #hooks }
+{ #category : 'hooks' }
 UGEnterpriseArchitectUMLGenerator >> umlXmiWriter [
 	^ UGEnterpriseArchitectUMLXMIWriter
 ]

@@ -1,6 +1,6 @@
 Class {
-	#name : #UGUMLStaticController,
-	#superclass : #Object,
+	#name : 'UGUMLStaticController',
+	#superclass : 'Object',
 	#instVars : [
 		'generator',
 		'typesManager',
@@ -8,10 +8,12 @@ Class {
 		'typesFinalizer',
 		'analyzedPackage'
 	],
-	#category : #'UMLGenerator-Controller'
+	#category : 'UMLGenerator-Controller',
+	#package : 'UMLGenerator',
+	#tag : 'Controller'
 }
 
-{ #category : #'uml - generation' }
+{ #category : 'uml - generation' }
 UGUMLStaticController class >> generateUMLFor: aPackageName withGenerator: aGeneratorClass saveTo: aFile [
 	| instance |
 	instance := self new.
@@ -20,24 +22,24 @@ UGUMLStaticController class >> generateUMLFor: aPackageName withGenerator: aGene
 		generateAndSaveTo: aFile.
 ]
 
-{ #category : #constants }
+{ #category : 'constants' }
 UGUMLStaticController class >> typeInfo [
 	^ 'default.typeinfo-all-backups.ston'.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLStaticController >> analyzedPackage [
 
 	^ analyzedPackage
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLStaticController >> analyzedPackage: anObject [
 
 	analyzedPackage := anObject
 ]
 
-{ #category : #'uml - generation' }
+{ #category : 'uml - generation' }
 UGUMLStaticController >> generateAndSaveTo: aFile [
 	"This file has to be deleted otherwise the interferers won't be started."
 	self class typeInfo asFileReference deleteIfAbsent: [ "Do nothing" ].
@@ -59,19 +61,19 @@ UGUMLStaticController >> generateAndSaveTo: aFile [
 	generator saveXmlTo: aFile.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLStaticController >> generator [
 
 	^ generator
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLStaticController >> generator: anObject [
 
 	generator := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGUMLStaticController >> initialize [
 	typesManager := UGTypesManager withFile: self class typeInfo.
 	typerAdaptor := UGTyperChainingCombinator withAdaptors: {UGRBTyperAdaptor new. UGJ2InfererTyperAdaptor new.}.
@@ -80,37 +82,37 @@ UGUMLStaticController >> initialize [
 	typesFinalizer := UGAutoTypesManagerFinalizer new typesManager: typesManager.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLStaticController >> typerAdaptor [
 
 	^ typerAdaptor
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLStaticController >> typerAdaptor: anObject [
 
 	typerAdaptor := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLStaticController >> typesFinalizer [
 
 	^ typesFinalizer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLStaticController >> typesFinalizer: anObject [
 
 	typesFinalizer := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLStaticController >> typesManager [
 
 	^ typesManager
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGUMLStaticController >> typesManager: anObject [
 
 	typesManager := anObject

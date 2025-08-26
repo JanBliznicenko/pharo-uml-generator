@@ -1,16 +1,18 @@
 Class {
-	#name : #UGTyperUnionCombinator,
-	#superclass : #UGTyperAdaptorCombinator,
-	#category : #'UMLGenerator-Typer'
+	#name : 'UGTyperUnionCombinator',
+	#superclass : 'UGTyperAdaptorCombinator',
+	#category : 'UMLGenerator-Typer',
+	#package : 'UMLGenerator',
+	#tag : 'Typer'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 UGTyperUnionCombinator >> canImmediatelyAnswer: possibleTypes [
 
 	^ false
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 UGTyperUnionCombinator >> combine: collectionOfTypePossibilities [
 
 	^ collectionOfTypePossibilities

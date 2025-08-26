@@ -1,13 +1,15 @@
 Class {
-	#name : #UGClassItem,
-	#superclass : #UGStructureItem,
+	#name : 'UGClassItem',
+	#superclass : 'UGStructureItem',
 	#instVars : [
 		'containingClass'
 	],
-	#category : 'UMLGenerator-Structure'
+	#category : 'UMLGenerator-Structure',
+	#package : 'UMLGenerator',
+	#tag : 'Structure'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 UGClassItem class >> named: aString in: aClass [
 	^ self new
 		itemName: aString;
@@ -15,7 +17,7 @@ UGClassItem class >> named: aString in: aClass [
 		yourself
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 UGClassItem >> < anotherItem [
 	containingClass package = anotherItem containingClass package
 		ifFalse: [ ^ containingClass package name < anotherItem containingClass package name ].
@@ -24,48 +26,48 @@ UGClassItem >> < anotherItem [
 	^ super < anotherItem
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 UGClassItem >> = anotherItem [
 	^ (anotherItem respondsTo: #containingClass) and: [ containingClass = anotherItem containingClass and: [ super = anotherItem ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGClassItem >> containingClass [
 	^ containingClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGClassItem >> containingClass: aClass [
 	containingClass := aClass
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 UGClassItem >> hash [
 	^ containingClass hash bitXor: super hash
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGClassItem >> initialize [
 	super initialize.
 	containingClass := Object
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGClassItem >> isClassSide [
 	^ self containingClass isMeta
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGClassItem >> package [
 	^ self containingClass package
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 UGClassItem >> printContext [
 	^ containingClass package name , '>' , containingClass name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGClassItem >> realContainingClass [
 	self isClassSide
 		ifTrue: [ ^ self containingClass realClass class ].

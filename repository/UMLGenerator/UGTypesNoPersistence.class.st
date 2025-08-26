@@ -1,15 +1,17 @@
 Class {
-	#name : #UGTypesNoPersistence,
-	#superclass : #UGTypesPersistence,
-	#category : 'UMLGenerator-Typer'
+	#name : 'UGTypesNoPersistence',
+	#superclass : 'UGTypesPersistence',
+	#category : 'UMLGenerator-Typer',
+	#package : 'UMLGenerator',
+	#tag : 'Typer'
 }
 
-{ #category : #persistence }
+{ #category : 'persistence' }
 UGTypesNoPersistence >> loadTypes [
 	^ Dictionary new
 ]
 
-{ #category : #persistence }
+{ #category : 'persistence' }
 UGTypesNoPersistence >> saveTypes: aDictionary [
 	"do nothing"
 

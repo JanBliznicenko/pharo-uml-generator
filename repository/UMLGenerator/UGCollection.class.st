@@ -1,25 +1,27 @@
 Class {
-	#name : #UGCollection,
-	#superclass : #UGClass,
+	#name : 'UGCollection',
+	#superclass : 'UGClass',
 	#instVars : [
 		'collectionRealClass'
 	],
-	#category : #'UMLGenerator-Structure'
+	#category : 'UMLGenerator-Structure',
+	#package : 'UMLGenerator',
+	#tag : 'Structure'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 UGCollection class >> type: collectionClass with: realClass [
 	^ (self for: realClass)
 		collectionRealClass: collectionClass;
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 UGCollection class >> with: realClass [
 	^ self for: realClass
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 UGCollection >> < anotherItem [
 	realClass package = anotherItem realClass package
 		ifFalse: [ ^ realClass package name < anotherItem realClass package name ].
@@ -28,33 +30,33 @@ UGCollection >> < anotherItem [
 	^ super < anotherItem
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 UGCollection >> acceptVisitor: aVisitor [
 	aVisitor visitCollectionClass: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGCollection >> collectionRealClass [
 	^ collectionRealClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGCollection >> collectionRealClass: aClass [
 	collectionRealClass := aClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGCollection >> elementRealClass [
 
 	^ self realClass
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGCollection >> isCollectionClass [
 	^ true
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 UGCollection >> printName [
 	| name |
 	name := '*' , self itemName.
@@ -62,7 +64,7 @@ UGCollection >> printName [
 	^ name , '*' , collectionRealClass name
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 UGCollection >> replacedByRealClass: aClass [
 	^ self class type: collectionRealClass with: aClass
 ]

@@ -1,29 +1,31 @@
 Class {
-	#name : #UGEAJavaCodeUMLGenerator,
-	#superclass : #UGEnterpriseArchitectUMLGenerator,
+	#name : 'UGEAJavaCodeUMLGenerator',
+	#superclass : 'UGEnterpriseArchitectUMLGenerator',
 	#instVars : [
 		'methodNameReplacements'
 	],
-	#category : 'UMLGenerator-Generator'
+	#category : 'UMLGenerator-Generator',
+	#package : 'UMLGenerator',
+	#tag : 'Generator'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 UGEAJavaCodeUMLGenerator >> addPackageNamed: aPackageName to: anEncompassingPackage [
 	^ super addPackageNamed: (self packageNameFrom: aPackageName) to: anEncompassingPackage
 ]
 
-{ #category : #conversions }
+{ #category : 'conversions' }
 UGEAJavaCodeUMLGenerator >> classNameFrom: aString [
 	^ aString
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGEAJavaCodeUMLGenerator >> isPackageNamed: packageName equalTo: umlPackage [
 	^ (umlPackage isKindOf: OPUMLPackage)
 		and: [ umlPackage name = (self packageNameFrom: packageName) ]
 ]
 
-{ #category : #conversions }
+{ #category : 'conversions' }
 UGEAJavaCodeUMLGenerator >> methodNameFrom: aString [
 	methodNameReplacements
 		ifNil: [ methodNameReplacements := {('<' -> 'isLessThan').
@@ -50,7 +52,7 @@ UGEAJavaCodeUMLGenerator >> methodNameFrom: aString [
 						ifFalse: [ char ] ] ]
 ]
 
-{ #category : #conversions }
+{ #category : 'conversions' }
 UGEAJavaCodeUMLGenerator >> packageNameFrom: aString [
 	^ aString asString
 		replace: [ :char | 
@@ -59,19 +61,19 @@ UGEAJavaCodeUMLGenerator >> packageNameFrom: aString [
 				ifFalse: [ char ] ]
 ]
 
-{ #category : #conversions }
+{ #category : 'conversions' }
 UGEAJavaCodeUMLGenerator >> parameterNameFrom: aString [
 	^ aString
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGEAJavaCodeUMLGenerator >> umlMethodFrom: aMethod [
 	^ (super umlMethodFrom: aMethod)
 		name: (self methodNameFrom: aMethod selector);
 		yourself
 ]
 
-{ #category : #conversions }
+{ #category : 'conversions' }
 UGEAJavaCodeUMLGenerator >> variableNameFrom: aString [
 	^ aString
 ]

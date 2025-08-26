@@ -1,37 +1,39 @@
 Class {
-	#name : #UGTypesFilePersistence,
-	#superclass : #UGTypesPersistence,
+	#name : 'UGTypesFilePersistence',
+	#superclass : 'UGTypesPersistence',
 	#instVars : [
 		'file'
 	],
-	#category : 'UMLGenerator-Typer'
+	#category : 'UMLGenerator-Typer',
+	#package : 'UMLGenerator',
+	#tag : 'Typer'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypesFilePersistence class >> file: aFileReference [
 	^ self new
 		file: aFileReference;
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypesFilePersistence class >> fileName: aFileName [
 	^ self new
 		fileName: aFileName;
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypesFilePersistence >> file: aFileReference [
 	file := aFileReference
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGTypesFilePersistence >> fileName: fileName [
 	self file: fileName asFileReference
 ]
 
-{ #category : #persistence }
+{ #category : 'persistence' }
 UGTypesFilePersistence >> loadTypes [
 	| s result |
 	file exists
@@ -44,7 +46,7 @@ UGTypesFilePersistence >> loadTypes [
 	^ result
 ]
 
-{ #category : #persistence }
+{ #category : 'persistence' }
 UGTypesFilePersistence >> saveTypes: aDictionary [
 	| s |
 	file exists

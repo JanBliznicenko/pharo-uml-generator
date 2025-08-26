@@ -1,6 +1,6 @@
 Class {
-	#name : #UGRealTimeTyper,
-	#superclass : #Object,
+	#name : 'UGRealTimeTyper',
+	#superclass : 'Object',
 	#instVars : [
 		'typePossibilitiesDictionary',
 		'returnLinkBlock',
@@ -14,15 +14,17 @@ Class {
 	#classInstVars : [
 		'default'
 	],
-	#category : #'UMLGenerator-Typer'
+	#category : 'UMLGenerator-Typer',
+	#package : 'UMLGenerator',
+	#tag : 'Typer'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 UGRealTimeTyper class >> default [
 	^ default ifNil: [ default := self new ]
 ]
 
-{ #category : #example }
+{ #category : 'example' }
 UGRealTimeTyper class >> exampleCode [
 
 	<example: 'self exampleCode inspect'>
@@ -72,19 +74,19 @@ UGRealTimeTyper class >> exampleCode [
 	^ model
 ]
 
-{ #category : #singleton }
+{ #category : 'singleton' }
 UGRealTimeTyper class >> resetDefault [
 
 	<script>
 	default := nil
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGRealTimeTyper >> add: aClass asPossibleTypeOf: aUGItem [
 	(self possibleTypesOf: aUGItem) addPossibleType: aClass
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGRealTimeTyper >> addLinksToPackageNamed: aPackageName [
 	| package definedClasses |
 	package := aPackageName asPackage.
@@ -112,7 +114,7 @@ UGRealTimeTyper >> addLinksToPackageNamed: aPackageName [
 								link: (links add: (returnSelfLinkBlock value: eachMethod selector value: eachClass)) ] ] ]
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGRealTimeTyper >> addTypeOf: aValue asPossibleTypeOf: aUGItem [
 	| possibleTypes |
 	possibleTypes := self possibleTypesOf: aUGItem.
@@ -122,7 +124,7 @@ UGRealTimeTyper >> addTypeOf: aValue asPossibleTypeOf: aUGItem [
 		do: [ :each | possibleTypes addPossibleCollectionType: aValue class withElementType: each class ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGRealTimeTyper >> createArgumentsLinkBlock [
 	argumentsLinkBlock := [ :method | 
 	| class methodName argumentNames |
@@ -145,7 +147,7 @@ UGRealTimeTyper >> createArgumentsLinkBlock [
 		control: #before ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGRealTimeTyper >> createAssignmentLinkBlock [
 	assignmentLinkBlock := [ :class | 
 	MetaLink new
@@ -158,7 +160,7 @@ UGRealTimeTyper >> createAssignmentLinkBlock [
 		control: #after ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGRealTimeTyper >> createReturnLinkBlock [
 	returnLinkBlock := [ :methodName :class | 
 	MetaLink new
@@ -171,7 +173,7 @@ UGRealTimeTyper >> createReturnLinkBlock [
 		control: #before ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGRealTimeTyper >> createReturnSelfLinkBlock [
 	returnSelfLinkBlock := [ :methodName :class | 
 	MetaLink new
@@ -181,7 +183,7 @@ UGRealTimeTyper >> createReturnSelfLinkBlock [
 		control: #after ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGRealTimeTyper >> initialize [
 	super initialize.
 	typePossibilitiesDictionary := Dictionary new.
@@ -194,22 +196,22 @@ UGRealTimeTyper >> initialize [
 		createReturnSelfLinkBlock
 ]
 
-{ #category : #pages }
+{ #category : 'pages' }
 UGRealTimeTyper >> links [
 	^ links
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGRealTimeTyper >> possibleTypesOf: aUGItem [
 	^ typePossibilitiesDictionary at: aUGItem ifAbsentPut: [ UGTypePossibilities emptyFor: aUGItem ]
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 UGRealTimeTyper >> shouldTypeAsCollection: aValue [
 	^ UGTypePossibilities shouldTypeAsCollection: aValue class
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGRealTimeTyper >> uninstallLinks [
 
 	self links do: #uninstall.

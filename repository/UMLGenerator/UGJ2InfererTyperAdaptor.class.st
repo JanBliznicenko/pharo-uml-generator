@@ -1,13 +1,15 @@
 Class {
-	#name : #UGJ2InfererTyperAdaptor,
-	#superclass : #UGTyperAdaptor,
+	#name : 'UGJ2InfererTyperAdaptor',
+	#superclass : 'UGTyperAdaptor',
 	#instVars : [
 		'inferers'
 	],
-	#category : #'UMLGenerator-Typer'
+	#category : 'UMLGenerator-Typer',
+	#package : 'UMLGenerator',
+	#tag : 'Typer'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 UGJ2InfererTyperAdaptor >> infererOf: aPackage [
 
 	^ inferers at: aPackage ifAbsentPut: [
@@ -20,23 +22,23 @@ UGJ2InfererTyperAdaptor >> infererOf: aPackage [
 		  inferer ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 UGJ2InfererTyperAdaptor >> initialize [
 	super initialize.
 	inferers := Dictionary new
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGJ2InfererTyperAdaptor >> isMethodTyper [
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGJ2InfererTyperAdaptor >> isVarTyper [
 	^ true
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGJ2InfererTyperAdaptor >> possibleTypesOfInputParameter: aUGParameter [
 
 	self flag: #hackBecauseOfJ2InfiniteLoopBug.
@@ -50,7 +52,7 @@ UGJ2InfererTyperAdaptor >> possibleTypesOfInputParameter: aUGParameter [
 				  any variableName = aUGParameter itemName ] ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGJ2InfererTyperAdaptor >> possibleTypesOfParameter: aUGParameter byJ2VariableBlock: aBlock [
 
 	| method types possibleClasses classes |
@@ -64,7 +66,7 @@ UGJ2InfererTyperAdaptor >> possibleTypesOfParameter: aUGParameter byJ2VariableBl
 	^ UGTypePossibilities for: aUGParameter types: types
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGJ2InfererTyperAdaptor >> possibleTypesOfReturnParameter: aUGParameter [
 
 	^ self
@@ -72,7 +74,7 @@ UGJ2InfererTyperAdaptor >> possibleTypesOfReturnParameter: aUGParameter [
 		  byJ2VariableBlock: [ :method | method returnValue ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGJ2InfererTyperAdaptor >> possibleTypesOfVariable: aUGVariable [
 
 	^ UGTypePossibilities

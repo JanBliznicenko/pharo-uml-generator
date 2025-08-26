@@ -1,40 +1,42 @@
 Class {
-	#name : #UGTyperAdaptor,
-	#superclass : #Object,
+	#name : 'UGTyperAdaptor',
+	#superclass : 'Object',
 	#classInstVars : [
 		'default'
 	],
-	#category : #'UMLGenerator-Typer'
+	#category : 'UMLGenerator-Typer',
+	#package : 'UMLGenerator',
+	#tag : 'Typer'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGTyperAdaptor >> isCollectionTyper [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGTyperAdaptor >> isMethodTyper [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 UGTyperAdaptor >> isVarTyper [
 	^ false
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGTyperAdaptor >> possibleTypesOfInputParameter: aUGParameter [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGTyperAdaptor >> possibleTypesOfReturnParameter: aUGParameter [
 
 	^ self subclassResponsibility
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 UGTyperAdaptor >> possibleTypesOfVariable: aVariable [
 
 	^ self subclassResponsibility

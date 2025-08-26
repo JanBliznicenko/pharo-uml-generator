@@ -1,6 +1,6 @@
-Extension { #name : #Behavior }
+Extension { #name : 'Behavior' }
 
-{ #category : #'*UMLGenerator' }
+{ #category : '*UMLGenerator' }
 Behavior >> includeTraitMethods [
 
 	self methods
@@ -8,7 +8,7 @@ Behavior >> includeTraitMethods [
 		thenDo: [ :each | self compile: each sourceCode ]
 ]
 
-{ #category : #'*UMLGenerator' }
+{ #category : '*UMLGenerator' }
 Behavior >> recompileAndIncludeTraitMethods [
 
 	self methods do: [ :each | self compile: each sourceCode ]
